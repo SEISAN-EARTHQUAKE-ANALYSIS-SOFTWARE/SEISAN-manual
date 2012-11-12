@@ -1,0 +1,1002 @@
+% dec 15 10 jh: changes to autoreg 
+% mar 3  10 jh: add a bit of text to volcano monitoring part, add reference to andy manual
+% mar 31 10 jh: more changes to autoreg, wavetool now always scale output in seisan format
+% apr 15 10 jh: added a bit on interactive input for wavetool
+% may 5  10 jh: remeoved refrence to qspec.pdf
+% jan 24 11 jh: changed/added to codaq,select, epimap, statis, collect,mulplt,
+%               fps section , remove SILMSEED
+% feb 04 11 jh: more mulplt change. NOTE: menu and plot now wrong y is now Y.
+%               REPORT, FOCMEC
+% feb 09 11 jh: Add missing arguments to WAVETOOL, add start of MAG2 
+% fb 14  11 jh: Remove duplicates under wavetool
+% feb 28 lo lo: SPEC 5 char station code
+% mar 14 11 jh: fix fps format, comment about spectral velocity, err. in
+%               description of 4 letter station codes, new command ifp
+%               and inputfps
+% mar 22 11 jh: small change to resp section, also chaged resp.run
+%               additional comment to associ
+% aug 28 11 jh: fix text for autopic
+% oct 27 11 jh: fix text on event registration in mulplt
+% nov 1  11 jh: new option in spec
+% jan 4  12 pv: cleanup, ref to figs
+% jan 23 12 jh: mention SAC response file format and refer to appendix
+%               RESP can now also handle mechaical seismographs
+%               More documentation on getpde, pinv has been moved up
+%               one section.
+%               New program hinor.
+%               Add missing format description of STATION0.HYP for density and Q
+%               Filters in wavetool
+%               remove reference to recfil and filter type
+%               Correct obselite text for autopic
+%               Update condet
+% apr 30 12 jh: Update SELECT with CODAQ option
+% oct 11 12 jh: Update stasei
+
+%
+%\chapter{DESCRIPTION OF PROGRAMS AND COMMANDS}
+\chapter{Description of Programs and Commands}
+\label{chap:prog-commands}
+
+This section gives user manuals for programs and command procedures used with SEISAN. Not all are as detailed as one could want, however many questions from programs should be self-explanatory. Most programs will produce output files with the extension .out and proceeding by the name of the program. 
+E.g. output from collect, will be \texttt{collect.out}. Running a 
+program twice will erase the earlier output files. If these files are to be used later, remember to rename them before running a program again. There are several programs, which have separate manuals in the INF directory.  
+
+\section{Hypocenter location programs: HYPOCENTER, HYPO71 and HYPOINVERSE}
+\label{sect:hypocenter}
+\index{Location programs} 
+
+\input{text/hyp.tex}
+\input{text/hypo71.tex}
+\input{text/hypinv.tex}
+\input{text/hyp-isc.tex}
+
+\input{text/mulplt.tex}
+
+%\textcolor{red}{pv-change: 
+\section{Plotting epicenters} 
+In SEISAN there are three different programs for plotting epicenters, 
+EPIMAP, W\_EMAP and GMAP. 
+EPIMAP is the basic program for plotting epicenters in SEISAN and 
+is the program that is called from EEV, when you type \texttt{map}.
+W\_EMAP is a windows based program.  
+GMAP is linked to the Google Earth and Google Map Internet mapping tool.
+%}
+
+\input{text/epimap.tex}
+
+\input{text/wemap.tex}
+
+\input{text/gmap.tex}
+
+\input{text/seis2viewer.tex}
+
+\input{text/select.tex}
+
+\input{text/collect.tex}
+
+\input{text/split.tex}
+
+\section{Updating final locations in database, UPDATE and UPD} 
+\label{sect:update-upd}
+
+\textbf{UPDATE}
+
+Both the \index{Monthly epicenter files}
+monthly epicenter files in 
+\textbackslash SEISMO\textbackslash REA\textbackslash BER\_\_\textbackslash CAT 
+and the \index{Updated S-files}updated S-files are generated with program 
+UPDATE which is a special version of HYP. Type UPDATE to start the 
+program and there will be questions about time period and database. 
+The program will also ask for \index{Operator ID}operator ID (4 chars), 
+which is stored in the updated \index{Log file}log file and the S-file, see below. \newline
+By updating, both the S-files and the CAT-files in the CAT-directory 
+are updated. The reason for updating both at the same time is to ensure 
+that there is a correspondence between the two. \index{UPDATE} 
+
+The program will go through as many months as specified by the user. When the program is running, one line will be printed out for each event. The S-files will be overwritten with the updated location, residuals etc. At the same time, a monthly CAT file is created in the CAT directory containing all events, also events not located. If a monthly file is already present, it is overwritten. 
+
+Update can also work on a local database. The S-files are updated as described above. Since there is no CAT database, the Update program makes a CAT file in the local directory called hyp.cat\index{Hyp.cat}\index{Local database, update} with events in chronological order. 
+
+At this time, an S-file might contain several old ID-lines which in an append process have \index{Delete ID-line}been converted to comment lines. These are deleted when doing an update. The remaining \index{ID-line}ID-line is updated with the action UPD, the operator ID and the time. At the same time, all the error lines are deleted and only the one belonging to the prime location is kept. 
+
+The update process can also change all S-file names according to the origin time and the ID's are changed correspondingly. This is done in order for the database to be in \index{Chronological order}chronological order according to origin time and not the more random times used when the events were first registered into the database. Even if the event is marked not to be located with a * in header line column 45, the ID will still be updated (same for program UPD). Like with the SPLIT program, if two events of the same type (L, R or D) have the same origin time to the second, one second is added to the file name part indicating seconds (see also section 6.6). The event will also be in chronological order in the CAT database. 
+
+*****VERY IMPORTANT ****** 
+
+The first time an update is done, the S-files get a new name according to the origin time now calculated and the internal ID is changed accordingly. The ID is then locked indicated by an L in column 76 of the ID line. For all future updates, by default, the ID will remain the same, the S-file name will also be the same irrespective if the origin time changes. This is VERY important in case data is taken out of the database for some special analysis and then put back in to overwrite the original data. If the ID is the same, the correct event will be replaced. Optionally, Update can make a new ID each time the program runs (not recommended). It mig\index{Chronological order}\index{ID, lock}\index{Lock ID}ht be necessary sometimes to allow this in case the events are no longer in chronological order according to origin time (e.g. a teleseismic event is put in with the ID corresponding to the recording time, when located, the origin time is many minutes before and it will appear too late in the database). However, this is rarely a problem after the first location is done and it is recommended to use the default option of locking the ID. 
+
+NOTE: When an update takes place, the old location, magnitudes 
+(except 3. if a different agency from the default agency), residuals 
+etc are removed. If an event cannot be located, the old location etc 
+is lost. This is intentional since the updated database should represent 
+the data available. If a location should be retained, special flags 
+must be set, see section \ref{sect:hypocenter}, 
+``Fixing location'' (a `*' in column 45 in header line). 
+
+In order to keep track of how and when the database has been updated, 
+every run of UPDATE\index{UPDATE} creates a \index{Log file}log file 
+of the update process. This file is located in a subdirectory of the 
+database directory (default BER\_\_). If e.g. updating REA, the 
+logfiles will be in ../REA/BER\_\_/LOG/ (unix). Filenames are similar 
+to S-files. Below is an example of a logfile with name 
+\texttt{01-0000-00L.S199606}:
+
+
+\begin{verbatim}
+1996 06 kk   99-09-08 14:30 03-1955-35D. 25-0337-29L.     6 
+1996 06 jh   98-09-08 14:29 03-1955-40D. 25-0337-31L.     5 
+\end{verbatim}
+
+The content is as follows: date and time of file updated, operator ID, time of update, event id of first and last event of the month, number of events for month. The example above shows that June 96 has been updated 2 times, the last time on September 10, 1999. For each update, one line is added to the top of the file, so the update history is saved. 
+
+Note: If the command UPDATE is used from EEV, only one S-file is 
+updated (name stays the same), and a general update should be made. \newline
+UPDATE recalculate moments if distances (or depths) change, however 
+it does not change the Vp or Vs velocities used if a change is made 
+in MULPLT.DEF. \index{Update spectral parameters}
+\index{Spectral parameters, update}\index{Update without relocation}
+
+\index{Problem, UPDATE}
+Problem: If UPDATE crash, there will not be a correspondence between 
+S-files and the CAT data base: Redo UPDATE. 
+
+\textbf{UPD}
+ 
+The command \index{UPD}UPD is very similar to the UPDATE command, however there is no modification of the S-file except the ID line. The program is used to simply move single S-files into the monthly CAT-files without relocating. It is mainly used to manipulate database events already processed. E. g. if ISC data a available and it is desirable to have it in individual files to be able to use EEV, the same data can then be copied into the CAT part of the database using UPD without modifying the original solutions. The data must be in the CAT part of the database in order for SELECT to work fast. K\index{Problem UPD}NOWN BUG: On Sun OS, it seems that UPD can only operate on up to a 4 year time period. \index{Problem, UPD} 
+
+\section{Using \texttt{filenr.lis}, DIRF and DELF}
+\label{sect:dirf} 
+\index{DIRF} 
+
+\textbf{DIRF}
+
+The DIRF command is a useful program for making a file with a numbered list of files from a directory. The command makes a file with file name \index{FILENR.LIS}\texttt{filenr.lis} e.g. when working with many waveform files with long names, a DIRF is first made, and subsequent programs then get file names from \texttt{filenr.lis}, either by using the whole list, or just a given number. This is handled with routine filename (in LIB). Below are some examples of using DIRF with SEISAN data files. 
+
+\begin{boxedverbatim}
+ dirf 9101-10* 
+ #  1  9101-10-0915-15S.KMY_01
+ #  2  9101-10-1510-55S.N2F_08
+ #  3  9101-10-2333-44S.N3F_06 
+
+
+ dirf 9101-10-0915-15S.KMY_01 9101-10-2333-44S.N3F_06          (Unix only) 
+
+ #  1  9101-10-0915-15S.KMY_01
+ #  2  9101-10-2333-44S.N3F_06 
+
+\end{boxedverbatim}
+
+The \index{Wildcard}wildcard `*' above indicates that all files from 
+the 10'th is wanted. Many programs use the same subroutine to get 
+the file name from \texttt{filenr.lis}. This means that most programs using 
+\texttt{filenr.lis} assume that if a name given is less than or equal to 4 
+characters, it is a number so file names less than 5 characters cannot 
+be used when the program asks for ``Filename or number''.\index{Problem, filenr.lis} 
+
+\textbf{DELF}
+
+DELF\index{DELF} is a simple program that allows the user to delete 
+a file that is listed in a \texttt{filenr.lis} file or another index file. 
+First run DIRF to list the files that you want to delete. Then start 
+DELF and choose the number of the file to delete, `?' shows the 
+contents of \texttt{filenr.lis}. In addition, DELF also has an option to 
+delete all the files in the \texttt{filenr.lis} or index file. This is a 
+useful option if selected files in a data has to be deleted. If e.g. 
+all S-files from a particular agency has to be removed, run SELECT 
+first and then DELF.\index{Delete many S-files} 
+
+\section{Making a bulletin, BUL}
+\index{Bulletin}\index{BUL} 
+
+The bulletin program BUL is intended for writing seismic bulletins 
+in a nice format. The output is written to a PostScript file. 
+
+Input files: 
+
+\begin{enumerate}
+\item
+A monthly data file: This file can be made by COLLECT or SELECT 
+\item
+\index{BUL.INP}\texttt{BUL.INP} : This file must be in DAT or in the local directory. 
+In this file the layout of the front pages are decided, as well as 
+the font selection for the main bulletin. There are ample comments 
+in the file on how the commands are written. 
+\end{enumerate}
+
+Some special format features: 
+
+Type 3 line: If the first 5 columns in a type 3 line are:" Bul:", then the rest of the line is interpreted as text line that is written in the bulletin. In this way comments to certain earthquakes can be written into the bulletin. Type 2 line: Maximum intensity and casualty/damage reports are included in the bulletin if found in the S-file. 
+
+How to run the program: 
+
+Type \texttt{bul -h} this gives you a list of the different options like this:
+
+\begin{tabular}{ll}
+       Options: & \\
+-frontpage: & Only frontages are printed. \\
+-nofrontpage: & No frontages are printed. \\
+-onlyhypo: & Only hypocenter solutions are printed. \\
+-minmag x.x : & Only hypocenter solutions with magnitude than the requested are printed.\\
+\end{tabular}{ll}
+ 
+The last option may be used in cases where the number of earthquakes is very high, so that it is preferable to report phases only for events above a given magnitude. 
+
+You can also run the program without any options, in which case the default values used are:  
+
+\begin{itemize}
+\item[i)]
+All phases are reported. 
+\item[ii)]
+Front pages are printed. 
+\end{itemize}
+
+You will always be asked for the name of the S-file. 
+
+Output file: 
+
+The output file is called \index{Bul.ps}\texttt{bul.ps} and is a PostScript 
+file that you can print. Optionally, a limited number of pages can 
+be selected from the \texttt{bul.ps} file for printing. The header page is 
+still included and the page numbers correspond to the original page numbers. 
+
+\section{Reports and statistics}
+
+SEISAN has several programs for extracting and writing out data for plotting or printing statistics, most of which will be listed in this section. 
+
+\textbf{Report}
+\index{REPORT}
+
+The program extracts parameter data from all header lines in a CAT 
+file and rearranges the data in a table. In additions, there is an 
+option to rearrange order and location of magnitudes on the header 
+line. Below is an example of a run where the input CAT file is called 
+\texttt{collect.out} :
+
+\verbatiminput{include/report.run}
+
+The \texttt{report.inp} is a file with the choices used. Report can use that 
+file (or a file with the same format and a different name) as second argument: 
+
+\texttt{report collect.out report.inp} \index{Report.inp} 
+
+in order to use a fixed set of choices. 
+
+Content of \texttt{report.out}
+
+\verbatiminput{include/report.out}
+
+\index{Report.out}\index{Report\_n.out}
+The file \texttt{report\_n.out} contains the input data with the only difference 
+that the magnitudes have been moved around on the header line. This 
+can be practical for later plotting with EPIMAP. If no magnitude 
+selection has been made, the magnitudes will come in the order Mc, 
+Ml and Mb. If no magnitude of that type is available, the output 
+field is blank. The magnitude selected 
+\index{MAG}\index{EPIMAP}
+is the first to occur of the corresponding type. If other magnitudes 
+are to be selected, numbers can be used to select any 3 magnitudes 
+in any order. If it is important to select magnitudes by agency 
+also, use program MAG.
+%\textcolor{red}{jh-change:
+REPORT can also give a numbered output by adding the second or third argument \verb|-n|.
+\index{Order of magnitudes}\index{Magnitude order}\index{Spectral parameters} 
+
+\textbf{NORHEAD, making a compact Nordic file from a Nordic file}
+
+You must give arguments: First is input file, optional second is 
+output file, if an optional second or third argument is -mag, 
+magnitudes from following header lines are moved up to empty 
+magnitude spaces on first line. The program was earlier called 
+COMPACT (version 7.2 and earlier).
+\index{Magnitude, move from 2 header to first} 
+
+\textbf{STATIS, statistics of databases}
+\index{STATIS}
+
+This is a simple program for making statistics of stations used in the database or in a file. The program will ask the following questions: \index{Statistics}\index{STATIS}\index{Earthquake statistics}
+
+\begin{enumerate}
+\item
+Information about which stations should be searched for in the database. There are several options for entry: 
+\begin{itemize}
+\item[a:]
+Give a filename with the stations listed one per line. The format is a5. The file name MUST have a '.' not to be confused with option (b) below. 
+\item[b:]
+%\textcolor{red}{jh-change: 
+Give stations, one pr line, enter to finish, enter for def file statis.def
+\item[c:]
+Just make a return and the stations
+%\textcolor{red}{jh-change: 
+given in file statis.def will be used. The file has one station per line an dcan be located in either the working directory or DAT. 
+\end{itemize}
+\item
+ Standard questions about base or filename and time interval 
+\item
+Question about counting all phases. This means counting the occurrence of a station for each phase for that particular station. This can give the total number of phases read at a particular station in a given time interval which can be more than the number of events. If not counting all phases, the program gives the number of events recorded at the station. 
+\end{enumerate}
+
+The output from the program could be as follows: 
+
+\verbatiminput{include/statis.run}
+
+The top part shows the event statistics by station. Local Ev is number of local events (readings if so specified above) (type L and R) at the station, Local S means number of local events ONLY recorded at that station, Distant E and distant S is the same for distant events (type D). The middle parts shows the number of waveform files NWAV from different networks NET as indicated by the first 3 letters of the waveform file name after the "." At the bottom is a summary statistics most of which should be self-explanatory. The information about ".. more than given stations" means that in addition to the stations searched for, the event had additional stations not used in the statistics. 
+
+\textbf{CATSTAT}
+\index{CATSTAT}
+
+This program calculates the yearly, monthly and daily number of events from a given \index{Yearly number of events}earthquake catalog\index{Catalog work}ue and plots the results (written by \textbf{Mario Villagr\'an}). The input is a standard Nordic file containing only the header lines (compact file). The output is given in three different files with following default file names: \index{Earthquake statistics}\index{Statistics}\index{Monthly number of events}\index{Daily number of events}
+
+\begin{tabular}{lp{8cm}}
+\texttt{catyear.out} \index{Catyear.out}: & Output catalogue of the yearly number of events. This file contains two columns of data corresponding to year and the number of events. \\
+\texttt{catmonth.out} \index{Catmonth.out}: & Output catalogue of the monthly number of events. This file contains three columns of data, corresponding to the year, month and the number of events, respectively. \\
+\texttt{catday.out} \index{Catday.out}: & Output catalogue of the daily number of events. This file contains four columns of data corresponding to the year, month, day and the number of events, respectively. \\
+\texttt{cathour.out} \index{Cathour.out}\index{Cathour.out}: & Hourly distribution of events within a day interval. \\
+\end{tabular}
+
+In addition, a series of files with gmt in name give similar output for use with gmtxy (only Unix). The output files can then be used for plotting the histograms for the desired time interval at yearly, monthly or daily intervals. If desired, the corresponding histograms can be plotted interactively on the screen or can be printed. Several other routine programs such as grapher, xyplot, gnuplot or GMT, etc., can also be used for this purpose. The general purpose of this program is to evaluate the catalogue completeness. When run for different magnitude intervals, one can detect the magnitude thresholds above which the catalogue can be considered complete. 
+
+\textbf{SWARM, finding earthquake swarms}
+\index{Swarm,seismic}\index{Swarm.out}\index{Swarm, identify}
+
+The program is used to identify seismic swarms in a catalog. Input to the program is a CAT file with many events and some manually entered parameters. Output is identified swarms. The output file swarm.out contains all swarms organized as 'events'. In the header line is given the center for area identified and the 'magnitude' is the number of events in the area divided by 10. The rest of the line is information from first event in swarm.                                    
+
+Principle of selection: 
+
+The area is divided into a lat-lon grid. Around each grid point, there is a cell with radius small\_r. The program first checks the number of events in each cell for the whole catalog. It then checks each cell to 
+find which has more than the minimum number of events to constitute a swarm under the condition that enough events are within the required time window. For each time window, with enough events, a swarm is declared so a swarm lasting e.g. twice the time window will be declared as two swarms. An additional condition is that the number of events is larger than the normalized background activity. The normalized activity is calculated as the activity in the large cell normalized for area to the small cell, and normalized in time to the window for the swarm. 
+
+\textbf{STATSTAT, number of events per seismic station in catalog}
+\index{STATSTAT} 
+
+The program reads Nordic file input data and writes out text files giving the number of events per station. 
+
+\textbf{LSQ}
+
+A simple program to make and plot a least squares relation between 
+two parameters. Input is from a file with two columns x and y. The 
+program also makes an output used with GMT in order to make nice 
+plots. The PostScript output  file is \texttt{lsq.eps} and the GMT file is 
+\texttt{lsq\_gmt.out}. In order to produce the GMT plot (only Unix), use 
+command \texttt{gmtxy lsq\_gmt.out}. 
+\index{Least squares}\index{LSQ}\index{Lsq.eps}\index{Lsq\_gmt.out}\index{GMTXY} 
+
+\section{Waveform file management tools}
+
+This section describes the programs used for modifying and checking waveform files. The most important features are to add or subtract channels and modify headers. A special program in this group is GET\_WAV which checks data bases for availability of waveform files. New from version 7.1 is that SEISAN also can handle other waveform formats, however not all programs can work with all formats. This will be indicated with each program. The following programs are available: 
+
+\begin{tabular}{lp{8cm}}
+APPEND: & Append two or more waveform files following each other in time \\
+AUTOREG: & Automatically register events \\
+CONGAP: & Check completeness of continuous waveform database \\
+CONNOI and EVANOI: & Compute noise power spectral density and evaluate out to produce plots \\
+DATABASE2MSEED: & Convert waveform data to miniseed based on parametric database\\
+GET\_WAV: & Check for available waveform files \\
+MSCUT: & Cuts MiniSEED files into 1 hr or 15 min files (Unix only) \\
+RDSEED\_MANY: & Simple way to chop up a seed volume \\
+RESAMP: & Resample  waveform files \\
+SEIASC: & Convert SEISAN waveform files between ASCII and binary form \\
+SEICUT: & Extract an interval of a  waveform file \\
+SEIDEL: & Splitting up a SEISAN waveform file in 2 \\
+SEISEI: & Split and merge SEISAN, GSE and MiniSEED waveform files \\
+SELSEI: & Find waveform files with given stations \\
+P\_ALIGN: & Time shifting waveform data to align P-phase arrival times \\
+WAVETOOL: & Extract waveform data \\
+WAVFIX: & Fix waveform file header time correction, make standard file \index{WAVFIX}names, 
+  change headers etc. \\
+WAVFULLNAME & Print full file name including path for waveform file.\\
+\end{tabular}
+
+\textbf{APPEND, Append two or more waveform files}
+\index{APPEND}\index{Waveform files, join}
+
+The program uses a \texttt{filenr.lis} input file. All files are read, and then written out as one new file. The maximum number of channels is max\_chan\_out which is set as a parameter (currently 7). Only the first max\_chan\_out channels are used or less if fewer channels in file. A blank line followed by a new group of files will make a new output file. The output file cannot have more than standard SEISAN dimension number of samples ( more than 1 200 000, see file \texttt{../INC/seidim.inc} for exact number) per channel. 
+
+It is assumed that all channels have the same sample rate. 
+
+\textbf{AUTOREG, automatic registering of events}
+\index{Register event}
+\label{page:autoreg}
+
+\index{AUTOREG}
+\index{Register event}
+When a large number of waveform files are available and it is known 
+that they are real events, it might be an advantage to 
+automatically register them into a database. 
+Remember, the database can be made 
+%\textcolor{red}{lo-change: 
+beforehand with \index{MAKEREA}MAKEREA. 
+%\textcolor{red}{lo-change: 
+If the filename follows the SEISAN filename convention,
+the date and time used to generate the S-file are taken from the filename.
+Otherwise, the file is read to get the date and time from waveform headers.
+Obviously, the first option is faster.
+It is possible to register events both to the default database, %standard BER, 
+any other 
+database or the local directory. To run the program, make a 
+\texttt{filenr.lis} of the waveform files and run AUTOREG. It is 
+possible to put blank lines into the \texttt{filenr.lis} to separate 
+into events, in case there is more than one waveform file from the 
+same event. All waveform files before a blank line are put together into one S-file. 
+%\textcolor{red}{jh-change: 
+Optionally, the waveform files can also be moved or copied to
+WAV or a WAV database subdirectory 
+(including year and month). 
+This can either be the default  \index{COPY\_WAV\_DIR} parameter 
+COPY\_WAV\_DIR (in \texttt{SEISAN.DEF}) if different from blank. COPY\_WAV\_DIR 
+should be the same as the data base used by the S-files. However an 
+optionally data base directory entered interactively can also be used.
+%\textcolor{red}{jh-comment: Should it be made the same by default?}
+
+You get the questions: 
+
+\verbatiminput{include/autoreg.run}
+
+Now comes a listing of waveform file names and S-file names. The 
+program will check if the event is already registered and the same 
+options are available as in program SPLIT (section 6.6). Since 
+AUTOREG automatically creates S-files for all events in \texttt{filenr.lis}, 
+they will all be given an event type.  
+
+\textbf{CONGAP, check completeness of continuous waveform database}
+\index{CONGAP}
+
+This program checks for completeness of continuous data for a given time interval. The program reads the waveform data to see what data are available and checks for gaps, defined by a constant amplitude value (e.g. 0). The input can come either from an input file (\texttt{congap.par}) or the command line. 
+
+Parameters in the input file are: 
+
+\begin{tabular}{ll}
+CONT BASE: & name of database, you can have more than one \\
+START DATE: & start time and date of interval to be read (yyyymmddhhmmss) \\
+STOP DATE: & stop time and date of interval to be read (yyyymmddhhmmss) \\
+INTERVAL: & duration of intervals read at a time in minutes (e.g. 60. for one hour)\\
+\end{tabular}
+
+When started from the command line, the same parameters can be given: 
+
+\texttt{congap -start <yyyymmddhhmmss> -stop <yyyymmddhhmmss> -cbase <text> -interval <number>}
+
+The output file (\texttt{congap.out}) looks like this: 
+
+\begin{verbatim}
+EDI   HHZ 20080101 0000 0.00   3600.00   3600.00  
+EDI   HHN 20080101 0000 0.00   3600.00   3600.00  
+EDI   HHE 20080101 0000 0.00   3600.00   3600.00  
+EDI   HHZ 20080101 0100 0.00   3600.00   3600.00  
+EDI   HHN 20080101 0100 0.00   3600.00   3600.00  
+EDI   HHE 20080101 0100 0.00   3600.00   3600.00  
+...
+\end{verbatim}
+
+The fields are station and component code, date and time, expected duration and actual time with data. The output file can be used to produce plots showing data completeness (tool for this not included). When the program runs it also produces a summary output at the end, where the last column gives the percantage of data completeness, and the actual and expected times are in seconds: 
+
+\begin{verbatim}
+--------------------------------------------
+ # stat comp       actual     expected     %
+--------------------------------------------
+ 1 EDI   HHZ     86400.00     86400.00 100.0  
+ 2 EDI   HHN     86400.00     86400.00 100.0  
+ 3 EDI   HHE     86400.00     86400.00 100.0  
+--------------------------------------------
+\end{verbatim}
+
+\textbf{CONNOI and EVANOI (does not compile with gfortran), noise power spectral density}
+\index{connoi}\index{evanoi}\index{PSD}
+
+These two programs with the help of GMT allow to produce noise power spectral
+density (PSD) plots similar to the ones produced by the PQLX software. CONNOI is the
+tool that reads the continuous database and produces output files that are evaluated 
+by EVANOI. The computation of the noise PSD follows the method described by
+\citet{mcnamara2004}.
+
+To run CONNOI use for example:
+\begin{verbatim}
+connoi -start 20100501 -stop 20100502 -cbase BER
+\end{verbatim}
+
+In this example BER is the database, you can also specify 'def' and
+the program will take all default continuous databases defined in SEISAN.DEF.
+The default output filename is connoi.out. 
+
+Example of output:
+
+\begin{verbatim}
+stat comp date and time       duration frequency noise PSD
+----------------------------------------------------------
+BER   HHZ 20100501 0000 0.00   3600.00  0.00200    -159.14
+BER   HHZ 20100501 0000 0.00   3600.00  0.00204    -159.14
+BER   HHZ 20100501 0000 0.00   3600.00  0.00209    -159.14
+...
+\end{verbatim}
+
+The output from CONNOI can then be used as input to EVANOI. You can enter 
+station and component, give a time interval, select a time of day interval,
+and chose a reference station. EVANOI produces GMT plotting scripts files
+that are named after the station. Then simply run the script file to 
+get a plot.
+
+\textbf{DATABASE2MSEED, convert database to miniseed}
+\index{DATABASE2MSEED}
+
+This program can be used to convert the waveform data that is linked to
+from a parametric database to miniseed format. The user is asked to enter the
+database name, and start and end time for the operation.
+
+One should do a small test with a copy of parts of the database before
+runnung it through the complete database.
+
+\textbf{WAVETOOL, extract and convert waveform data}
+\index{Extract waveform files}
+\index{WAVETOOL} 
+
+The program was called extract in SEISAN 7.2 and earlier. The program extracts all or selected time sections of waveform data, optionally applies some signal processing and then creates the output file(s). The input formats supported are SEISAN, SEED, MINISEED, GSE, GURALP (one channel files) and SAC (all platforms)and output formats are SEISAN, MINISEED, GSE and SAC (all platforms). The program can be used as a conversion program between these formats, instead of using e.g. SACSEI. It would also be possible to convert for example SAC and GSE files to SEISAN in one go. When creating GSE, MINISEED or SAC files, the respective format code is added to the filenames. The program can also extract data from a SEISAN continuous data base or a large SEED file. 
+
+\textit{If an output file already exisits, ``\_SEI'' is added to file name.}
+
+Note that for MINISEED writing, only Steim1 compression is used. Integer format is also possible, but requires a parameter change in WAVETOOL and recompilation. 
+
+There are two input options: (1) a single S-file or a list of S-files created with DIRF (is also an index file), which points to the waveform data or a \texttt{filenr.lis} type of file that gives the waveform file names; 
+(2) a waveform file or a list of waveform files. The program can be started either interactively, without arguments, or non-interactive by specifying the commands as arguments. 
+
+%jens add 1-2012
+
+Filtering: WAVETOOL only supports band pass filters hardwired to 4 poles and one pass (forwards). So if WAVETOOL is started from MULPLT to extract data as seen on the screen, the filter constants will ONLY be passed to WAVETOOL if 4 poles and band pass.
+
+The arguments are: \texttt{-sfile $<$sfile-name$>$} : The S-file name of the event you want to extract waveform data from. 
+
+-wav\_files $<$file-name$>$: Extract from a list of waveform files in \texttt{filenr.lis} format. Input from S-file will be ignored. This option merges all files from list (if within a 'reasonable time window') and program is then partly doing what SEISEI is doing for only SEISAN format files. If file-name is given as `SEISAN', then the output file name follows SEISAN convention. 
+
+-wav\_in\_file: input waveform file.
+
+-maxpoints : Skip points to get approximately maxpoints 
+
+-wav\_out\_file $<$file-name$>$: Name of waveform output file, not used if output format is SAC. 
+
+-start $<$time$>$: Start time can be used to set start time the same for all channels instead of using 
+chansel file, time can be absolute or relative to beginning of the first trace. Options are 
+Start time relative earliest channnel, 
+       Abs start time string yy...s.sss for all channels.If ABS time used, string MUST contain a '.'.Abs 
+start time string yyyymmddhhmmss (integer), used to define cont start time. 
+
+-duration $<$time$>$: Select duration of time window in seconds if -start is used. 
+
+-interactive : enable interactive mode 
+
+-cbase: name of file with selected continuous databases,all bases  is default 
+
+-command\_file: give arguments to wavetool in a file rather than on the command line (used by Seisweb) 
+
+-cwav: Input is from the SEISAN continuous data base, useful for extracting intervals 
+
+-cseed: Input from large SEED file, similar to -cwav -wav\_in\_file $<$file-name$>$: Input of one waveform file 
+
+-bud: Input from BUD archive.
+
+-scp: Input from SeisComp archive.
+
+-sfile $<$file-name$>$: Input of S-file name 
+
+-format $<$output format$>$: The output formats supported are SEISAN, SAC, GSE (GSECM6) and GSEINT. In case of SEISAN or GSE, multi-trace files including all selected traces are created, while for SAC, single trace files are generated. 
+
+-chansel $<$file-name$>$: Input file to select channels and time windows. The first line contains number of channels. The following lines give station code, start time (both absolute and relative to earliest trace allowed) and duration. If start time and duration are set to 0, complete traces are selected. 
+
+-chan\_out\_file: file name  of file with channel description if this option is given, program terminates after writing out the file.
+
+-ground : compute displacement, velocity or acceleration (1,2,3)
+
+-seed\_location: seed location code NOT USED.
+
+-rsam: comput 1 min rsam data.
+
+Example 
+
+Select the first three complete traces\newline
+3 \newline
+1 0 0.0 \newline
+2 0 0.0 \newline
+3 0 0.0 
+
+Use absolute start time, and duration of 180 seconds 
+
+3 \newline
+1 19991001124500.000 180 \newline
+2 19991001124500.000 180 \newline
+3 19991001124500.000 180 
+
+Use relative start time of 60 seconds from beginning of earliest trace, and 300 seconds duration 
+
+3 \newline
+1 60 300 \newline
+2 60 300 \newline
+3 60 300 
+
+The program assumes that a large number is absolute time. 
+
+\texttt{-chan\_out\_file $<$file-name$>$} : Name of text file containing 
+a list of available channels from a list of waveform files. If 
+wav\_out\_file is not specified, program terminates after creating the list. 
+
+Example  
+
+\begin{verbatim}
+ 1 KBS   BV Z  1996  6  3 20  2 18.991  6000   20.000 2666.400  299.950  
+ 2 LOF   S  Z  1996  6  3 20  5  5.531  5800   50.000 2832.940  115.980  
+ 3 MOL   S  Z  1996  6  3 20  5 24.984 10000   50.000 2852.393  199.980  
+ 4 FOO   S  Z  1996  6  3 20  5 34.156  9650   50.000 2861.565  192.980  
+ 5 HYA   S  Z  1996  6  3 20  5 36.078  9900   50.000 2863.487  197.980  
+\end{verbatim}
+
+\texttt{-filter $<$flow$>$ $<$fhigh$>$} : bandpass filter limits  
+
+If only a filter is used, a 4 pole Butterworth filter is used one way. 
+If both a filter and response removal is used, an 8 pole Butterworth 
+filter is used in the frequency domain\index{Filter in WAVETOOL} 
+
+% jens commented out for now 1 2012
+
+%\texttt{-npole $<$n$>$} : number of poles used for filter, if not given, 4 is used 
+
+\texttt{-ground $<$1,2,3$>$} : compute displacement, velocity or acceleration (1,2,3) 
+
+\texttt{-ichan $<$id$>$} : select one channel only 
+
+\texttt{-interactive} : Flag to specify non-interactive use, in which case the program does not ask any questions (for example given by SEISAN-autodrm interface), default is interactive. 
+
+\texttt{-seisweb} : Flag to indicate that the program is started by SEISWEB. 
+
+\texttt{-maxpoints $<$number$>$} : Number specifies the total number of points desired for the total time window covering all selected traces. This option is meant to reduce the number of points to what is needed to visual correctly plot the traces. When plotting the trace using a number of pixels, which is smaller than the number of points on the trace, samples are plotted on top of each other for one time sample. This results in the maximum and minimum being plotted at the same place on the x-axis. The idea now is to reduce the trace to these maxima and minima only. Then using twice the number of samples than pixels will allow to visually correctly show the trace. Note that this is not a resample routine. Option mainly used with SEISWEB. 
+
+\texttt{-stat\_out} : write out station location file, simple xy output file (\texttt{station\_list.out}) 
+
+\texttt{-rsam} : convert data to RSAM \index{RSAM}(1-minute absolute average), which is commonly used in volcano seismology 
+
+\texttt{-resp\_out} : write out list of all response files for channels given in waveform files (\texttt{respfile\_list.out}) 
+
+% next section added by jens, april 15, 2010
+%
+Intercative input
+
+The interactive input has less options as the mon interactive input, however the option are as above.
+The questions are:
+
+Filename of s-file or waveform file, number or filenr.lis
+Maximum number of points in output trace, return for all           same as -maxpoints
+Ground motion output (dis = 1, vel = 2, acc = 3, none = return)
+Filter low and high, return for no filter
+Select all data, y=return,n
+    If answer is n, then the following 2 questions come:
+Number of channels to read
+Channel number, start time and window
+
+Output formats (SEISAN, GSE (def=CM6), GSEINT, SAC, MSEED)
+Default is SEISAN=return
+
+
+
+Another way of extracting waveform data is using MULPLT where many traces can be extracted as a binary SEISAN file (using WAVETOOL in the background) or a single trace as an ASCII file.  
+
+\textit{Accuracy of extracted data}
+
+If the data is filtered or corrected for instrument response, the number out can be less than one and an output file of zeros can be made. If the output format is SEISAN, the values will always be scaled to avoid this and the appropriate scaling factor is included in the waveform file. Subsequently reading of these files in SEISAN will produce the correct values. For this reason, it is advised to use SEISAN as output format when filtering or correcting for instrument response.
+SAC data can have values less than 1.0 so only if written in SAC or SEISAN will the values be correctly represented. \index{Problem WAVETOOL, zero output}\index{Problem MULPLT extract} 
+SAC input data is checked for max values. If smnaller then 10, output will be scaled in SEISAN format.
+Note: Parameter MERGE\_WAVFORM in \texttt{SEISAN.DEF} sets the network extension of extracted files. 
+
+\textbf{GET\_WAV, get listing of available waveform  and response files}
+
+The program uses a CAT file as input and checks for availability of 
+all waveform files listed. For each channel, there is a check on 
+existence of corresponding response files. A typical run is shown below: 
+
+\begin{verbatim}
+get_wav
+ INPUT FILE NAME 
+select.out
+ Full path name : /net/seismo/users/jens/TD/WAV/1996-06-03-2002-18S.TEST__012
+ Full path name : /net/seismo/users/jens/TD/WAV/1996-06-03-1917-52S.TEST__002
+ Full path name : /net/seismo/users/jens/TD/WAV/1996-06-06-0647-46S.TEST__011
+ Full path name : /net/seismo/users/jens/TD/WAV/1996-06-07-1324-51S.TEST__009
+ Full path name : /net/seismo/users/jens/TD/WAV/1996-06-10-0105-42S.TEST__014
+ Full path name : /net/seismo/users/jens/TD/WAV/1996-06-23-0126-27S.TEST__013
+ Full path name : /net/seismo/users/jens/TD/WAV/1996-06-23-0059-47S.TEST__001
+ Full path name : /net/seismo/users/jens/TD/WAV/1996-06-25-0336-34S.TEST__032 
+
+  Total number of events 6
+  Number of events without waveform files 0
+  Number of waveform files 8
+  Number of waveform files present 8
+  Number of waveform files missing 0
+  Number of cal files found 28 
+  Maximum number of cal files missing 29
+  Output file with events is get_wav.out  
+  Output file with waveform file names is copy_wav.out
+  Output file with cal files is copy_cal.out
+  Output file with waveform file names missing is copy_wav_missing.out
+  Output file with missing calibration channels is copy_cal_missing.out 
+\end{verbatim}
+
+Note: On PC the files \texttt{copy\_wav} and \texttt{copy\_cal} 
+have names \texttt{copy\_wav.bat} and \texttt{copy\_cal.bat},  
+respectively 
+
+In the above example, a \texttt{select.out} was used. For each file, it is 
+checked if the waveform and response files are available in the system. 
+All waveform data bases and directories specified in \texttt{SEISAN.DEF} 
+are searched. Calibration files are seached for in working directory 
+and CAL. In order to extract the waveform files corresponding to 
+the input CAT file, the output file 
+\index{Get\_wav.out}
+\texttt{copy\_wav.out} can be used to copy the files 
+out of the data base to working directory. On Unix, just source the 
+\texttt{copy\_wav.out} file, on Windows, change the file to a 
+\texttt{.bat} file (e.g. 
+\texttt{copy\_get\_wav.out wav.bat}) and run it. For the calibration 
+files there is similarly a file called \texttt{copy\_cal.out}. \index{Extract waveform files}
+
+MSCUT chop up MiniSEED files \index{MSCUT}\index{Cut MiniSEED files}
+
+The program cuts up MiniSEED files into 1 h or 15 min files.  The 
+program is compiled for Unix but probably also works under Windows 
+(not tested). To compile the program, the miniseed library 
+\textit{\textbf{libmseed}} by \textbf{Chad Trabant} is required. The options are 
+
+\begin{tabular}{ll}
+-H & Cut into one hour files (default) \\
+-Q & Cut into 15 min files \\
+-V & Report program version \\
+-h & Show this usage message \\
+-v & Be more verbose, multiple flags can be used \\
+-p & Print details of header, multiple flags can be used \\
+-s        &      Print a basic summary after processing a file \\
+-r bytes & Specify record length in bytes, required if no Blockette 1000\\
+file & File of Mini-SEED records \\
+\end{tabular}
+
+\textbf{RDSEED\_MANY, chop up seed file}
+
+The program reads a large SEED volume and divides it up into several files 
+of the same size. It calls rdseed, so rdseed must be installed. Rdseed 
+can do the same, but RDSEED\_MANY is simpler to use. \newline
+Example: \index{Rdseed}\index{SEED, extract  data}
+
+rdseed\_many \newline
+Seed file name \newline
+test.seed \newline
+start time YYYY,MM,DD,HH,MM \newline
+2005 01 01 01 01 \newline
+Interval in minutes \newline
+20 \newline
+Number of intervals to extract \newline
+200 
+
+The output format is SAC, other format require a change of the program. 
+
+\textbf{RESAMP, resampling waveform files}
+\index{RESAMP}
+
+RESAMP is a simple \index{Resampling}resampling program, which can resample one or several waveform files. It only works with SEISAN format. All files are read, filtered and resampled. Then written out as one new file with the data from one or several input files. The maximum number of channels is max\_chan\_out, which is set as a parameter in the program, currently it is set to 7. Only the first max\_chan\_out channels are used or less if fewer channels in input file. It is assumed that all channels have the same sample rate and will be resampled to the same lower sample rate, which is an integer fraction of the original sample rate. If e.g. the original sample rate is 50, new rates of 25,10,5,2 etc can be obtained. The anti-alias filter is a single pass Butterworth with 6 poles. The user specifies manually both the decimation rate (2,5,10,25 in the above example) and the filter frequency. The new file(s) can have a new component specification, which is asked for interactively. Finally the user is asked for a new network code. 
+
+The input files(s) come from a \texttt{filenr.lis} file generated with DIRF. If more than one file is given in the \texttt{filenr.lis}, these will be put together in one file and some samples are saved from one file to the next in order to assure that there are no overlap problems when using the filter. IT IS ASSUMED THAT ALL FILES HAVE THE SAME LENGTH OF TIME. The program will check if a following file has the correct header time based on the length of the previous file. If the following file starts before the end of the previous file (err\_samp samples, default 70), it is assumed that the timing is wrong and that the files should follow each other. A warning is given and the program continues. If the following file has a header time that is more that a given err\_samp samples after where it should be, it is assumed that the next file is missing and zeros are inserted in the channel data. The number of sample errors, err\_samp, is hardwired in the program, currently 70. The program will continue to put data together in one file until there are no more file names in the \texttt{filenr.lis} file or a blank line is encountered. After a blank line in the input file, a new output file will be created. This can be used to make daily files of e.g. 2 weeks on \index{Continuous data}continuous data by manually placing a blank line in the \texttt{filenr.lis} file for every 24 hours. The program recalculates the sample rate based on time in first and last file.\index{Sample rate} The output file name will be given the standard waveform file name with type R for resampled like \texttt{1999-07-02-1112-22R.BERGE\_005}. 
+
+Works ONLY with SEISAN format 
+
+\textbf{SEIASC, converting SEISAN waveform files to or from ASCII}
+\index{SEISAN waveform files to or from ascii}
+\index{SEIASC}\index{ASCII, SEISAN to} 
+
+A simple program to make an ASCII equivalent of a binary SEISAN file, 
+or vice versa. It is the same call to use the program both ways. 
+By using a \texttt{filenr.lis} file as input, many files are converted 
+and the original filenames are kept with the addition of an A for 
+ASCII or B for binary.  If the files are converted back, the A or 
+B is removed. \newline
+The program is useful for manually editing a waveform file or checking the content in case of problems. The program is also useful for moving binary files between different types of computer platforms (moved as \index{ASCII files}ASCII files, not needed between platforms running SEISAN). Between PC, Sun, Linux and MacOSX, SEISAN programs will automatically adjust for differences in binary structure. The header format is exactly like the binary SEISAN files and the sample values are written in multicolumn format. 
+
+Works ONLY with SEISAN format 
+
+\textbf{SEICUT, extract part of a waveform file}
+
+A simple program to extract out a section of a waveform file (any seisan primary format). A similar job can be done with wavetool. Syntax is: 
+
+\texttt{seicut filename yyyymmddhhmmss.s interval}
+
+The first sample to use is the first sample found before the start time, the output time interval (in seconds) will be the time from first to last sample, so if e.g. one second of data is asked for at a sample rate of 100 Hz, the time interval in header will be 0.99 sec and the number of samples output will be 100. If the interval is not available in any of the channels, the program will stop. The output file name will use a network code reflecting station code of first channel in input file and 'CUT' is added to the end of the file name. \index{SEICUT}\index{Waveform file, cut} The same time window must be available in all channels. 
+
+\textbf{SEIDEL, splitting a SEISAN binary file into 2 files}
+\index{SEIDEL} 
+
+The program splits up waveform file into 2 files. Input can be file or list of files (\texttt{filenr.lis} created with DIRF). The questions are: \index{Waveform file, split}
+
+
+\begin{boxedverbatim}
+
+ Filename, ?, number or filenr.lis for all
+ filenr.lis
+ No of channels to remove
+ 3
+ Channels to remove
+ 1 3 6 
+
+\end{boxedverbatim}
+
+The program will generate 2 new files, one with the channels removed and one with the remaining channels. The original file is still present. 
+
+Works ONLY with SEISAN format 
+
+\textbf{SEISEI, splitting and merging SEISAN and MiniSEED binary files}
+\index{SEISEI} 
+
+The program can \index{Merge waveform files}merge several SEISAN or MiniSEED waveform files to one file or take one SEISAN or MiniSEED file and split it into \index{Single channel files}single channel files. The program is intended for editing waveform files and \index{Merging files from different networks}merging files from different networks to one file. In order to use SEISEI for merging files, a DIRF must be made to make a \texttt{filenr.lis} file containing the files to be merged. The program will sequentially read \texttt{filenr.lis} and merge files which have start times within the time interval specified (3 minutes default). Once a gap of more than 3 minutes occur, a new output file is made. Merging to a new file can be forced by editing \texttt{filenr.lis} so the groups of files to be merged are separated by a blank line, however, within the group, the time difference can still only be the given time interval.  
+
+If two channels to be merged have the same station and channel codes and the same start time, the second occurrence will be ignored. If the station and channel codes are the same, but start time different, the user will be asked to confirm merging. 
+
+The program can also split up a multichannel file to files with only one channel. This can be used to remove unwanted channels by deleting selected channels and merging again. When the file is split up, the channel component is added to the file name. A \texttt{filenr.lis} file can also be used for splitting many files in one go. If a file is only to be split into only 2 files, it is more convenient to use the program \index{SEIDEL}SEIDEL (only works on SEISAN format), see above. SEISEI is also used in connection with MULPLT for merging files automatically based on waveform file names in an S-file. 
+
+Note: The network extension of merged files will be set by default 
+to the value of parameter 
+\newline
+MERGE\_WAVEFORM in \texttt{SEISAN.DEF}. 
+
+\textbf{SELSEI, searching headers in SEISAN waveform files}
+\index{Searching headers in waveform files}
+\index{SELSEI}
+
+A simple program to search headers in waveform files for files containing a particular station. 
+
+Works ONLY with SEISAN format 
+
+\textbf{P\_ALIGN: Time shifting waveform data to align on P-phase arrival times.}
+
+If one wishes to compare signals (align in time) from different
+\index{Align traces}
+\index{P\_ALIGN} 
+earthquakes observed at the same station, the P\_ALIGN program can 
+be used. The program works by time shifting the waveform header times 
+to a common time and then putting all the new waveform file names 
+into an S-file. First use e.g. the SELECT program to extract information 
+of earthquakes in a defined area that have been observed by a given 
+station, and use GET\_WAV to copy the waveform files to your working directory.
+Then execute P\_ALIGN. The input is the Nordic file 
+(e.g. \texttt{select.out}) and the station name for data to be compared. 
+The output is: 
+
+\begin{itemize}
+\item
+Waveform files with time shifted headers, all have the same time, but station names are labeled STA01, STA02 etc in the same order as given in input file. Only first 3 letters of station code is used. 
+\item
+\texttt{tsd.out} : A file in Nordic format with the new waveform 
+file names of the time shifted data. This file can be split and 
+then used with EEV for plotting all traces. It can be split into 
+a local data base or any other data base. Or copy \texttt{tsd.out} 
+to a file e.g. named \texttt{27-1200-00L.S207011} and then start EEV.
+\index{Tsd.out} 
+\end{itemize}
+
+The arrival time of the P-phase in the new waveform files is the pseudo date and time : 2070-11-27 
+12:00. 
+
+Note: The station name is renamed in the output. If there are more than one P-phase observation for a single event (e.g. Pn and Pg, or P read on two different channels) it is the first P that is time shifted. The program can only time shift 99 waveform files and they have to be in SEISAN format. The waveform file must be present in the working directory. 
+
+Figure \ref{fig:p_align} show an example.
+
+\begin{figure}
+\htmlimage{scale=2.0}
+\centerline{\includegraphics[width=0.9\linewidth]{fig/fig35}}
+\caption{Example of aligning traces from 5 
+events for the same station. Note that the alignment is critically 
+dependent on the original P-picks.}
+\label{fig:p_align}
+\end{figure}
+
+\textbf{WAVFIX, fixing time correction and channel names in SEISAN waveform file headers and make standard file names}
+
+It can easily happen that a waveform file has a wrong time \index{Time correction}in the headers, or that individual channels have wrong timing, for example introduced by different delays in the acquisition system that are not accounted for. WAVFIX can change all \index{Header times}header times with a given constant \index{Time delay}time delay, or correct individual channels as specified in a parameter file (\texttt{wavfix.tim})\index{Wavfix.tim}. In addition, the file name will also be changed to reflect the header time change. \index{Waveform file name}Waveform file names were shorter in SEISAN version 6.0 so when using older files, the user might want to use standard file names. In cases where only channel names or timing of individual channels are changed, the filename can be kept the same. In this case a temporary file is created, which is later renamed to the original name. 
+
+WAVFIX can also change polarity. This is done by setting the output channel and station codes to the same as the input values in \texttt{wavfix.def}. \index{Waveform file, fix headers}\index{Polarity change}\index{Polarity, correct}\index{Correctpolarity}
+
+In case channel names are to be changed, this can also be done with WAVFIX. A definition file is needed for changing station, component or both. The parameter file name is \texttt{wavfix.def} and an example is given in DAT. For definition of the \texttt{wavfix.def}, see next section \ref{sect:file-conversion} on ``Conversion programs definition file''. 
+
+WAVFIX can change header times and/or file names for one or many files. Before running the program, a list of file names must be made with DIRF. Below is an example where the header time is changed by 120 secs. No \texttt{wavfix.def} file is present (current or DAT directory).  
+
+To correct the timing of individual channels, you need to create the file \texttt{wavfix.tim} in either the DAT or working directory. WAVFIX checks if the file is present and applies the correction from the file as default. The format of this file is as follows: 
+
+Column 1-5: station code \newline
+Column 7-10: component code \newline
+Column 12-25: start date and time for time correction (can be empty) \newline
+Column 27-39: end date and time for time correction (can be empty) \newline
+Column 41:60: time correction to be added 
+
+Example: 
+
+\begin{verbatim}
+ wavfix time correction applied to individual components
+ stat  comp start time     end time       correction in
+ a5    a4   yyyymmddhhmmss yyyymmddhhmmss seconds f20.3
+ -----|----|--------------|--------------|--------------------
+ TEST  SH Z 19500101120000 19600101120000 -0.015 
+\end{verbatim}
+
+File names of waveform files can be given to WAVFIX directly, from a \texttt{filenr.lis} file or from a Nordic format file. In case you choose the Nordic input, the waveform file names will be changed in the Nordic file (output file nordic.fix). This option is useful if you are correcting file names, since the entries in the S-files are otherwise not fixed. 
+
+Example of running WAVFIX 
+
+\verbatiminput{include/wavfix.run}
+
+Note: WAVFIX ONLY works with SEISAN format 
+
+\textbf{WAVFULLNAME}
+
+Prints full filename including path\index{WAVFULLNAME} for a waveform 
+file by searching directories and databases specified in 
+\texttt{SEISAN.DEF}. Filename is to be given on prompt line, e.g. 
+\texttt{wavfullname 1996-06-13-1248-15S.NSN\_\_003}. 
+
+\input{text/file-conversion-and-modification-programs.tex}
+
+\input{text/signal-processing-programs.tex}
+\input{text/bvalue.tex}
+
+\section{Automatic phase picking, AUTO, AUTOPIC, AUTOSIG, CONDET}
+\label{sect:auto-p-pick}
+\index{Automatic phase picking}\index{AUTO} 
+
+\input{text/auto-autopic.tex}
+\input{text/autosig.tex}
+\input{text/condet.tex}
+
+\section{Fault plane solution}
+\label{sect:fps}
+%\textcolor{red}{pv-change: 
+SEISAN includes 
+%\textcolor{red}{jh-change:
+five programs for estimating the fault plane solution, 
+FOCMEC, FPFIT, HASH (called hash\_seisan),EBEL and PINV. The programs are described below, 
+they can all be called from EEV. Fault plane solutions can be plotted 
+with EPIMAP (new from version 9.0), W\_EMAP (Windows only) and FOC 
+(see below). The program GMTNOR also makes output which can be used with GMT.
+In EEV fault plane solutions can be added manually to an event with commands inputfps or ifp.
+%}
+
+\input{text/focmec.tex}
+\input{text/fpfit.tex}
+\input{text/hash.tex}
+\input{text/pinv.tex}
+\input{text/invrad.tex}
+
+\section{Waveform inversion}
+\input{text/waveform-inversion.tex}
+
+\input{text/codaq.tex}
+\input{text/associ.tex}
+\input{text/make-synthetic.tex}
+
+\section{Calculation and plotting of travel times} 
+\label{sect:cal-plot-tt}
+
+In SEISAN, travel times are generated from a flat crustal model or using the IASP91 global travel time model. It can often be useful to generate travel times for given distances and two programs are supplied to do these calculations. TTIM will calculate travel times for global phases at one given distance and depth and TTLAYER, will calculate a travel time table (layered flat model) for a given depth and a distance range. A special version of TTIM called IASP is used in connection with EEV and MULPLT.  
+
+\input{text/ttim.tex}
+\input{text/ttlayer.tex}
+\input{text/ttplot.tex}
+\input{text/iasp.tex}
+\input{text/qlg.tex}
+\input{text/wadati.tex}
+\input{text/spec.tex}
+\input{text/seismic-risk-programs.tex}
+
+\input{text/mag.tex}
+\input{text/mag2.tex}
+\input{text/magstat.tex}
+\input{text/exfilter.tex}
+
+\section{Inversion of travel time data and joint hypocenter determination} 
+
+\input{text/velest.tex}
+\input{text/nor2dd.tex}
+\input{text/nor2jhd-pujol.tex}
+\input{text/volcanic.tex}
+\input{text/fk-analysis.tex}
+\input{text/surface-wave-analysis.tex}
+\input{text/instrument-response.tex}
+\input{text/macroseismic-data.tex}
+\input{text/corr.tex}
+

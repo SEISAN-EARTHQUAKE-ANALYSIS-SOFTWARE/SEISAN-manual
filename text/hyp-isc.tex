@@ -1,0 +1,27 @@
+
+\subsection{HYP\_ISC (Unix and Linux only)}
+\label{subs:hyp-isc} 
+\index{HYP\_ISC} 
+
+Program written by \textbf{Richard Luckett}
+
+ISC has for many years used a standard procedure to locate earthquakes and the ISC locations have often been used as a reference. The earth model used is the Bullen tables. ISC has recently rewritten the old location program and it was therefore possible to also port it to SEISAN. The purpose is that it should be possible to compare standard ISC locations with location using other programs and models. The implementation in SEISAN was done using the standard hyp program where only the location routines have been changed. The program then behaves almost identical to HYP and uses the same format input and output files. 
+
+Parameter files: STASTION0.HYP is used for station coordinates,  magnitude scales and agency code. The crustal model information is not used and only the RESET TEST parameters related to magnitude are used. In addition, there is a new parameter file (in DAT) \texttt{iscloc.def} with parameters specific for the ISC location routines, see file for explanation of parameters.  \index{Iscloc.def} 
+
+Input data files: Just like for HYP 
+
+Output files: Hyp.out is like before, \texttt{print.out} is different. 
+
+Not all crustal phases used with HYP may be available. The  weights used in SEISAN do not apply since the program uses residual weighing only, see parameter file. 
+
+Magnitudes are calculated exactly like in SEISAN. 
+
+In eev, the command to locate with HYP\_ISC is `il'. 
+
+For more information about the ISC location program, see \url{http://www.isc.ac.uk/Documents/Location/}
+\index{ISC location}
+\index{Locate with ISC program}
+\index{Bullen table}
+\index{Locate with Bullen table} 
+

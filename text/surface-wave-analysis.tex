@@ -1,0 +1,29 @@
+
+\section{Surface wave analysis (SUN)} 
+
+The programs by \textbf{Robert Herrmann} (Herrmann, 1996) to estimate the shear 
+wave velocity of the earth by inversion of surface wave
+\index{Surface wave analysis} 
+group velocities
+\index{inversion of surface wave group velocities} 
+are distributed with Seisan. The programs are part of Herrmann's package
+\index{Herrmann's package} 
+``\textit{Computer Programs in Seismology}''. For more information check: 
+
+\url{http://www.eas.slu.edu/People/RBHerrmann/ComputerPrograms.html}  
+
+The programs have been implemented with SEISAN by Vunganai Midzi, who has written a guide on how to use the programs. This document is given as the Word file `surface.doc' in the INF directory. Also see section \ref{subs:spec} for details on output files that can be generated with MULPLT. The programs are included in the tar file `surface.tar' in the PRO directory, but are not installed as part of the standard installation. If you wish to use the programs, you need to extract the programs: 
+
+\begin{verbatim}
+cd <SEISAN_TOP>/PRO
+tar xvf surface.tar 
+\end{verbatim}
+
+You can recompile the programs with the commands: 
+
+\begin{verbatim}
+make -f Makefile.sur clean
+make -f Makefile.sur 
+\end{verbatim}
+
+

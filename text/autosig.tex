@@ -1,0 +1,104 @@
+
+\subsection{AUTOSIG}
+
+\index{Autosig}
+
+AUTOSIG is a program to perform some automatic processing. The program 
+includes routines for P-phase picking, determination of signal duration, amplitude determination, determination of spectral parameters \citep{ottemoller2003} and determination of distance type (local, teleseismic, noise). The program can still do with improvement. The input to the program can be either a parametric Nordic file (with one or several events) or waveform files. In both these cases, the output is written to the \texttt{autosig.out} file. Additional output files are \texttt{autosig.trace} and \texttt{autosig.err}, which will help to find potential problems. Alternatively, the program can also be started from EEV; the output is then directly written to the S-file. The input parameters are defined in the file \texttt{autosig.par}, which is located either in the DAT or the working directory.  
+
+Following are descriptions of the automatic processing routines: 
+
+P-phase picking:\newline
+\index{P-phase picking} 
+The phase picking is based on changes in the STA/LTA ratio. A band pass filter can be specified. The routine gives options to enhance the changes in the signal before computing the STA/LTA ratio. It is recommended to first remove the linear trend and then to compute the characteristic function which is given by y**2+k*(dy/dt)**2, which enhances changes in both amplitude and frequency content. Then the STA/LTA ratio is computed to detect changes in the signal. The routine can also compute the squared STA/LTA\index{STA/LTA}. When a change is detected (STA/LTA ratio above trigger level), it is tested whether the signal spectral amplitudes are significantly higher (factor of 2 in amplitude) than the pre-signal noise spectral amplitudes. This is done to avoid triggering on spikes. 
+
+Signal duration:\newline
+\index{Signal duration} 
+The signal duration is determined by comparing the signal amplitudes with the amplitudes of the pre-signal noise. The duration is determined by the point from which the ratio of these amplitudes is lower than a given value. A filter is applied if specified in the parameter file. 
+
+Amplitude: \newline
+Routine finds maximum amplitude between two peaks. 
+
+Spectral parameters:\newline
+\index{Spectral parameters} 
+The routine computes the displacement amplitude spectrum for P or S waves (see section \ref{subs:spec}) and, using either a converging grid search or a genetic algorithm determines the seismic moment and the corner frequency by minimizing the difference between observed and synthetic source spectra. The frequency band is determined by comparison with the pre-signal spectrum. The grid search is generally more cost effective and produces better results. The method is described in \citet{ottemoller2003}. The displacement spectrum is corrected for geometrical spreading and attenuation (both along the travel path and near surface). Therefore, the hypocentral distance has to be known. The time domain window for extracting the data from the trace can be given by either a group velocity (Vg=distance/travel time) window or a fixed window in seconds around the phase pick. 
+
+Distance type: \newline
+The routine determines whether the signal is from a local or teleseismic event, or noise. If signal spectral amplitudes are not significantly higher than pre-signal noise amplitudes, it is assumed that the signal is noise. Otherwise the amplitudes at two selected frequencies given by `DIST FREQ SELECT' are compared, the rules are (f1$<$f2): 
+
+Spec signal amp(f1) - Spec noise amp(f1) $>$ Spec signal amp(f2) - Spec noise amp(f2): teleseismic \newline
+Spec signal amp(f2) $>$ Spec noise amp(f2): local 
+
+There are a few command line options that can be used to run autosig in non-interactive mode, 
+syntax is 
+
+\texttt{autosig -infile $<$filename$>$ [-spec on/off -phase on/off -clear on/off]}
+
+where 
+
+-spec on/off: determine spectral parameters if option given \newline
+-clear on/off: remove phases from input S-file before start if option given \newline
+-phase on/off: detect phases if option given \newline
+-infile $<$file$>$: give name of input file, either S-file or waveform file \newline
+-help: get help 
+
+\textbf{Note}: When running the program the first time and the hypocenter location is not known, the determination of spectral parameters is not done. To run the determination of spectral parameters, the hypocenter location has to be given in the S-file. 
+
+The meaning of most parameters in the parameter file is clear from the keyword. The spectral parameters are as described in the MULPLT section. Other parameters that need explanation are: 
+
+\textbf{AUTO PHASE, AUTO SPECTRUM and AUTO AMPLITUDE}: Logical flag to activate phase picking, spectral analysis and amplitude reading, respectively (1. for true) 
+
+\textbf{GA POPULATION SIZE}: Number of elements in the population, used only if SEARCH ALGORITHM is 1. 
+
+\textbf{GA GENERATIONS}: Number of generations in one run, used only if SEARCH ALGORITHM is 1. 
+
+\textit{Note: Increasing GA POPULATION SIZE and GA GENERATIONS will increase the computation time.}
+
+\textbf{GRID NLOOP}: Number of loops in converging grid search for spectral parameters, used only if 
+SEARCH ALGORITHM is 2. Resolution increases with every loop. 
+
+\textbf{NGRID FREQUENCY}: Number of grid points in search for corner frequency, used only if SEARCH ALGORITHM is 2. 
+
+\textbf{NGRID SPECTRAL AMP}: Number of grid points in search for spectral amplitude, used only if 
+SEARCH ALGORITHM is 2. 
+
+\textbf{NORM}: Norm for computation of residuals in spectral fitting can be set, however, tests show that 1 or 2 produce the same result, and generally default of 1 can be used. 
+
+\textbf{SEARCH ALGORITHM}: Defines whether genetic algorithm (1) or converging grid search (2) should 
+be used. Converging grid search is recommended. 
+
+\textbf{SELECT PHASE}: Defines, which phase to use for spectral analysis, choices are: 0 for P by AUTOSIG, 1 for computed P arrival for given location, 2 for computed S arrival, 3 for P from s-file, 4 for S from s-file or 5 for S or P from s-file. 
+
+\textbf{SEPCTRUM F LOW}: Lower limit of frequency band to be used.
+
+\textbf{SPECDURATION CHOICE}: The time window for computation of the spectrum can be given either as a time window starting from the phase onset (0.) or can be defined by a group velocity window (1.). 
+
+\textbf{SPECTRUM P LENGTH}: Duration in seconds of signal starting from P arrival. 
+
+\textbf{SPECTRUM S LENGTH}: Duration in seconds of signal starting from S arrival. 
+
+\textbf{SPECTRUM PRE LENGTH}: Duration in seconds of signal to be included prior to phase arrival. 
+
+\textbf{GROUP VEL WINDOW P}: Range of group velocities defining time window to be used for P spectrum. 
+Time window is given by (distance/group velocity) 
+
+\textbf{GROUP VEL WINDOW S}: Range of group velocities defining time window to be used for S spectrum. Time window is given by (distance/group velocity) 
+
+\textbf{STALTA NREC/REC}: There are two STA/LTA algorithms, recursive (0.) and non-recursive (1.). 
+
+\textbf{STATION LINE}: One line with processing parameters for phase detection is given for each channel. The parameters are (also see example below): 
+
+\verb|               |\textbf{STAT - station name}\newline
+\verb|               |\textbf{COMP - component name}\newline
+\verb|               |\textbf{STA - duration of STA}\newline
+\verb|               |\textbf{LTA - duration of LTA}\newline
+\verb|               |\textbf{RATIO - trigger ratio}\newline
+\verb|               |\textbf{MINCOD - minimum coda required for trigger}\newline
+\verb|               |\textbf{DTRLE - de-trigger level}\newline
+\verb|               |\textbf{FILL - bandpass filter low cut}\newline
+\verb|               |\textbf{FILH - bandpass filter high cut}
+
+Example of the parameter file \texttt{autosig.par}\index{Autosig.par}: 
+
+\verbatiminput{include/autosig.par}
+

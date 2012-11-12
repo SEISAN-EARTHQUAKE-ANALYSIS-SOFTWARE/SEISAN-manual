@@ -1,0 +1,23 @@
+
+\subsection{AUTO and AUTOPIC}
+
+%\textcolor{red}{lo-change:} 
+AUTOPIC is a tool to automatically pick phases
+on events registered into the database. 
+	%\textcolor{red}{jh-change: The program uses an S-file as input. The waveform files must be listed in the S-file and the output of read phases are given in the S-file. The program can be started from EEV with command z, from the promatp line with command 'autopic sfile-name' or using program AUTO.}
+The AUTO program will go through a series of events in the usual way using start time and end time and start AUTOPIC for each event.
+If an event file (S-file) has any readings, the AUTO program will not reread in order to not destroy old picks. The automatic readings in the file are marked with an A after the weight column to indicate automatic pick. Each pick is evaluated by using the signal to noise ratio and an indication of the quality is given with the weight. The program will run on all waveform files given in an S-file. Each time the program runs, there is a file called auto\index{Autopic.out}pic.out containing information about the run. 
+If there are any \index{3-component stations}3-component stations, an \index{Azimuth}azimuth will also be calculated, and the S-phase will be more reliable. 
+The AUTOPIC program  can also be used from EEV by typing Z (will run program AUTOPIC). When it is used from EEV, there is always an output in the S-file, which will be grouped at the bottom of the file, making it possible to compare manual and automatic readings. THE S-FILE MUST THEN BE EDITED MANUALLY IN ORDER TO REMOVE DOUBLE READINGS. 
+The program requires an input parameter file in the working directory or DAT with the name \index{AUTOPIC.INP}AUTOPIC.INP. The program will first look in the working directory. The parameters in that file are explained below. NOTE: The file is formatted, data must be in columns exactly as shwown and no tabs must be used.   
+The program uses a 4-pole filter running one way. This might result in phases being picked a bit late. However, it seems more accurate than the earlier version where the filter run both ways and picks were often far too early. 
+The program is made mainly by Bent Ruud. For more information about how it works, see \citet{ruud1988,ruud1992}. 
+Description of parameters 
+
+\verbatiminput{include/autopic.par}
+
+Example of input file AUTOPIC.INP for AUTO 
+
+%\verbatiminput{include/autopic.inp}
+\verbatiminput{include/AUTOPIC.INP}
+

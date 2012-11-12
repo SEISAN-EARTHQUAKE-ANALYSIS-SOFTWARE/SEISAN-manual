@@ -1,0 +1,637 @@
+
+\subsection{The hypocenter program, HYP}
+\index{Hypocenter program} 
+\label{subs:hypocenter-program} 
+
+The hypocenter program is a modified version of HYPOCENTER 
+\citep{lienert1986,lienert1991,lienert1995}. 
+The main modifications are that it can accept more phases, locate 
+teleseismic events and use input in Nordic format directly from the 
+database. A detailed manual (earlier version, \texttt{hypocent.pdf}) 
+and some of the later changes 
+\newline
+(\texttt{hypocent\_latest.pdf}) 
+is given in INF directory. The input parameter file with station 
+coordinates, model etc. is \texttt{STATION0.HYP}, see later.  
+
+Local crustal phases: 
+
+The program will accept \index{P phase}P, \index{Pg phase}Pg, 
+\index{Pn phase}Pn, \index{S phase}S, \index{Sg phase}Sg, 
+\index{Sn phase}Sn, Pb, Sb, Rg, T and \index{Lg phase}Lg phases and 
+when locating teleseismic events most of the \index{IASPEI phases}IASPEI phases (see below). If only P or S is given, the fastest phase is used as in the original version of the program.
+%\textcolor{red}{jh-change: 
+The phase used by the program is indcated in output, see later.%} 
+
+Azimuth and single station location: 
+
+The program also uses observed station azimuths as given in the Nordic Format. Station azimuths can be obtained with either \index{3-component stations}3-component stations or \index{Array stations}array stations or by using a local network as an array (see EEV pfit option) This means that the program can locate with one station 
+if it has at least two phases like P, S and azimuth. Azimuth residuals contribute to the overall rms, see TEST(52) and section on weight.\index{Location with one station}\index{Single station location}  In order to locate with one station, azimuth and P and S, TEST(56) MUST be set to 1. Note that the depth then will be fixed to 
+the starting depth. So if the starting depth is larger than the 
+hypocentral distance, no solution is possible and the starting 
+depth must be set to a value smaller then the hypocentral distance. 
+This can be done in the \texttt{STATION0.HYP} file or individually 
+in the S-file. Known problem: If Azimuth on one station and P and S on another station, HYP might not locate properly. \index{HYP problem, azimuth} 
+
+Magnitudes: 
+
+In SEISAN version 8.3, there are substantial changes in the way amplitudes are 
+read and two new magnitude scales have been added (broad band body 
+and surface wave magnitudes). Furthermore, the Richter attenuation 
+curve is now used be default for the body wave magnitude. The phase 
+names used for amplitudes have also changed. These changes are due 
+to the new standards for magnitude calculation approved by the IASPEI. 
+For more on the application of the different magnitude scales, 
+see \cite{havskov2010}.   % Havskov and Ottemller (2010).
+
+\index{Magnitude}Magnitudes are calculated using coda, amplitude and spectral level. Parameters are given in the station file using the RESET TEST variables. For magnitude based on amplitude, the amplitude must be given in \index{Nanometer}nanometers in the input file (SEISAN standard). 
+
+Local magnitude Ml
+
+The formula used to calculate \index{Local magnitude}local magnitude 
+is \index{Ml}
+\begin{displaymath}
+Ml = a * log_{10} (amp) + b*log_{10}(dist) + c*dist + d 
+\end{displaymath}
+
+where a,b,c,d are constants, $log_{10}$ is logarithm to the base 10, 
+amp is maximum ground amplitude (zero$-$peak) in nm and dist is 
+hypocentral distance in km (RESET TEST 75-78). The default 
+constants are for California \citep{hutton1987} which 
+gives the following relation 
+
+\begin{displaymath}
+Ml = log_{10}(amp) + 1.11 log_{10}(dist) + 0.00189 dist - 2.09 
+\end{displaymath}
+
+It is here assumed that the gain of the Wood-Anderson instrument is 
+$2080$. An amplitude of $1 mm$ of the Wood Anderson seismogram is 
+then $10^6nm/2080$ and inserting this amplitude above together with 
+a distance of 100 km gives magnitude 3 as originally defined by Richter. 
+It is assumed that the maximum amplitude is picked on a seismogram 
+simulating the original Wood-Anderson seismogram, see program MULPLT. 
+SEISAN uses hypocentral distance, while the original Ml scale used 
+epicentral distance (no deep earthquakes in California). We use 
+hypocentral distance so Ml also can be used for deep earthquakes, 
+but the user should be aware that the Ml relation for deep earthquakes 
+might be different from the relation for shallow earthquakes.
+
+\textbf{Local magnitudes are only calculated for events with 
+epicentral distance LESS THAN TEST(57) (default 1500 km) and if 
+the period is less than 5.0 secs.} All amplitudes for the phases 
+`L', `S ', Sg, SG, AMP, and AML, AMPL or blank are used. 
+This means that if an amplitude is picked on both Lg and Sg, both 
+will be used. The period is not used. The many possible phase names 
+is a result of changes over time and thus to ensure that Ml is 
+calculated correctly with older data. From version 8.3,  MULPLT 
+produces the standard IASPEI name IAML. 
+
+Coda magnitude Mc
+
+The \index{Coda magnitude}coda magnitude is calculated using 
+
+\index{Mc}
+\begin{displaymath}
+Mc = a * log_{10}(coda) + b * dist + c 
+\end{displaymath}
+
+where coda is coda length in secs and a,b and are constants (RESET 
+TEST 7-9). If `a' is given as a negative number, the following formula will be used 
+
+\begin{displaymath}
+Mc = abs(a)*log_{10}(coda)*log_{10}(coda) + b * dist + c 
+\end{displaymath}
+
+If both Mc and Ml are calculated, Ml is written first on the header line. 
+
+\textbf{Coda magnitude is only calculated if the epicentral distance is less than TEST(57).}
+
+Surface wave magnitude Ms
+\index{Surface wave}
+
+Ms is calculated using the standard 
+\index{Ms}
+
+\begin{displaymath}
+Ms = log_{10}(amp/T)+1.66log_{10}(dist)+3.3
+\end{displaymath}
+
+where T is period. Amplitude is in micrometer and distance in degrees, 
+however in the Nordic format nm and km are used and the program 
+converts. Ms is only calculated if the period is larger than 10.0 seconds 
+in which case the program automatically assumes that Ms is the wanted 
+magnitude. The phase used can be AMS, AMP, IAMS20 or blank. The current version 
+of MULPLT produces the standard IASPEI name IAMS\_20.
+The many possible phase names are a result of changes over time and 
+thus to ensure that Ms is calculated correctly with older data. It 
+is assumed that the amplitude has been picked on a WWSSN standard 
+LP trace and that the period is in the range $18-22 s$ (see program 
+MULPLT). Ms will be calculated even if the period is outside this 
+range, but it will not be correct according to the standard.
+
+Broadband surface wave magnitude MS (IASPEI code MS\_BB, but SEISAN uses MS 
+for simplicity, new from SEISAN version 8.3)
+
+MS is calculated using the standard
+
+\begin{displaymath}
+   MS = log_{10}(amp/T)_{max}+1.66log_{10}(dist)+3.3
+\end{displaymath}
+ 
+or
+
+\begin{displaymath}
+   MS = log_{10}(V_{max}/2 \pi )+1.66log_{10}(dist)+3.3
+\end{displaymath}
+
+
+where $V_{max}$ is the maximum velocity.  The IASPEI definition is 
+to use velocity and the period is thus not needed but read for information. 
+The velocity is in micrometer/s and distance in degrees, however in 
+the Nordic format $nm/s$ and $km$ are used and the program converts when 
+calculating magnitudes. MS is only calculated if the period is larger 
+than 3 seconds  and less then 60 seconds, distance must be larger 
+than or equal to 222 km (2 degrees) and less or equal to 160 degrees. 
+The depth must be less than 60 km, however there is no check for that 
+in SEISAN. The phase used to report the amplitude and period must be 
+called IAMSBB which the current version of MULPLT produces. The biggest 
+advantage using MS compared to Ms, is that any period in the range 
+$2-60 s$ can be used.
+
+
+Body wave magnitude mb
+\index{Body wave magnitude}
+
+mb is calculated using 
+\index{mb}
+
+\begin{displaymath}
+mb = log_{10}(amp/T) + Q(dist,depth)
+\end{displaymath}
+
+where Q is a hardwired function of distance and depth and amp is the 
+amplitude in nm. There are two possibilities: The default (set by 
+REST TEST(108) is the standard Gutenberg and Richter (1956) curve 
+while alternatively the Veith-Clawson curve can be used \citep{veith1972}. 
+Before SEISAN version 8.3, Veith-Clawson was always used. mb is only 
+calculated if the epicentral distance is less than or equal to 100 
+degrees and larger than or equal to TEST(57) (IASPEI standard and 
+SEISAN default is 21 degrees) and the period must be smaller than 
+3 s and  the phase is P, AMP,  AMb, AMB, AMPB, AMPb, blank character 
+or IAmb. The current version of MULPLT produces the standard IASPEI 
+name IAmb. The many possible phase names are a result of changes over 
+time and thus to ensure that mb is calculated correctly with older data.
+
+Broad band body wave magnitude mB (new from SEISAN version 8.3)
+
+The broad band magnitude mB (official IASPEI name is mB\_BB) is calculated using
+
+\begin{displaymath}
+   mB = log_{10}(amp/T)_{max} + Q(dist,depth)
+\end{displaymath}
+
+or 
+
+\begin{displaymath}
+   mB = log_{10}(V_{max}/2 \pi ) + Q(dist,depth)
+\end{displaymath}
+
+
+where  $V_{max}$ is the maximum velocity and Q is a hardwired function of 
+distance and depth. The IASPEI standard is to use velocity and SEISAN 
+store the velociyt in nm/s. There are two possibilities for the 
+atteneuation function: The default (set by RESET TEST(108) is the 
+standard Gutenberg and Richter (1956) curve while alternatively the 
+Veith-Clawson curve can be used \citep{veith1972}. mB is 
+only calculated if the epicentral distance is less than or equal to 
+100 degrees and larger than or equal to TEST(57) (IASPEI standard 
+and SEISAN default 21 degrees) and the period is larger than 0.2s 
+and less than 30s and  the phase name is IVmB\_BB . The current 
+version of MULPLT produces the standard IASPEI name  IVmB\_BB.  The 
+biggest advantage using mB compared to mb, is that the mB scale 
+does not saturate before magnitude 8. 
+
+Moment magnitude Mw
+\index{Moment magnitude}
+
+Mw is calculated as
+\index{Mw}
+
+\begin{displaymath}
+Mw = 2/3 * \Big( log_{10}(moment) - 9.1 \Big)
+\end{displaymath}
+
+where moment is in Nm (see also section \ref{subs:spec}). When an event is 
+relocated, the moment is also 
+recalculated according to revised hypocentral distance.
+
+NOTE: If an amplitude has a given period between 5 and 10 secs, it 
+is not used for Ml and mb magnitude calculation, see above. If an 
+event is not located, there will normally be no magnitude calculation 
+and all magnitude and distance information is deleted from the output 
+S-file (\texttt{hyp.out}) except, the magnitude in the 3rd position on the 
+header line if it has an agency different from the default agency. 
+The only exception is that if a coda is given, the epicentral distance 
+is retained and coda magnitude will therefore be calculated. This 
+means that for events, which cannot be located, it is still possible 
+to calculate coda magnitudes by manually entering the epicentral 
+distance on the line containing the coda length.
+
+On the first header line, there is room for 3 magnitudes. If there 
+is a magnitude in the 3rd position, it is not overwritten unless 
+the default agency is overwritten, so there will often only be room 
+for 2 calculated magnitudes on the first header line. 
+\index{Update header line}
+If more 
+magnitudes are calculated, they will be written on a subsequent 
+hypocenter line, which is identified by having the same year, month, 
+day and hypocenter agency as the first header line. This means that 
+there is room for a total of 6 magnitudes, which can each, be updated 
+when relocating. Hypocenter info and all 6 magnitudes can be printed 
+out on one line with program REPORT.
+
+All magnitudes can have a station dependent correction given in the 
+station file. This correction does not affect the Mc in \texttt{print.out}
+file. Mb and mB use the same correction and Ms and MS use the same correction.
+\index{Magnitudes, more than 3}
+\index{Magnitude, fixed}
+Only calculate magnitude: If TEST(106) is set to 1.0, only magnitudes 
+are calculated, provided a distance is given.
+
+Use of \index{S-P and L-S differences}S-P and L-S differences: 
+
+Uncertainty in absolute times often makes it necessary to be able to 
+use the difference in time between two arrivals such as P and S or 
+P and L. If no absolute times are available, the calculated origin 
+time will be close to that at the first arrival station and is of 
+course meaningless. However, a perfectly good epicenter and depth 
+can still be obtained from P-S or P-L differences alone. To enable 
+this feature, set the weight for the P phase input record to 9. This 
+P is then assigned a weight of 0, effectively disabling its use. 
+However, a time residual and azimuth, etc., will still be calculated 
+for it, enabling an assessment to be made of its absolute time. A 
+search will then be made of the entire input phase set for an S or 
+L phase at the same station. If such a phase is found, its variables 
+are used to store the observed and calculated difference times and 
+their derivatives, and it's weight (0-4) is used for the difference 
+phase. DON'T SET IT TO 9!! If two or more such phases (e.g., SN, SG, LG, etc.) 
+are found, all their differences with the P time will be used instead 
+of their absolute times.  Blanks will appear beneath 'hrmn' in the 
+residual summary for all such phases, while the observed and calculated 
+difference times with the first P will appear beneath 't-obs' and 't-cal'. 
+
+NB. There must be at least one phase with absolute time to get a 
+location.\index{Problem, no location}\index{HYP, do not locate}
+
+\index{Global event location}Global event location: 
+
+When locating globally, the program uses the \index{IASPEI91}IASPEI91 travel time software described by Buland and Chapman (1983) and Kennett and Engdahl (1991). HYP evaluates all the IASPEI91 phases (up to 60) at each delta, and searches for the phase specified in the 4-character phase identifier. If no phase is found, the phase is given a weight of -1, which effectively removes it from the phase set. If a phase is labeled as 'P ', 'S ', 'PKP ' or 'SKS ', and this phase is not in the IASPEI91 list, the first arrival phase having P or S as its first letter is used, or PKP, SKS as its first 3 letters. In addition, include the PKiK phases in this search for 'PKP ' and 'SKiK' phases in the search for 'SKP '. The IASPEI91 phase set currently includes: P, Pdiff, PKP, PKiKP, pP, pPdiff, pPKP, pPKiKP, Sp, sPdiff, sPKP, sPKiKP, PP, P'P', S, Sdiff, SKS, sP, pSdiff, pSKS, Ss, sSdiff, sSKS, SS, S'S', PS, PKS, SP, SKP, SKiKP, PcP, PcS, ScP, ScS, PKKP, PKKS, SKKP, and SKKS. 
+
+\index{Long phase names}Long phase names: 
+
+Normally SEISAN and the Nordic format assume up to 4 character phase names. However, when working with global phases, the phase name length can in a few cases be up to the I\index{ISC}SC standard of 8 characters. The program then uses column 9 for weight (normally blank) and column 11-18 
+for the phase. In this case it is not possible to give a polarity. 
+
+Criteria for a solution: 
+
+The cases where a solution will not be attempted are as follows: 
+
+\begin{enumerate}
+\item Multiple phases at two stations, but no azimuths. This is a non-unique case, even though four different arrivals are present. 
+\item Less than three phases from three different stations and no azimuths. 
+\item A single phase at one station with an azimuth. 
+\end{enumerate}
+
+Note that if phases are weighted out due to large distance or a bad fit during the first iteration, there might not be a location even if more than 3 stations are available. \index{Problem, HYP}
+
+Weighting: 
+
+A number of different weights may be used to calculate the solution.
+
+\begin{enumerate}
+\item User specified weights: These are calculated using the HYPO71 style we\index{Weight}ight number 0 to 4, read with each phase, where 0 corresponds to w1=1.0, 1 to w1=0.75, 2 to w1=0.5, 3 to w1=0.25 and 4 to w1=0. Uncertain time is 9 meaning that absolute time is not used, see also use of S-P times on previous page. 
+\item \index{Distance weighting}Distance weighting: This is given by the formula w2=(xfar-delta)(xfar-xnear) where delta is the distance (km) of the event from the station and xnear and xfar are read from the station file, \texttt{STATION0.HYP}. 
+\item Bisquare weighting: This scheme, described by \citet{anderson1982} calculates residual weights, see details in HYP manual. Used for distant events. 
+\item[4] Azimuth weighting: Azimuth residuals are divided by test(52), which is the error in azimuth that corresponds to a one-second error in arrival time. For example, if test(52)=5 (default), a phase residual of 5 degrees will become a residual of 1 (5/test(52)) in the parameter corrections and rms calculation. 
+\end{enumerate}
+
+All the above weights are multiplied together to calculate the weight 
+used in the inversion. If the user-specified weight, w1, is changed by (2) or (3) above, changed to zero by the consistency check, or set to -1 because the phase is not recognized, an asterisk will appear after the final weight in the residual printout. 
+
+Determining which travel time software is used: 
+
+The parameter test(57) is used to determine whether a layered model or IASPEI91 software is used to calculate the travel times and their derivatives. For the initial starting location, the distances from each station are calculated and IASPEI91 is used if any of them exceed test(57). However, this can be overridden by the distance indicator in column 22 of the Nordic header record. If this is L, a crustal model is used regardless of distance, whereas if it is D, IASPEI91 is used, while R has no effect i.e., test(57) is still used. So if either a crustal model or IASPEI91 tables are wanted, use either L or D respectively. 
+
+\index{Starting location}Starting epicenter location: 
+
+The program uses a starting location algorithm (reset test(56)) which tests the rms of all starting locations and select the minimum rms solution, see HYP manual. 
+
+User defined start location: If an S is written in the input S-file at column 45 of the epicenter line, the location starts at the location (epicenter) given on the header line. If an S is written in column \index{Fixing depth}\index{Depth, fixing}44 on header line, the depth iteration will start at depth given on the header line. If N is written in column 45, the \index{Nearest station}nearest station will be used irrespective of global settings.  
+
+Starting depth: 
+
+If no event specific start depth is given in S-file, the starting depth is taken from the first number on the control line (see later) in the HYPO71 style. However, there is often problems \index{Start depth}\index{Depth, start value}obtaining a reliable depth due to local minima. This can be manually checked with program RMSDEP from EEV. HYP can also be set up to locate the same event starting with a range of different start depths, and then choose the one with the lowest RMS. This can significantly improve the reliability of depth determination. Selecting 3 to 5 different start depth is often enough. This option is set on the control line in the station file. 
+
+\index{Fixing location}Fixing location: 
+
+Using F instead of S, fixes the position (depth and location). \index{Fixing origin time} 
+
+Do not locate event:  
+
+If a * is written in column 45, the event is not located, can be 
+used if an external location is to be kept unchanged. 
+
+Only calculate magntudes and update spectral values 
+
+Set TEST(106) to 1.0 
+
+Fixing origin time: 
+
+Using an F in column 11 of header line will fix the origin time given on the header line. 
+
+If both depth and location are fixed, but not the origin time, new origin time and residuals will be calculated. This can be useful when working with readings from a few stations which should be checked against known locations. If e.g. distant events are read, it is often the practice to put in the PDE location on the header line and calculate residuals relative to the observations. When the UPDATE is made, the agency of the location is NOT changed, assuming that if both depth and epicenter are fixed, the hypocenter must come from an external agency. 
+
+Alternative model: 
+
+By default, an event is located using the \texttt{STATION0.HYP} 
+input file. However, each event can use its own model (with all the 
+location parameters) which is specified with one character in column 
+21 on the Nordic input file header line. The model then has a 
+corresponding name. If e.g. the model is called W, the corresponding 
+input station file will be called \texttt{STATIONW.HYP}. It is 
+therefore possible to have as many different station files, as there 
+are printable characters. Note that if a different model x has been 
+specified and is not present, the program will stop with the message 
+``\texttt{STATIONx.HYP\index{Problem, HYP} does not exist}''. 
+The file \texttt{MODEL.DEF}\index{MODEL.DEF} in DAT can be used 
+to assign the single character a name, which can be listed from EEV. 
+The format in \texttt{MODEL.DEF} is one line per model, the 
+model indicator is given in column 1, column 2 is blank and the 
+model name is given in columns 3 to 80. The MODEL.DEF is for information onlya 
+
+Using HYP to determine crustal structure 
+
+HYP has an option to locate a data set for a large number of different 
+models and then determined which model gives the lowest average RMS 
+for the data set. This might be a useful option, particularly when 
+a sparse data set is available. In order to use this option, an 
+additional input parameter file \texttt{h\_models.par} is given. 
+When this file is in the working directory, HYP will switch to 
+multiple model mode SO ONLY HAVE THIS FILE IN WORKING DIRECTORY IF 
+MULTIPLE MODEL MODE IS INTENDED. When using this option, all events 
+must use the same \texttt{STATIONx.HYP} file, otherwise the 
+program fails. The input MUST be from a single file, NOT from the 
+data base. Below is an example of an input file
+\index{HYP, multiple model mode}\index{H\_model.par}\index{H\_model\_out}\index{Crustal structure determination} 
+
+\verbatiminput{include/hyp.input}
+
+The first line is info only. Layer \# is also only for information. 
+For each layer, there is a start P-velocity (start vp), increment 
+in velocity (delta vp) and number of increments (\# delta). The 
+following inputs are then the same for layer depths. There must be 
+an entry for each layer even if no variation is used. In the above 
+example, no variation in layer thickness is tested for. An example 
+input file is given in DAT. The parameters for location not set in 
+\texttt{h\_model.par} like Vp/Vs, Lg velocity etc remain unchanged. 
+When HYP starts up, it will \texttt{print out}  how many permutations are 
+required. If more than a few thousand, reduce the number of models. 
+In any case it is an advantage to first try with just a few models 
+to get a feeling for how sensitive the data is for model changes. 
+
+An output file \texttt{h\_models.out} is generated, see example below. 
+For each model tested, one output line is given with the RMS and the 
+model. In the example below only the last 5 models are shown. Since 
+many models can have very similar average RMS, the best 10 models 
+are printed at the end. 
+
+\verbatiminput{include/h_models.out}
+
+Running HYP: 
+
+The program is started with command HYP from the prompt line 
+(interactive mode) or with `L' in EEV. HYP can also be started 
+with an argument like \texttt{hyp input.dat}, where 
+\texttt{input.dat} is an S-file. The first event in the S-file 
+will then be located without further user interaction.  Below 
+follows an example of running outside EEV, explanations are in lower 
+case. Note that the \texttt{STATION0.HYP} file MUST be present in the DAT 
+directory for HYP to know that it is working with a SEISAN database. If not present, HYP will only ask for an input file name, see HYP manual. 
+
+\input{include/hyp.run.tex}
+
+In interactive mode, as shown above, event date is printed out for each event and action is taken as in EEV for the options available. If HYP run on a single file, the options above are available meaning that HYP can select and locate different events in a single file using the event number. If HYP runs on a database, the EEV options D and B are also available, but not shown. If the option of no interactive input is chosen, the program will locate from beginning to end without any more user interaction.  This is a useful option for testing a subset of the database with different models etc. without changing the database. Note that the input file or database is never overwritten by HYP. 
+
+ALL TYPE ONE LINES WITH SAME AGENCY AS GIVEN IN \texttt{STATIONX.HYP} FILE WILL BE DELETED SO THERE WILL NEVER BE MORE THAN ONE TYPE 1 LINE IN OUTPUT WITH CURRENT AGENCY (except possibly a second magnitude line with a different type magnitude as given on main header line). \index{HYP output in S-file} 
+
+Problems: Sometimes HYP will not locate an event, look in the \texttt{print.out} file to see what happened. In some cases, the initial location was put beyond the limits set by the parameters. If e.g. an event is defined\index{Problem, HYP} as a local event and no readings are to be used further away than 2000 km (distance weighting, see following table or TEST(41)) then no location will be attempted. Try to change the event type to D and see if the event locates. In a few other cases it might be an advantage to use a starting location. 
+
+Station and model files: 
+
+Station input is given in near standard \index{HYPO71}HYPO71 format in the file \index{STATION0.HYP}\texttt{STATION0.HYP} in directory DAT. If however the user wants to try a different model without changing the standard model in DAT, this is possible by having a \texttt{STATION0.HYP} file in the working directory, since the program always looks there first for the \texttt{STATION0.HYP} file (see example at end of this section). Another possibility is to use another model for just one event by setting a flag in the phase input file, see below. 
+
+Below is an example of a \texttt{STATION0.HYP} file. The format is close to the  HYPO71 format with one extra line at the bottom. The test parameters 2-13 are as in HYPO71, see also HYPOCENTER manual section 
+4.1.2. 
+
+Comments are given after !'s 
+
+\input{include/STATION0.HYP.tex}
+
+\index{Agency}
+
+Format of the station line is 2x,a4,i2,f5.3,a1,i3,f5.3,a1,i4,f6.2,5f5.2,9f6.2 
+or 1x,a5 .... if the station has 5 \index{Magnitude residuals}characters. The content is: 
+
+\noindent
+station code 4-5 chars (see above) \newline
+latitude in degrees \newline
+latitude in min \newline
+north or south (N or S) \newline
+longitude in degrees \newline
+longitude in minutes \newline
+east or west (E or W) \newline
+altitude in m, in some rare cases, the station is deeper than 1000 m in which case the minus sign has to be put in column 1 \newline
+P-delay in secs, S-delay is the same multiplied by Vp/Vs as given below \newline
+Magnitude corrections for the magnitudes: Mc, Ml, mb or mB, Msi or MS and Mw \newline
+Spherical harmonic station corrections\index{Spherical harmonic station corrections}
+
+The magnitude residuals are added to magnitudes calculated for each station but the result is only seen in the final average magnitude. If the magnitude correction is set to 99.0, the magnitude is not used in the average.
+\index{Magnitude weight}
+%\textcolor{red}{jh-change: 
+The magnitude corrections for  mb and mB are the same and similarly also for Ms and MS.
+
+\noindent
+Format of model line: 3f7.3,a1,3f7.2. The information is: \newline
+P- velocity (km/sec)\newline
+Depth to interface (km) \newline
+S- velocity (not needed) \newline
+Interface indicator: N: Moho, B: Conrad\index{Conrad interface}\index{Moho}
+Density (g/cm**3)(not needed)  \newline
+Qp (not needed) \newline
+Qs (not needed) \newline 
+ 
+Density and Q isi only used by modeling programs and moment tensor inversion. In this way the station file is a complete model file for making synthtic seismgrams.
+NB: Moho cannot be the last layer, there MUST be one layer below interface marked with N.\index{Problem HYP, Moho not found}
+
+\index{Modelling parameters, Q}
+The line with ** indicates optional Vs, density, Qp and Qs. This is information 
+only used with modeling, see section \ref{sect:synt-seismogram}. Format for additional info is  25x,4f10.1. 
+
+Format of control line: 3f5.0,f5.2,i5,2f5.1 Information is: \newline
+start depth in km, used if no range of start depths specified (see below) \newline
+xnear: distance at which distance weighting start 
+\newline
+xfar: distance at which distance weighting is zero, beyond xfar, the phase is not used (local events only) \newline
+Vp/Vs ratio \newline
+number of start depths \newline
+start depth of range of start depths \newline
+increment in start depths\index{Vp/Vs ratio} \newline
+NB: If these parameters are used, the fixed initial start depth is not used \newline
+The input at the bottom is \index{Reporting agency}reporting agency used for both hypocenter and magnitudes. 
+
+Since the program locates distant events, max distance, reset test(41) must be set to a large value. To avoid that local events move out in the blue, the parameters xnear and xfar must be set not larger than 2000 to 3000 km. \index{Xnear and xfar}Xnear and xfar are only used for local events (flag L) and regional events if the local crustal model is used. 
+
+\index{RESET TEST}RESET TEST parameters: 
+
+HYP will assign reasonable default values for RESET TEST parameter. Below is shown a summary. For full details see HYP manual. The number to the left is the control parameter and D indicates the default value. The most important parameter are given in bold. 
+%\textcolor{red}{jh-change:I have put bold on missing bold below }
+
+%\begin{tabular}{lp{14.5cm}}
+\begin{longtable}{lp{14.5cm}}
+2: & Step length damping control, D: 500.0. \\
+\textbf{7-9:} & \index{Duration magnitude}Duration \index{Magnitude}magnitude coefficients used for calculating the coda magnitude, as MAG = TEST(7) + TEST(8) * LOG(T) + TEST(9) * DELTA  where\index{Coda magnitude} T is the \index{Coda length}coda length in seconds, DELTA is the hypocentral distance in km. 
+D: 7: -0.87, 8: 2.0, 9: 0.0035 \citep{lee1972} If test(8) is negative, its positive value will be used and log(T) will be squared. Note however, that the individual stations magnitude values printed out during the run of HYP still will be using the unsquared log(T). \\
+11: &  	\index{Maximum no of iterations}Maximum no of iterations in the least-squares rms minimization, 
+D: 99.0 \\
+13: &  	Increment in km for auxiliary rms, D: 20.0 km.  To disable (save some computation time), set to 
+0.0. \\
+30: &  	Initial damping factor, D: 0.005 \\
+31: &  	Max degs of freedom: Set to 3 for determining origin time and hypocenter, set to 2 for fixed depth solution (depth on phase headers), -2 fix all events to starting depth\index{Fixing location}\index{Fixing depth}\index{Fixing origin time} in \texttt{STATION0.HYP}, 1 to fix all hypocenters to value on phase headers, 0 to fix hypocenters and origin times to values on phase headers. D:3.0   \\
+32: &  	Magnitude of parameter changes (km) below which convergence is assumed, D: 0.05 \\
+34: &  	Minimum spread to normalize residuals, D: 0.1, do not change \\
+35: &  	Bisquare weighting width, D: 4.685, do not change \\
+36: &  	RMS residual low limit for bisquare weighting for local events, D: 0.0 \\
+37: &  	Maximum number of increases in damping before fixing depth, D: 10.0 \\
+38: &  Least squares errors (0.0), dam\index{Fixing depth}\index{Bisquare weighting}ped least squares errors (1.0) with initial test(30) damping value, D: 0.0 \\
+39: &  	Factor by which damping is increased when RMS increases, D: 4.0 \\
+40: &  	Depth origin of coordinate system, 0: sea level, 1:maximum elevation station in station list, D: 0.0 \\
+\textbf{41:} &  Maximum distance (km) from nearest station at which hypocentral solutions will be generated, D: 20000.\index{Location, max distance} \\
+43: &  	Maximum rms for an event to be used in \index{Average station residual }average station residual calculation - doesn't affect the final hypocenter solution, D:1.5 \\
+\textbf{44}: & 	\index{Rg phase velocity}Rg phase velocity in km/sec, D: 3.0 \\
+45: &  	Minimum rms difference between the location on the header line and the new location for the  event to be used for average difference in location, D: 50.0 \\
+46: &  	Minimum number of non zereo weight phases for event ot be included in average difference in  location, D: 3.0 Prevent depth to go below Moho\index{Moho}\index{Conrad interface} and Conrad for n and b phases respectively, 1: enabled, 0: disabled, D: 0.0 \\
+\textbf{49}: &  	T-phase velocity, D: 1.48 km/sec\index{T-phase} \\
+\textbf{50}: &  Flag for \index{Using azimuth phases}using azimuth phases, 0 disables. Disabling the azimuths also means that they are not used for a starting location. A better solution will often be to set the \index{Azimuth error}azimuth error, TEST(52) to a large value, effectively disabling them.D: 1.0 (enabled). \\
+\textbf{51}: &  	\index{Lg phase velocity}Lg phase velocity in km/sec, D: 3.5. \\
+52: &  	Relative \index{Weight}weighting of error in azimuth used in azimuth inversion (degrees). The default value of 10 means that an error of 10 degrees will give the same contribution to the rms residual as a travel time error of 1 sec, D: 5.0 \\
+53: &  	Critical distance phases moved to by start loc. if Pn or Sn, D: 130.0 km \\
+\textbf{56}: &  A value of 1.0 enables the \index{Starting location}starting location algorithm, STARTLOC. Estimates are then obtained from apparent velocity, distance, azimuths, etc. If test(56)=0.0 epicenter is taken 0.2 km from the first arrival station. D: 1.0 MUST BE SET TO 1.0 TO LOCATE WITH ONE STATION ONLY. \\
+\textbf{57}: &  Distance (geocentric km) beyond which \index{IASPEI91}IASPEI91 tables are used to calculate travel times. Can be overridden by the distance letter L in the Nordic format. D: 1500 km \\
+58: &  	Maximum \index{Apparent velocity}apparent velocity (km/sec) for phase data to be used. This option was added to selectively disable some of the PKP phases, which have large errors due to their steep angle of incidence. Their velocities were almost always > 25 km/s, D: 100.0 (effectively disabled) \\
+59: &  	Critical distance for PKP core phases to be used in starting location, D: 13000 km \\
+60: &  	Seconds by which the arrival time difference between two adjacent station\index{Travel time error}s can exceed the travel time between them. Setting this to 0 disables the initial \index{Consistency check}consistency check. D: 5.0 \\
+61: &  	Multiple of apparent velocity regression residual rms at which arrival times are weighted to zero during start location determination. Reducing this value will cause arrivals to be rejected when they do not conform to the plane wave set of arrivals which is chara\index{Starting location}cteristic of distant events. Unless you are getting a lot of messages ' xxx removed: Apparent velocity deviation =..', in the output, it is recommend against changing this default value. However, you can disable this feature by setting test(61)=0.0, D: 2.0 \\
+62: &  	Use of IASP91 phases\index{IASPEI phases}.0: Only calculate `basic' phases, 1: calculate all, 
+D: 1.0 \\
+63: &  	Types of phases used when calculating travel time, D: 0.0 \\
+64: &  	Allow temporary increase in RMS by this factor, D: 2.0 \\
+65: &  	Number of iterations for which increased rms is allowed, D: 3.0 \\
+66: &  	Print out of travel time calculation errors (1=y,0=n), D: 0.0 \\
+67: &  	Recognize blank phases as P (y=1,n=0), D: 0.0 \\
+68: &  	Apparent P-velocity(km/sec) to calculate start depth from pP-P, D: 5.0 \\
+69: &  	Distance (deg) beyond which PKiKP or PKP is used as first arrival instead of Pdif D: 110.0 \\
+\textbf{70}: &  	Maximum depth that the hypocenter is allowed to move to, D: 700 km \\
+\textbf{71}: &  	Sort output according to distance,(y=1,n=0), D: 1.0 \\
+72: &  	Auto phase identification for distant events (y=1,n=0), D: 0.0 \\
+73: &  	Number of iterations with first P's before autophase id., D: 3.0 \\
+74: &  	Print input phase data in \texttt{print.out} (y=1,n=0), 0.0 \\
+\textbf{75-78} &  Ml m\index{Magnitude}agnitude coefficients. Ml = TEST(75)*log10(amp) + TEST(76)*log10(dist) + TEST(77)*dist + TEST(78) where amp is amplitude in nm and dist hypocentral distance in km. The defaults are \index{Ml}\index{Local magnitude parameters}Ml = 1.0 * log10(amp) + 1.11*log10(dist) + 0.00189*dist - 2.09 which is close to the original Richter definition \citep{hutton1987}. \\
+\textbf{79}: &  	\index{Location, min \# of stations}Minimum number of stations to attempt a solution,D: 1.0 \\
+\textbf{80}: &  	Minimum number of phases (azimuth is counted as a phase) to attempt a  solution, D: 
+3.0 \\
+81: &  	Disable location of local events if 0.0, D: 1.0 \\
+82: &  	Disable location of regional events if 0.0, D: 1.0 \\
+83: &  	Disable location of distant events if 0.0, D: 1.0 \\
+84: &  	Disable ellipticity correction for distant events if 0.0, D: 1.0 \\
+\textbf{85}: &  A priori error(sec) of local events. This affects the \index{Error estimate, HYP}error estimates, particularly when few stations are present. D: 0.1. See TEST(91) for distant eqrtquakes. \\
+86: &  	Number of degrees of freedom in estimating test(85) for loc. ev., D: 8.0  \\
+87: &  	Confidence level that the solution will lie outside the confidence ellipse defined by the covariance  matrix . The default value corresponds to 90 \%confidence., D: 0.1 \\
+88: &  \index{Residual weight}RMS residual(sec) at which residual weighting is applied for distant events. Set to 0.0 to disable. D: 10000.0 \\
+89: &  	Use depth phases (y=1,n=0), D: 1.0 \\
+90: &  	Use of core phases (y=1,n=0), D: 1.0 \\
+\textbf{91}: &  	Same as TEST(85) for distant events,D 1.0 \\
+92: &  	Number of degrees of freedom for test(91), D: 8.0 \\
+93: &  	Output longitude to always be positive (y=1,n=0), 0.0 \\
+94: &  	Value of residual below which zero weight phases (w=4) is used again, D. 0.0 \\
+95: &  	Disable use of core phases between 135 and 150 deg, 1: disabled, 0: enabled, D: 0.0 \\
+96: &  	Variation of depth to find minimum rms, 1: enabled, 0: disabled, D: 0.0 \\
+97: &  	Minute error correction 1: enabled, 0: disabled, D: 0.0 \\
+98:  & Enable spherical harmonic station corrections, 1: enabled, 0: disabled, D:0.0 99-101: Lg, Rg and T weights put in permanently: D: 1.0,1.0,0.0 \\
+103: &  	Minimum number of depth phases for starting depth, D: 1.0 \\
+104: &  	Minimum distance of epicenter from array for distant events, D: 30.0 deg. \\
+105: &  	Enable gradient model, not yet implemented \\
+106: &  	Only calculate magnitudes and update spectral values, 1: enabled, 0: disabled, D: 0.0 \\
+107: &  	Use xnear and xfar from sfile, 0: disabled (xnear and xfar 
+from \texttt{STATION0.HYP} file), 1 enabled,  D:0.0 (see format description) \\
+108: &  	mb attenuation curve, 0.0 Richter, 1.0 Veith and Clawson, D: 0.0 \\
+\end{longtable}
+%\end{tabular}
+%\newline
+
+The test parameter defaults are set in file hyposub1.for in LIB. 
+
+HYP output: 
+
+Output from the program is a \index{CAT-file}CAT-file (\texttt{hyp.out}) and the original HYPOCENTER print file (\texttt{print.out}) with more detailed information. The \texttt{hyp.out} file can be plotted directly using EPIMAP. In addition, there is also the HYPO71 style summary file, hypsum.out. NOTE: In \texttt{print.out} and hypsum.out, year is only given with 2 digits. Magnitude in hypsum.out and \texttt{print.out} are only coda magnitude and will be different from same magnitude in \texttt{hyp.out} if a magnitude correction has been used.\index{Hypsum.out}\index{Magnitude correction}
+
+When HYP is executed from EEV, the \texttt{print.out} file has no station listing. In all other cases, there is a station listing. \index{Station listing in print.out}
+
+Some explanation \index{Print.out file}is given below, for details see HYP manual 
+
+The output in \texttt{print.out} first shows the content of the TEST parameters in the \texttt{STATION0.HYP} file. After that comes some routine output from the starting location algorithm. Then follows the output from the iterations, which should be self-explanatory. The location is then given on one line containing origin time, latitude longitude (deg min), depth, number of phases, the number of degrees of freedom in the spatial solution (maximum 3), rms damping and errors, error estimates, resolution matrix. Last are the station lines with the following abbreviations: 
+
+\begin{boxedverbatim}
+stn  : Station 
+dist : Distance in km 
+azm  : Azimuth at the source  
+ain  : Angle of incidence at the source 
+phs  : Phase specified by user
+calcphs: Phase used by program
+w    : Input weight 
+hrmn : Hour minute 
+t-sec: Arrival time sec 
+t-obs: Observed travel time 
+t-cal: Calculated travel time 
+res  : Residual 
+wt   : Weight usedi by program, normalized to 1.0
+di   : importance of phase in %
+\end{boxedverbatim}
+
+A station weight wt=-1 means that the phase travel time could not be calculated. 
+The output phases can be e.g. PN2, where 2 means that the phase calculated has been refracted in layer 2 and PN5 refracted in layer 5. The input phase is then just P and a local model is used.
+
+Any change in the input phase ID is signified by an asterisk (*) before the phase ID. 
+
+If amplitudes are available, Ml, Mb. Mw or Ms will be calculated, and all stations calculating Ml, Mb, Mw or MS will additionally be displayed at the end of the interactive printout. 
+
+\index{Change of day}Change of day: 
+
+If the origin time of the located event occur on the day before the time in the header line, the time in the header line is changed to the previous day and all phase arrivals are changed accordingly. This means that some hour values will be more than 23 since phase arrival times refer to the main header. 
+
+Seismic moments etc: After locati\index{Seismic moment, average}ng an event, HYP will check if there is spectral information (Moment etc, see MULPLT) available in the S-file and average values will be calculated and written into the output file. 
+
+Problems \index{Problem HYP, location} :
+
+If no location or an obviously wrong location is obtained, check \texttt{print.out}. Common problems are: 
+
+\begin{itemize}
+\item[-]
+Wrong location: Program gets into a local minimum. Use the individual event start location option (`S' 
+in header line). If the problem happen often, try either option for start location (nearest station or start 
+location routine). If dept is the problem, try a range of start depths (set in \texttt{STATION0.HYP}) 
+\item[-]
+No location: The program iterates outside the maximum distance set for a local or regional event 
+(RESET TEST 57) or the initial start location is outside limits. Use a fixed start location or check 
+readings to get a better start location. 
+\end{itemize}
+

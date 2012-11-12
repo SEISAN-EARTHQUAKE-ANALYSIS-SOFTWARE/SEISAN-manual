@@ -1,0 +1,17 @@
+
+\subsection{The Hypoinverse program, HYPINV (SUN and PC)} 
+
+The Hypoinverse\index{Hypoinverse} program has been implemented in a simple way and is mostly intended to be operated interactively from EEV in order to compare locations. The main program has seen very few changes and can be run according to the original manual \citep{klein1984} and will not be described here. The program does not work well at large distances( $>$ 1000km) so use it only for local earthquakes. If original data, station and control files are available, it is just typing HYPINV\index{HYPINV} and it will run according to the manual. If none of these files are available, they can be made wi\index{Norhin}th the conversion programs. The steps to run HYPINV without EEV are as follows: 
+
+\begin{enumerate}
+\item
+Convert a CAT file to Hypoinverse file by typing norhin input file. The input file in Nordic format will now be converted to a file norhin.out in Hypoinverse format. 
+\item
+Make the control files by typing makehin. This creates the instruction file hypinst, station file hypinv.sta and model file hypinv.mod. These files are standard Hypoinverse files. The information is taken from the \texttt{STATION0.HYP} file in either the working directory or DAT. Makehin cannot work with 
+an alternative \texttt{STATIONx.HYP} file. 
+\item
+Type hypinv and the program runs. There is a one-line output per event on the screen and the full output is in a file called \texttt{print.out}. 
+\end{enumerate}
+
+Running HYPINV from EEV, the above 3 steps are done automatically when using the command H and in addition, the \texttt{print.out} file is printed out on the screen. 
+

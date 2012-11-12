@@ -1,0 +1,158 @@
+
+\subsection{HYPO71 (Sun only)}
+\index{HYPO71}
+By \textbf{Brian Baptie, BGS} 
+
+HYPO71 is a computer program for determining hypocenter, magnitude and first motion pattern of local earthquakes written by \citet{lee1972} using a stepwise statistical regression procedure outlined in \citet{draper1966}. The user's manuals were originally released by the authors as a series of open-file reports of the U.S. Geological Survey and contain a full description of input and output parameters and usage. The SEISAN version of the program is essentially the same as the original, the only differences being in the input and output facility. Input data required are phase arrival times, station co-ordinates and a crustal velocity model. SEISAN extracts the arrival information from a Nordic format phase readings file and the station and velocity information from the station input file \texttt{STATION0.HYP}, found either in the SEISAN data directory, DAT, or the local directory. The format of the \texttt{STATION0.HYP} file is described in this manual in the section on the HYPOCENTER algorithm (\ref{subs:hypocenter-program}). HYPO71 supports 13 test variables that influence how the program goes about locating the earthquakes. The default values for these variables were developed for the large and closely spaced networks in central California. These variables are defined at the start of the \texttt{STATION0.HYP} file by the values of TEST(01) to TEST(13). Brief definitions for each of these variables can be found below and full definitions can be found in the HYPO71 manual. 
+
+SEISAN constructs a HYPO71 format input file called \texttt{hypo71.input}, containing 
+the station co-ordinates, thickness and velocity for each layer of the 
+crustal model and phase arrival times, then runs the HYPO71 algorithm. 
+The HYPO71 program generates a single output file called \texttt{hypo71.output}. 
+SEISAN reads the information contained in this output file to create 
+two further output files: \texttt{hypo71.out}, a Nordic format phase readings 
+file containing the calculated location; and \texttt{hypo71.brief}, a summary file containing origin time, epicenter, depth, magnitude and station residuals. 
+
+There are a number of limitations to the current version. 
+\begin{itemize}
+\item
+The program is designed to run from eev and can only be used for one event at a time; there is no facility for multiple event or batch location/relocation. 
+\item
+HYPO71 is not included with the UPDATE command, so the database cannot be updated. 
+\item
+Errors will result if the input phase readings contain arrivals from two different days, i.e. either 
+side of midnight 
+\item
+All stations must have the same sign of latitude or longitude, so if stations extend across the Greenwich meridian and/or the equator and an offset should be added to allow for this. 
+\end{itemize}
+
+Running the program 
+
+HYPO71 is run from within eev by typing hypo71, at the command line. 
+On successful completion, the information from the \texttt{hypo71.brief} 
+file is displayed on the screen. Below is an example of the screen output. 
+
+\verbatiminput{include/hypo71.run}
+
+Phase names 
+
+Only single character phase names are supported, denoted by P or S. 
+
+Weighting 
+
+Two weighting options may be used. 
+\begin{itemize}
+\item[1]
+User specified weights assigned by a single integer value in the range 
+$0$ to $4$ for a given phase. These will assign a weighting factor of 
+$1$, $0.75$, $0.5$, $0.25 $ or  $0.0 $ to that phase. Also, a weighting of 9 will assign the absolute time a weighting of 0.0 but will allow the use of relative times if a valid S-arrival is found for that station. The relative arrival time will be assigned the weight of the S-phase. 
+\item[2]
+Distance weighting as given by the relationship 
+$w = (xfar - \Delta ) / (xfar -xnear)$. 
+By default the parameters xnear and xfar are read from the \texttt{STATION0.HYP} file. 
+%\textcolor{red}{lo-change: 
+However, they can also 
+be defined in the s-file and are used if RESET TEST(107) is set to 1. The paramters
+are specified in the s-file by a type-3 line, e.g.\newline
+\texttt{XNEAR  150.0 XFAR  300.0 SDEP    7.5 }
+\end{itemize}
+
+Using a starting location 
+
+The user can specify the use of a starting depth and epicenter by entering the character `S' in columns 44 and/or 45 respectively, in the header line of the input readings file. The starting depth and epicenter are given by the values in the header line of the readings files. Otherwise, the starting epicenter is set to be the latitude and longitude of the station with the earliest P-arrival. 
+
+Fixing the location Using the character `F' instead of `S' in columns 44 and 45 of the header line fixes the depth and/or epicenter to the values given in the header line. 
+
+Errors 
+
+The standard error output from the HYPO71 program is contained in an additional line in the Nordic format readings output, hypo71.out, defined by the characters `83' in columns 79 and 80. 
+
+The HYPO71 error line format is defined as follows: 
+
+\begin{tabular}{|lll|}
+\hline
+Columns & Format & Description \\
+\hline
+2-14 & A13 & `HYPO71 errors' \\
+19 & A1 & Location quality, Q \\
+21-23 & A1*A1 & QS and QD rating \\
+25-27 & I3 & Number phases used \\
+28-30 & I3 & Distance to closest station \\
+32-34 & I3 & Azimuthal gap \\
+36 & A1 & `1'. (Always output?) \\
+38-41 & F4.2 & RMS \\
+43-46 & F4.1 & ERH (km) \\
+48-51 & F4.1 & ERZ (km) \\
+79-80 & A2 & `83'\\
+\hline
+\end{tabular}
+ 
+
+RMS is defined as 
+$\surd[\sum_{i}R^2 / N]$ where $R_{i}$ is the time residual at the $i^{th}$ station. 
+ERH is the standard error in the epicenter in km given by 
+$\surd[SDX^2 + SDY^2]$, where SDX and SDY are the standard errors in latitude and longitude. ERZ is the standard error in the focal depth in km. The location quality, Q, is a measure intended to indicate the general quality of the solution and is defined by a single character. 
+
+\begin{tabular}{|lll|}
+\hline
+Q & Epicenter & Focal Depth \\
+\hline
+A & excellent & good \\
+B & good & fair \\
+C & fair & poor \\
+D & poor & poor\\
+\hline
+\end{tabular}
+
+Q is taken as the average of QS and QD, where QS is a statistical measure of the solution and QD is rated according to the station distribution. 
+
+\begin{tabular}{|llll|}
+\hline
+QS & RMS (S) & ERH (km) & ERZ (km) \\
+\hline
+A & $< 0.15$ & $\le 1.0 $ & $\le 2.0$ \\
+B & $< 0.30$ & $\le 2.5 $ & $\le 5.0$ \\
+C & $< 0.50$ & $\le 5.0$ & \\
+D & Other    & & \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|llll|}
+\hline
+QD & N & Gap & DMIN \\
+\hline
+A  & $\ge 6$  & $\le 90$  & $\le$ Depth or 5 km \\
+B  & $\ge 6$  & $\le 135$  & $\le$ 2*Depth or 10 km \\
+C  & $\ge 6$  & $\le 180$  & $\le$ 50 km  \\
+D   & Other   &     & \\
+\hline
+\end{tabular}
+
+Magnitude  
+
+Both duration and amplitude can be used to calculate magnitudes as with HYPOCENTER (see above for details). Duration, amplitude and period for each station are used to give a magnitude value for each station. These values are averaged to give the event magnitudes. 
+
+
+The test variables
+
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+Test Variable & Default Value & Definition \\
+\hline
+TEST(01) &  0.1 S &  TEST(01) is the cut-off value below which Jeffreys' weighting of residuals is not used. It should be set to a value approximately equal to the overall timing accuracy of P-arrivals in seconds.  \\
+TEST(02) &  10 km &  For each iteration, if the epicentral adjustment is greater than TEST(02), this step is recalculated without focal depth adjustment. TEST(02) should be set to a value approximately equal to the station spacing in km.  \\
+TEST(03) &  2. &  Critical F-value for the stepwise multiple regression. TEST(03) A value between 0.5 and 2 is recommended.  \\
+TEST(04) &  0.05 km &  If the hypocentral adjustment is less than TEST(04) then Geiger's iteration is terminated.  \\
+TEST(05) &  5.0 km &  If the focal depth adjustment, DZ, is greater than TEST(05), DZ is reset to DZ/(K+1), where K= DZ/TEST(05). TEST(05) should be set to a value approximately half the range of focal depth expected.  \\
+TEST(06) &  4. &  If no significant variation is found in the stepwise multiple regression, the critical F-value, TEST(03) is reduced to TEST(03)/TEST(06) and the regression is repeated.  \\
+TEST(07) &  -0.87 &  Coda magnitude constant a, where $Mc = a + b log10(T) + c \Delta + \Delta M$  \\
+TEST(08) &  2.0 &  Coda magnitude constant b.  \\
+TEST(09) &  0.0035 &  Coda magnitude constant c.  \\
+TEST(10) &  100 km &  If the latitude or longitude adjustment (DX or DY) is greater than TEST(10) then DX is reset to DX/(J+1), and DY is reset to DY/(J+1), where J=D/TEST(10), D being the larger of DX or DY.  \\
+TEST(11) &  8.0 &  Maximum number of iterations in the hypocentral adjustment.  \\
+TEST(12) &  0.5 &  If the focal depth adjustment (DZ) would place the hypocenter in the air, the DZ is reset to DZ= -Z * TEST(12), where Z is the focal depth.  \\
+TEST(13) &  1.0 km &  Parameter for auxiliary RMS values  \\
+\hline
+\end{tabular}
+\newline
+

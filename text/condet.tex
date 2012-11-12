@@ -1,0 +1,73 @@
+
+\subsection{Detection program for continuous data, CONDET}
+
+The CONDET \index{CONDET}program\index{Trigger} is a detection program works on data that is organized in a SEISAN continuous database or a BUD or SeisComp archive. It performs a detection process similar to real-time processing systems, but of course the data is already there. The program works in two steps, first to run a detector on a single channel, and second to detect events that are on more than a minimum number of stations. Possible applications are processing of data from a temporary deployment (e.g., aftershock monitoring, where continuous were recorded without event detection) and adjustment of detection parameters used in real-time monitoring. \index{Aftershock processing} 
+
+The program has three built-in detection algorithms: 1) standard squared STA/LTA, 2) Carl Johnson's detector (that is for example used in the Earthworm processing system (\url{http://folkworm.ceri.memphis.edu/ew-doc/}) and 3) correlation with master event. The program writes out a list of detections (file \texttt{condet.out}, which gives station name, component code, trigger time and trigger duration), but also a batch file that can be used to extract the corresponding event data from the continuous data (file extract.batch). Note that wavetool by default takes data from all continuous databases listed in \texttt{SEISAN.DEF}. \index{Event detection} 
+
+When started without any command line options, the program works on all stations/databases given by the STATION parameter. The output file has detections from all stations, and the extract.batch file has extract commands for all detections. This is all required if only one station is available. For more than one station, it is possible to search for times at which more than a minimum number of stations have triggered. This is done by starting the program with the command line argument `-net'. In this mode, the output file \texttt{condet.out} from the first run is used and the file extract.batch is overwritten. The extract script can now be used to get data for the network detected events. The script can be sources in Unix, under windows run comman in script or rename script to extract.bat and then run it. 
+Condet is intended to run without questions and the parameter file condet.par must be in working directory. An example of condet.par is in DAT.
+
+The input parameters are given in \texttt{condet.par}: 
+
+STATION: give continuous database name, station and component code. If an archive, the data base name is not used. 
+\begin{verbatim}
+STATION                               LICOC       LICO  HH Z 
+STATION                               LIGLC       LIGL  HH Z 
+\end{verbatim}
+
+The BASE TYP is SEISAN (blank), BUD (bud) or SeisComp(scp)
+\begin{verbatim}
+BASE TYPE                             scp 
+STATION                               LIGLC       LIGL  HH Z 
+\end{verbatim}
+
+START DATE and STOP DATE: give time interval, can be larger than data availability 
+\begin{verbatim}
+START DATE          yyyymmddhhmmss        200802270000 
+STOP DATE           yyyymmddhhmmss        200803122359 
+\end{verbatim}
+
+%\textcolor{red}{lo-change:
+WAVEOUT: Set to 1. to write out waveform files with the original data and trigger channels.\newline
+EXTRACT DURATION: Length of extraction window in seconds, used in \texttt{extract.batch}\newline
+PRE EVENT TIME: Time to start extract before detection time in seconds, used in \texttt{extract.batch}\newline
+INTERVAL: Length of data segment read at a time. The default is 60 minutes. \newline
+
+DET ALGORITHM: choices for the detection algorithm are STA for squared STA/LTA, COR for correlation and CAR for Carl Johnson's detection algorithm \newline
+
+MIN TRIG DURATION: Minimum duration the trigger level needs to be exceeded for \newline
+MIN TRIG INTERVAL: Only allow for one detection within this time, given in seconds \newline
+FILTER LOW: Low cut for bandpass filter \newline
+FILTER HIGH: High cut for bandpass filter 
+
+If DET ALGORITHM is STA: 
+
+STA LENGTH: Short term duration in seconds \newline
+LTA LENGTH: Long term duration in seconds \newline
+TRIGGER RATIO: Ratio of STA/LTA required for trigger \newline
+DETRIGGER RATIO: Ratio to detrigger \newline
+FREEZE LTA: LTA can be frozen at time STA/LTA goes above 
+TRIGGER RATIO, 1.=to freeze 
+
+If DET ALGORITHM is CAR, see Earthworm documentation for details: 
+
+CARL RATIO \newline
+CARL QUIET 
+
+If DET ALGORITHM is COR: 
+
+CORRELATION MIN: Minimum correlation between waveforms of master event 
+and the data required for a trigger \newline
+MASTER WAVEFORM: Name of waveform file that is used as master event, 
+the master event is cross-correlated against the continuous waveform data 
+
+Network detection parameters: 
+
+NET MIN DET: Minimum of detections required from different stations with time window given by
+\newline
+NET WINDOW SEC: Time window for network detection in seconds. 
+NET MAX DELT SEC:
+NET MIN RATIO:
+EXTRACT DURATION: Duration(sec) of extract.
+

@@ -1,0 +1,721 @@
+
+\section{File conversion and modification programs}
+\label{sect:file-conversion}
+
+\index{File conversion and modification programs}\index{Conversion programs} There are mainly two types of files to convert, parameter files with readings and related parameters and binary waveform files. 
+
+\textbf{PARAMETER FILES}
+
+\begin{tabular}{lp{10cm}}
+CAT\_AGA: & Records the S-file header lines according to agency \\
+EDRNOR: & Converts USGS monthly bulletins (EDR files) to Nordic format \\
+GETpde: & Grap \index{GETPDE}PDE bulletin from USGS web page and add to SEISAN database\\
+GIINOR: & Converts from Geophysical Institute of Israel\index{Israel} parameter format to Nordic \\
+HARNOR: & Converts standard Harvard fault plane solutions to Nordic format \\
+HINOR: & Converts Hypoinverse archive format to Nordic format \\
+HYPNOR: & Converts from Hypo71 readings files to Nordic format files \\
+HINNOR: & Similar to HYPNOR for Hypoinverse files \\
+HSUMNOR: & Converts from Hypo71 summary file format to SEISAN format \\
+ISCNOR: & Converts from ISC 96 column format to Nordic format \\
+ISCSTA: & Converts ISC station list to SEISAN station list selecting specific stations. \\
+ISFNOR: & Converts between ISF1.0 and Nordic \\
+KINNOR: & Converts from Kinemetrics to NORDIC \\
+NORGSE: & Converts between Nordic format and GSE parametric format \\
+NORHIN: & Converts from Nordic format to Hypoinverse format \\
+NORIMS: & Converts from  Nordic to and from IMS1.0 \\
+NORHYP: & Converts from Nordic to HYPO71 format \\
+PDENOR: & Converts a \index{PDE bulletin file}PDE bulletin file to NORDIC format \\
+RSANOR: & Converts Andalucian Seismic Network data to NORDIC format\index{Andalucia} \\
+SEIGMT: & Converts from NORDIC file to input for GMT \\
+SELMAP: & Selects out a part of a MAP file \\
+STASEI: & USGS station file or ISC station file to SEISAN \\
+USGSNOR: & USGS/NEIC CDROM catalog conversion to NORDIC format\\
+\end{tabular}
+ 
+
+\textbf{CAT\_AGA, reordering of CAT file header lines}\newline
+\index{CAT\_AGA}\index{Reorder Hypocenters}
+When plotting hypocenters or doing seismic hazard work, it is the first header line in an S-file or CAT-file that is used since it is assumed that it is the prime estimate. When making compact files it is also the first header line, which is used. However, there can be a need for resorting the many type 1 
+header lines for one or several events so that they are ordered according to \index{Agency}agency. It could e.g. be needed to put priority on all the ISC solutions, which then should be the first line in the file. \index{CAT\_AGA}CAT\_AGA will reorder the type 1 lines in a CAT file according to the order in which the agencies (3 character codes) are given by the user. If there are many agencies, they can be given in an input file named \index{Cat\_aga.par}\texttt{cat\_aga.par}, format is one agency per line in the first 3 columns. If the file is not present, the program will ask the user to enter the agencies manually. 
+ The output file \texttt{cat\_aga.out} will contain the sorted events. 
+
+\textbf{EDRNOR: USGS monthly bulletins (EDR files) to Nordic format}\newline
+\index{EDRNOR}
+Program to convert USGS weekly EDR files (ftp://hazards.cr.usgs.gov/weekly/mchedr*) to Nordic format. The program is written by \textbf{Mohammad Raeesi} (email Mohammad.Raeesi@student.uib.no). 
+
+\textbf{GETPDE, USGS Preliminary bulletin to SEISAN}\newline
+\label{page:getpde}
+This Java program will get the PDE events from the USGS web page and store them
+in a SEISAN database named PDE.\index{GETPDE} 
+The program uses a parameter file getPDE.xml located in DAT with update peiod, data base to copy to etc. The program works under Window and Linux.
+The program is written by \textbf{Ruben Soares Lu\'is} (ruben.so.luis@gmail.com). Contact the author for more information or consult our web pare for new documentation. 
+
+\textbf{GIINOR, Geophysical Institute of Israel to SEISAN}\newline
+The input files are the bulletin type files.\index{GIINOR}
+
+\textbf{HARNOR, Harvard to Nordic }\newline
+The standard moment tensor solutions given by Harvard (\url{http://www.globalcmt.org/CMTsearch.html}) are converted to Nordic format. Strike, dip,  rake  and moment tensor solution is written out.\index{HARNOR}\index{Harvard moment tensor solution }
+
+\textbf{HINOR, Hypoinvers archive format to Nordic}\newline
+The input files are the archive type. All events are assumed local.
+No check if header time corresponds to phase times. \index{HINOR}
+
+\textbf{HYPNOR, converting \index{HYPO71 files to Nordic files}HYPO71 files to Nordic files}
+\newline
+\index{HYPNOR}
+Input is just filename of HYPO71 file. A similar program for HYPOINVERSE files is HINNOR. 
+
+\textbf{HINNOR, converts from Hypoinverse to NORDIC format} \newline
+\index{Hypoinverse to Nordic}\index{HINNOR} This program works like HYPNOR. 
+
+\textbf{HSUMNOR, HYPO71 summary file format to NORDIC format } \newline
+Note that the program only converts to header lines. 
+
+\textbf{ISCNOR, converting ISC bulletin file to Nordic format } \newline
+This program works with the ISC fixed 96-column format as e.g. distributed on CDROM (files of type FFB). The program \index{ISCNOR}can select out subsets of ISC data using a latitude-longitude window, depth and prime magnitude. Any of the magnitudes Ms and mb are used. Before 1978, there was only mb on the CD's. More detailed selection can be done on the output file later with SELECT. Since the amount of data is very large it is also possible to write out only the hypocenters. Note that ISC now writes in ISF format also, which can be converted with ISFNOR. 
+
+Newer CD's have compressed data and cannot be used directly. files must be copied to disk first, decompressed and then handled as single files. \index{ISC to Nordic}\index{ISC} 
+
+The program will first check if a file with agency codes called agency.isc is present. If so the station codes are read from this file (same format as files on CDROM). The program will also check the beginning of the data input file for a possible list of agencies and station coordinates. If present, the stations coordinates are read and converted to SEISAN format and additional codes read in. The agency codes are needed in order to identify in plain text the various agencies used. 
+
+Principles in conversion: 
+
+\begin{tabular}{lp{10cm}}
+Phases: & The phases out can be either the phase ID's sent to ISC or the ISC reinterpreted phases 
+(given with a number code in the input file). If the user supplied phases are used, 
+parenthesizes are removed, and if P/PKP etc is given, it is replaced by P. \\
+Times: & If day is incremented relative to origin time day, it is carried into the hours, which can be 
+more than 24. \\
+Agency: & It is assumed that it is the same agency for hypocenter and first magnitude. Magnitude is    
+checked for agency, if blank, it is assumed also to be the same as for hypocenter. Only first 
+3 characters of code is used. \\
+Stations: & Only first 4 characters of code are used. \index{Station, only 4 characters} \\
+Depth: & If no error on depth, a depth fix flag is set. \\
+First motion: & Only C or D are used, ISC codes J and B are ignored. \\
+Hypocenter orders: & ISC put the best solution last, here the order is reversed, and the prime estimate 
+is  first. \\
+Duration magnitude: & Change D to C for type. \\
+Distance indicator: & If station furthest away is less than 1000 km indicator is L, between 1000 and 
+3000 km indicator is R and if more than 3000 km indicator is D. 
+If no stations are present  the type is set to D. 
+\end{tabular}
+
+In order to relocate an event and compare to ISC location, the ISC reidentified phases must be used (option 2, see below). This has the disadvantage that phases not used by ISC (mainly S-phases of local earthquakes) are weighted out in the output file. If option 3 is used, the ISC identified phases are selected if there and if no ISC identification is given, the local reported phase is used. The output file for option 2 and 3 looks the same except that for option 2, the user-defined phases are weighted out. The residuals given in the output file are always relative to the ISC identified phases. 
+
+Running ISCNOR: 
+
+Below is an example of a run where a latitude - longitude window has been used.  
+
+\verbatiminput{include/iscnor.run}
+
+The file input can be from a CDROM as in the example above. In that case, the whole CDROM can be read or a smaller time interval can be given. The input can also be from a single file and the program will then ask for the next file when the first has been converted. If many files are to be converted, a list of file names can be made with DIRF and \texttt{filenr.lis} entered as an input file name. The Nordic format output file is \texttt{iscnor.out} and the station list is in \texttt{isc.sta} which has the format used by SEISAN. Optionally, output can also be in the original isc format, however that requires setting a flag in the program and recompiling, see program source code. 
+
+\textbf{ISCSTA, selecting stations in the complete ISC station file} \newline
+\index{ISCSTA}
+The complete station list in the ISC list is very large and it is often an advantage to use a smaller subset, although HYP can use the whole list. The program can select out subsets of stations in both SEISAN and an older ISC format.\index{ISC} The program will read an S-file, find how many different st\index{Station coordinates}ations there are and select those stations out of a station file, which can either be in SEISAN (=HYPO71) format or ISC format (automatically determined). The output is in SEISAN format. If no S-file is given the input station file is assumed to be in ISC format and the whole file will be converted to SEISAN format.\index{Station selection} 
+
+\textbf{KINNOR, Kinemetrics to NORDIC} \newline
+Converts .PCK file output of EDPPICK to file in SEISAN format. Many events are converted from one file. The program is based on program from Kinemetrics by \textbf{Christopher S. Lim}. For info on how conversion is made, see program source code. \index{Kinemetrics}\index{PCK files}\index{EDBPICK picking program} 
+
+\textbf{ISFNOR, ISF1.0 to and from Nordic}\newline
+\index{ISFNOR}
+The ISF format is used by the ISC\index{ISC} and is an extension to the IMS format. The program is based on the routines provided by the ISC for reading and writing ISF, and the SEISAN standard routines for reading and writing Nordic data. The program converts in both directions. All possible information is converted. Information on the ISF format can be found on the ISC website (\url{http://www.isc.ac.uk}). It is recommended to use ISF format for data exchange with ISC. 
+
+\textbf{NORIMS, IMS1.0 to NORDIC format}.\newline
+\index{NORIMS} \index{NDC}
+The IMS1.0 (International Monitoring System) is a new version of the GSE format and very similar. The program can partly be used for the new ISF (IASPEI Seismic Format) which will include all of the IMS format an additional information needed by ISC and NEIC.\index{IMS1.0}\index{International Monitoring System}\index{ISF format}\index{IASPEI Seismic Format} The program and the following description is by \textbf{Mario Villagr\'an}. The program works with the IMS1.0:SHORT format (phase-readings/origin files) and the program works both ways. 
+
+\indent IMS1.0:SHORT $\Rightarrow$ Nordic\newline
+\indent Nordic $\Rightarrow$ IMS1.0:SHORT 
+
+The IMS1.0:SHORT format is exactly the one used at the IDC International Data Center (Vienna, Austria). In addition some features used by the ISC International Data Center and the Spanish NDC National Data Center had been added. Magnitudes in IMS format use many characters, the Nordic format allows only one; the following rule is followed: 
+
+IMS \verb|     | Nordic\newline
+For mb $\rightarrow$ 'b' \newline
+For MS $\rightarrow$ 'S' \newline
+For ML $\rightarrow$ 'L' \newline
+For MD $\rightarrow$ 'D' \newline
+For Ml $\rightarrow$ 'l' \newline
+For MN $\rightarrow$ 'N' \newline
+For mblg$\rightarrow$ 'G' \newline
+For ms $\rightarrow$ 'S' \newline
+For MB $\rightarrow$ 'B' 
+
+%\textcolor{red}{pv-change: is conversion of mB and mS correct?}
+
+%\textcolor{red}{pv-change: 
+IMSNOR do not include code magnitude.
+
+The maximum likelihood magnitudes mb1, mb1mx, ms1, ms1mx, etc are 
+pending. IDC still does not have documentation and they may be changed. \newline
+Single measurements of magnitude/station are parsed as comment lines 
+(type 3) starting with symbol ``\$''. When importing data from IMS 
+format, only the ``Event IDC'' number is parsed and included into a comment 
+line (type 3) of Nordic, together with the ellipse dimensions orientation 
+and the mb standard deviation. \newline
+All parameter values read that exceed 
+field limits of Nordic (Amplitude, velocity, snr, etc) have been set 
+to the maximum or minimum possible, example: if snr $>$ 999.9 then snr=999. 
+For conversion from Nordic to IMS it is necessary to use both the 
+\texttt{hyp.out} and \texttt{print.out} files; The reason is that IMS includes 
+many parameters that need to be searched in both files. \newline
+When converting 
+to IMS format, the user can specify the start numbering for the first event and phase 
+in the file; ignoring will assume (1,1). It is optionally also possible 
+to set the no location flag in the 
+output header lines. 
+
+\textbf{NORGSE, NORDIC from and to GSE parametric format} \newline
+\index{NORGSE}
+The program (written by \textbf{Mario Villagr\'an}) converts parametric data 
+between Nordic and GSE2 format. It ca\index{Nordic to HYPO71}n be 
+used interactively or by giving the options as arguments. Type 
+\texttt{norgse -help} to see the options.\index{GSE format}
+
+\textbf{NORHIN, From Nordic to Hypoinverse format} \newline
+\index{NORHIN}\index{Hypoinverse format}
+The program is started by typing \texttt{norhin input-file}. The output file is norhin.out. 
+
+\textbf{NORHYP, From Nordic to HYPO71 format (SUN and PC)} \newline
+\index{NORHYP}
+The program is written by \textbf{F. Courboulex}. The program asks for the 
+input file name and the output file name is \texttt{norhyp.out}. 
+
+\textbf{PDENOR, converting PDE bulletin file to NORDIC format} \newline
+\index{PDE}\index{PDENOR}PDE distributes bulletins on e-mail, both a monthly bulletin and a weekly bulletin (different formats). The program converts one of these files to Nordic format and put the file into a standard SEISAN database called PDE for the monthly files and PDEWE for the weekly files. This database must have been created before running the program. Both CAT and S-files are made and SELECT and EEV can be used afterwards \index{PDE e-mail} 
+
+\textbf{RSANOR} \newline
+Program converts between format used by ``Red Sismologica de Andalucia'' and 
+a few others in Spain. \index{Spain}
+
+\textbf{SEIGMT, Nordic to GMT input} \newline
+The program SEIGMT\index{SEIGMT} reads information from Nordic or compact files and writes the parametric data to files that can be used as input for GMT\index{GMT}\index{Generic Mapping Tools}(Generic Mapping Tools, \url{http://gmt.soest.hawaii.edu/}). The user can choose a scaling for the magnitudes and also select a magnitude type order. The scaling option is useful if you wish to scale the symbol size of your epicenters with magnitude. The magnitude type order defines, which magnitude should be taken in case several magnitudes have been determined for one event. If you don't give a magnitude order, the program chooses the largest magnitude. 
+
+The files written by SEIGMT are: 
+
+\texttt{gmtxy.out} - event locations, to be plotted with psxy \newline
+\texttt{gmtxyz.out} - event locations and depths, to be plotted with psxy \newline
+\texttt{gmtstxy.out} - station coordinates (longitude, latitude and station code) \newline
+\texttt{gmtpath.out} - travel path data, to be plotted with psxy \newline
+\texttt{psmeca.out} - fault plane solutions, to be plotted with psmeca (Aki and Richards convention) 
+
+\textbf{SELMAP, selecting a subsection of a MAP file} \newline
+\index{SELMAP}
+The program can retrieve parts of a large MAP file written in SEISAN map format. On the SEISAN web site or on the SEISAN CDROM, very detailed global mapfiles are available in SEISAN format. The file originally comes from the USGS\index{USGS}. SELMAP can select out part of a MAP file in a latitude-longitude grid. The MAP files consist of several small segments and a segment is selected if at least one point is inside the specified grid. \index{Map files}
+
+\textbf{STASEI} \newline
+\index{STASEI} 
+Converts the official global station file from USGS (comma format) or ISC global station file to SEISAN station format (same as HYPO71 format with SEISAN extension for 5 letter station codes). A list of most global stations are now found on the SEISAN CD. It seesm that the USGS format is no longer used. \index{Station coordinates}\index{Global station coordinates}
+
+\textbf{USGSNOR, USGS catalog to NORDIC format} \newline
+\index{USGSNOR}
+The program converts USGS CDROM hypocenters to NORDIC format. Most of the information is used. If more than 3 magnitudes are available, only the 3 first are used. The number of stations is 
+included when available. The depth is indicated as fixed in all cases where the operator has been used (A,N,G). Macroseismic information is included with max intensity. The residual standard deviation is put into rms column. Event types are set to R. Magnitude types are converted as follows: 
+
+UK is made blank \newline
+b is replaced by B \newline
+s is replaced by S \newline
+D is replaced by C \newline
+w is replaced by W 
+
+\textbf{WAVEFORM CONVERSION PROGRAMS}
+
+This group of programs are mostly converting waveform files from some format to SEISAN although a few also convert from SEISAN to some other, mostly standard, formats. Most programs convert from binary to binary formats. \newline
+Many instruments come with conversion programs to some standard format like PCSUDS or MINISEED, and these have often been used to convert to SEISAN instead of writing programs reading the original files directly. Many such conversion programs work on PC so the corresponding SEISAN programs only work on PC. However, since the PC files can be read directly on Sun, this should not present a problem. Many programs have VERY LITTLE documentation, look in source codes for more information. 
+
+The number of programs are forever increasing with new recorders coming onto the market and new formats coming in use and others going out of use and it is becoming increasingly difficult to keep track of it all. For this release of SEISAN it has not been possible to test all programs on all platforms. An attempt has been made to standardize the programs. A general problem is that many seismic recorders and formats do not provide proper identification of the channels. In the worst cases, there are no station codes, only channel numbers and in very many cases, there is no room for proper component information. This is being taken care of by having a definition file, and only one format for the definition file is used, see below. This is also used with program WAVFIX. \newline
+Most programs work in the standard way with a \texttt{filenr.lis} file as input (made with DIRF). \newline
+The response information is seldom in the original files and in most conversion programs, the response information is taken from the CAL directory. If no response information is available, a message will be given. For each program, a comment will be given as to the status of testing and on which platforms they operate. If the channel definition file option is implemented, the array dimensions will be SEISAN standard. \newline
+The program SEIPITSA might be an easy way to convert between 1-column ASCII data and SEISAN (see below)\index{ASCII waveform format}. 
+
+When converting between the major analysis format (MiniSEED, SEISAN, SAC and GSE) mostly using program WAVETOOL, only SEISAN and MiniSEED will preserve the network and location codes as well as the flag for uncertain timing since the other formats only partly have room for this information. \index{Uncertain timing flag}\index{Location code}\index{Network code} 
+
+\textbf{Conversion programs definition file}
+\index{Conversion of station codes}\index{Conversion of component codes}\index{Waveform conversion programs}
+
+The conversion programs use a common format for the definition file for naming station and channels. The definition file is named programname.def as e.g. sudsei.def. The definition file can be in the working directory or the DAT directory. The conversion program will first look in the working directory for the file and then in DAT. The conversion of codes can take place in 2 ways (see below for details): 
+(1) An input station and component code is converted to an output station code and component, (2) an input channel number is assigned a station and component code. The advantage of (1) is that the conversion is independent of the channel number or order, however, the user must then know the default station and component names generated by the conversion program. 
+
+Default assignment of station code and component: \newline
+This is very much dependent on the conversion program used since some data files have complete 
+
+information and others very little, see description of individual programs in manual or at start of source codes. In all cases, the conversion program will make both station and component codes based on what is available of information in the input files. IT IS THESE CODES THAT are used for input code as described below. In order to find out what they are, it is easiest to run the conversion program once (without a def file) and see what codes the program assign. Alternatively, some of the programs have documentation in the manual. Some of the station codes might be instrument serial numbers, which are not always known. Therefore, running a test might be the best way to find out. \index{Serial number, instrument}\index{Network code, put in waveform file}\newline
+In addition to converting channel codes, the def file can also give SEISAN waveform file header information and network code as it appears in the file name. If no network code is given, the network code will be the station code of the first channel. 
+
+Principle of conversion in order of precedence: 
+\begin{enumerate}
+\item
+ Both station and component given on input: Converted to what is given for output station and component. 
+\item
+ If both are not present, the channel number is used. 
+\end{enumerate}
+
+\begin{verbatim}
+Header line text (29 char)... NetCd (5 chars), Comment for next line
+Header for REFTEK             NEWNT 
+chan stati  comi stato  como, In and output definitions, comment for next line
+   1 BO11   S  Z BOM    B  Z  
+     BO12   S  N BOM    B  N  
+     BO13   S  E BOM    B  E  
+\end{verbatim}
+
+The first line is just a comment line, must be there in any format. Here it shows where the network code is positioned as indicated by NetCd. 
+
+The second line gives the header information for the SEISAN main header, which are the first 29 characters. The file name network code is also given and is here NEWNT. Format a29,1x,a5. 
+
+The third line is just comment to indicate the position of the columns in the following lines (max 200). A line must be there. The abbreviations are: 
+
+\begin{tabular}{lp{10cm}}
+chan: & Channel number, optional unless no input station and component given. \\
+stati: & Input station code, 1-5 chars \\
+comi: & Input component code, 4 characters \\
+stato: & Output station code, 1-5 characters \\
+como: & Outut component code, 4 characters. First character MUST be S, L, B, A, or I,             last character MUST be Z, N or E, all upper case. \\
+\end{tabular}
+
+Format i5,1x,a5,2x,a4,1x,a5,2x,a4 
+
+The conversion programs are listed below
+
+\begin{tabular}{lp{10cm}}
+AHSEI:  & AH ASCII to Seisan, little tested\\
+ARCSEI: & Reftek archive to Seisan, windows only \\ %\textcolor{red}{pv-change: windows only} \\
+ASCSEI: & ASCII to SEISAN \\
+BGISEI: & Beijing Geodevice Institue to SEISAN \\
+CITSEI: & CityShark to SEISAN \\
+CNVSSA: & Kinemetrics SSA to Kinemetrics Dataseis \\
+CNVSSR: & Kinemetrics SSR to Kinemetrics Dataseis \\
+DIMASSEI: & USGS Dimas to Seisan\\
+DRSEI: & Sprengnether recorders to SEISAN \\
+GIISEI: & Geophysical Institute of Israel to SEISAN \\
+GSRSEI: & GeoSig to SEISAN \\
+GSESEI: & See WAVETOOL \\
+GSERESP: & Conversion between GSE and SEISAN response files \\
+GURSEI: & G\"uralp to SEISAN \\
+IRISEI: & From IRIS ASCII to SEISAN  \\
+ISMSEI: & ISMES to SEISAN \\
+KACSEI: & Kinemetrics ASCII acceleration to SEISAN \\
+KINSEI: & Kinemetrics Dataseis to SEISAN \\
+K2SEI: & Kinemetrics K2 to SEISAN \\
+LEESEI: & Willy Lee system to SEISAN \\
+LENPCQ: & Converts from Lennartz to PCEQ to PCEQ format \\
+LENSEI: & Lennarts ASCII to SEISAN \\
+M88SEI: & Lennartz MARS88 to SEISAN \\
+MSFIX: & Rewrite MiniSEED files \\
+NANSEI: & Converts from Nanometrics to SEISAN  \\
+NEISEI: & Converts from NEIC CDROM waveform data to SEISAN \\
+NRWSEI: & Geol. Survey. of Northrhine-Westphalia format to SEISAN format\index{NRWSEI}\index{Norhtrhine-Westphalia} \\
+OS9SEI: & Converts SEISLOG files to SEISAN waveform files \\
+PITSA: & Conversion programs described with program PITSA \\
+PCQSEI: & Converts from PCEQ to SEISAN  \\
+PDASEI: & Geotech Instruments PDAS to SEISAN  \\
+PSNSEI: & Public Seismic Networks to SEISAN \\
+QNXSEI: & SEISLOG QNX to SEISAN \\
+RDSEED: & IRIS program to read SEED volumes \\
+RSASEI: & Conversion from Andalucian Seismic network to SEISAN\index{Andalucia} \\
+RT\_SEIS: & Reftek Passcal format to SEISAN conversion \\
+SEI2PSXY: & Convert waveform data to trace input for psxy \\
+SEIM88A: & Conversion from SEISAN to MARS88 ASCII format \\
+SEISAN2MSEED: & From SEISAN to MiniSEED \\
+SEISAF: & SEISAN to SESAME ASCII \\
+SEIPITSA: & SEISAN $\Leftrightarrow$ PITSA ASCII \\
+SGRSEI: & SeisGram to SEISAN \\
+SISSEI: & Sismalp format to SEISAN format \\
+SILSEI: & SIL network ASCII files to SEISAN \\
+SUDSEI: & PCSUDS to SEISAN \\
+TERSEI: & Terra ASCII to SEISAN \\
+WGSSEI: & WGSN format to SEISAN 
+\end{tabular}
+
+For each program, a summary of capabilities is mentioned: The platforms 
+available (all for all or specific name), channel definition file 
+available (chan. def. yes or no) and if the program will look for 
+response files in the CAL directory to insert in the headers (resp. yes or no). \newline
+If you do not find the conversion program here, look on the  ORFEUS 
+website \index{ORFEUS}for other programs that might convert to one 
+of the formats used above. \newline
+(\url{http://orfeus.knmi.nl/other.services/conversion.shtml}). 
+
+%\textcolor{red}{lo-change}
+{
+\textbf{AHSEI, AH ASCII to SEISAN} \verb|                  | all, chan. def. yes, resp yes\newline
+\index{AHSEI}
+Converts AH ASCII files to Seisan format.
+}
+
+\textbf{ARCSEI, Reftek archive to SEISAN} (windows only) \newline 
+% \textcolor{red}{pv-change: windows only}\newline
+\index{ARCSEI}
+ARCSEI is a program to automate the extraction of data from a RefTek data archive and the conversion to SEISAN format. \index{REFTEK}The program works interactively and with a simple text interface that asks the user to enter the details for the data extract. Based on the user selected criteria the program (1) extracts the data from the archive in Passcal format using ARCFETCH, (2) \index{ARCFETCH}converts the Passcal data files to SEISAN format using RT\_SEIS, \index{RT\_SEIS}and (3) merges the SEISAN files if merging is activated by the user, using SEISEI. The program is written in Fortran and works on Windows only. 
+
+The ARCSEI program can be used in various ways: 
+
+\begin{itemize}
+\item
+to extract a single time window from one or several stations 
+\item
+to extract several time windows from one or several stations 
+\item
+to extract sequential time windows from one or several stations 
+\end{itemize}
+
+The ARCFETCH and RT\_SEIS programs, both part of the RefTek software package, have to be installed (see RefTek documentation) and the PATH variable set to include the directory where the programs are stored. It is assumed that the RefTek data archive exists and that the user is familiar with the content of the archive. The archive content can be shown with the command ARCINFO. To test that the program is installed correctly, open the Windows command tool (from the menu, or by selecting Start . Run . cmd) and type ARCSEI $<$RETURN$>$. 
+
+The definition file: \texttt{arcsei.def}
+
+The purpose of the definition file is to set some parameters needed to run ARCSEI, however, the program also works without. The arcsei.def file can either be stored in the seismo/DAT directory, or the current working directory. The program first checks in the current directory. The arcsei.def file should be adjusted to the user's set-up, before ARCSEI is started. \index{Arcsei.def} 
+
+The parameters are: 
+
+\begin{tabular}{lp{10cm}}
+ARCHIVE: & The path of the RefTek data archive, can also be entered manually at run time. \\
+OUTPATH: & The directory in which the SEISAN files are to be stored. The default is `.\textbackslash'  
+(the current directory). \\
+MERGE: & Select if SEISAN files from several stations for the same time interval should  
+be merged (Y), or not (N). \\
+NETWORK\_CODE: & Network code used in case SEISAN files are merged. \\
+CHANNEL: & Data channel in RefTek archive consisting of the unit, stream and channel  
+(unit,stream,channel). The * can be used as wildcard to select all streams or  channels, BUT not to select all units (since ARCFETCH is used in cooked mode,  which means that the time interval extracted  matches the input start- and end-time. \\
+\end{tabular}
+
+Example of the \texttt{arcsei.def} file 
+
+\verbatiminput{include/arcsei.def}
+
+How to run the program: 
+
+ARCSEI is started from the Windows Command Tool (cmd) by typing  
+
+\verbatiminput{include/arcsei.run}
+
+Type channel and $<$RETURN$>$, if defined in arcsei.def channels are listed, otherwise an example is shown. The channel is given as unit,stream,channel. Wildcards can be used for stream and channel, but not for the unit. 
+\begin{verbatim}
+NEXT CHANNEL OR RETURN TO CONTINUE 
+\end{verbatim}
+
+Additional channels can be entered, to continue press $<$RETURN$>$. 
+
+\begin{verbatim}
+ENTER START-TIME (YEAR:DAY-OF-YEAR:HOUR:MINUTE:SECOND)
+          EXAMPLES: 2000:200:12 
+                    2000:200:12:15 
+                    2000:200:12:33:15 
+\end{verbatim}
+
+Type start time as year:day-of-year:hour:minute:second. Minute and second can be omitted.  
+
+\begin{verbatim}
+NEXT START-TIME OR RETURN TO CONTINUE 
+\end{verbatim}
+
+Additional start times can be entered, to continue press $<$RETURN$>$. 
+
+\begin{verbatim}
+ENTER END TIME USING ONE OF 3 OPTIONS: 
+- ABSOLUTE TIME AS YYYY:DDD:HH:MM:SS (LIKE START-TIME)
+- +SECONDS FOR TIME INTERVAL (e.g. +300)
+- ++SECONDS FOR MULTIPLE INTERVALS(CONTINUOUS EXTRACT, e.g. ++300) 
+\end{verbatim}
+
+Specify the end time, either in the same style as for the start time (only if one start time), or in some cases more useful, the desired time window in seconds, by entering +seconds. If sequential time windows are to be extracted, use ++ seconds. The user is then asked how many time windows should be extracted. It is thus possible e.g. to extract 10 consecutive windows of 600 seconds. 
+Only if sequential extract windows specified: 
+
+\begin{verbatim}
+ENTER NUMBER OF CONTINUOUS WINDOWS 
+\end{verbatim}
+
+After the program has finished, the data in SEISAN format can be 
+found in either the current directory (default) or in the OUTPATH 
+directory if the variable is specified in \texttt{arcsei.def}. The temporarily 
+created files are deleted automatically. 
+
+\textit{How it works}
+
+ARCSEI reads the user input that specifies what should be extracted from the RefTek archive and then calls the programs ARCFETCH, RT\_SEIS and SEISEI. For temporary data storage ARCSEI creates the directory arcsei\_temp under the current directory. The arcsei\_temp directory is automatically deleted upon program completion. 
+
+\begin{enumerate}
+\item Create empty arcsei\_temp directory 
+\item Arcfetch 
+
+The arcfetch program performs the data extraction from the RefTek 
+archive. A complete list of the command line input of arcfetch can 
+be obtained by starting the program without additional options. 
+ARCSEI starts arcfetch in the following way: 
+
+arcfetch archive channel,start-time,end-time -o OUTPATH -c 
+
+Where:  
+
+-o OUTPATH:  Specifies the output path for arcfetch, always arcsei\_temp   \newline
+-c:  Specifies cooked mode, which means that the time interval extracted   
+matches the input start- and end-time (this is not the case, when not running in  
+cooked mode)  
+
+Example:  \newline
+\texttt{arcfetch G:\\ARCHIVE 8020,1,*,2000:200:12,+10 -oarcsei\_temp -c}
+\item rt\_seis 
+
+RT\_SEIS converts all files with the suffix `rt' in arcsei\_temp to SEISAN format. RT\_SEIS reads the \texttt{RTU.INI} file for station definition, if the environmental variable RTU is set to point to the \texttt{RTU.INI} file (see RT\_SEIS section below). 
+\item SEISEI 
+
+SEISEI, if merge is selected, merges all SEISAN files in the arcsei\_temp directory. 
+
+\item move 
+
+Finally all files (single or merged) are moved to the OUTPATH directory or the current directory if OUTPATH is not defined. In case multiple stations are selected, ARCSEI runs steps (1) and (2) in a loop, before the data is merged and moved. In case several time windows are selected, ARCSEI runs steps (1) to (4) in a loop, and in addition a second loop over multiple station (1) and (2). If sequential time windows are specified, ARCSEI computes multiple start times and works as if these time windows were user specified. All, def. File yes, resp yes 
+\end{enumerate}
+
+\textbf{ASCSEI, ASCII to SEISAN} \verb|                  | all, chan. def. yes, resp yes\newline
+\index{ASCSEI}\index{ASCII, convert to SEISAN}
+Converts a single column file to a one channel SEISAN file. Date, time, sample rate, station and component must be entered manually. The user is ask for a scale factor, normally it is 1.0. If input numbers are smaller than 1.0, a scale factor must be used since numbers are written out as integers. The input file must contain only a column of numbers adn no headers. 
+
+\textbf{BGISEI, Beijing GEODEVICE FORMAT (BGI) to SEISAN.}
+\verb|| Linux, PC, chan. def. yes, resp yes\newline
+\index{BGISEI}\index{China}
+The program to convert waveform files from BGI to SEISAN format is called BGISEI. The instrument response in the original files is not used. The program has only been tested with data recorded in Cuba. The program is written by \textbf{Bladimir Moreno}. 
+
+\textbf{CITSEI, CityShark to SEISAN} \verb|              | all, chan. def. yes, resp yes \newline
+Converts from CityShark ASCII to SEISAN. \index{CityShark}\index{CITSEI}Components S Z, S N, S E are assumed for the 3 channels. Assume 3 channels files only, all channels same sample rate and number of samples. 
+
+\textbf{CNVSSA and CNVSSR Kinemetrics accelerometers to Kinemetrics Dataseis} \verb|       | PC \newline
+The programs are supplied by Kinemetrics to convert from SSA and SSR formats to Kinemetrics Dataseis. To further convert to SEISAN, use program KINSEI. Only PC executable programs are available. The data is 16 bit.\index{SSA, Kinemtrics}\index{SSR, Kinemetrics} 
+
+\textbf{CSS} \newline
+At the moment there is no direct conversion from CSS to SEISAN. It is possible to convert CSS data to SAC or GSE using other tools like codeco, Geotool and SAC, and then convert to SEISAN format. \index{CSS format} 
+
+%\textcolor{red}{lo-change}
+{
+\textbf{DIMASSEI, USGS DIMAS to SEISAN} \verb|                  | all, chan. def. yes, resp yes\newline
+\index{AHSEI}
+Converts Dimas files to Seisan format.
+}
+
+\textbf{DRSEI, Sprengnether data recorders to SEISAN} \verb|   | 
+all, chan. def. yes, resp yes \newline
+\index{DRSEI}\index{Sprengnether}\index{DR3024 and DR3016}
+Converts Sprengnether DR3024 and DR3016 to SEISAN format. These two formats are slightly different, but the program makes the adjustment. Only essential information is read in and only 4 lowest digits of serial number are used. If station codes are set up, these are used, else the serial numbers are used for station codes. 
+
+\textbf{GIISEI, Geophysical Institute of Israel to SEISAN}
+\verb|  | all, chan. def. yes, resp yes\newline
+\index{GIISEI}
+Converts Geop\index{Israel}hysical Institute of Israel imported DAQ files to SEISAN format. The initial station codes are as defined in file, can be converted with the normal .def file. If 4.th character of station name indicates component (N or E), that is blanked out and transferred to 4.th character of component name BEFORE using the def file conversions. 
+
+\textbf{GURSEI, G\"uralp to SEISAN} \verb|   | all, chan. def. yes, resp yes\newline
+Converts G\"uralp GCF files to SEISAN format, only works with one channel data. Maximum number of samples as defined in seisan, at least 1 200 000, channels codes can be defined using the gursei.def 
+definition file. If no definition file, the station name is the first 4 letters from internal station name and the component is B Z. \index{G\"uralp}\index{GURSEI}\index{GCF format}
+
+\textbf{GSERESP, conversion between GSE and SEISAN response files} \verb|     | all \newline
+The program provides conversion between SEISAN, GSE1 and \index{GSERESP}\index{Response, GSE}GSE2 response files. The response can be given in frequency, amplitude and phase (FAP) triplets or in poles and zeros (PAZ). Since the number of values in the GSE format is unlimited the conversion from SEISAN to GSE only changes the format, whereas converting from GSE to SEISAN, if the number of FAP triplets is more than 30 or the number of poles and zeros larger than 37, the response in SEISAN format will be approximated by 30 FAP triplets. The output files in SEISAN format will have the default S\index{GBV recorder}EISAN response filenames (see RESP program and SEISAN response format). Output files in GSE format will include the station name, the component, number 1 or 2 for GSE1 and GSE2 respectively and end on `.CAL' (e.g. MOR\_SHZ2.CAL (GSE2), KONO\_BZ\_1.CAL (GSE1). 
+
+\textbf{GSRSEI, GeoSig to SEISAN} \verb|     | all, chan. def. yes, resp yes\newline
+\index{GSRSEI}\index{GeoSig}\index{GeoSys}
+Converts from GBV recorders to SEISAN. GeoSig was earlier GeoSys. Before version 8.1, there was a bug in program so start time was wrong by the amount of the prevent time. 
+
+\textbf{IRISEI, IRIS ASCII to SEISAN} \verb|     | all, chan. def. no, resp yes \newline
+\index{IRISEI}\index{GSN}\index{Quanterra}
+The input format is the variable ASCII download format used on the GSN Quanterra stations. The format is used in connection with SEISNET. The program only works if input file has more than 1000 samples. \index{IRIS}ISMSEI, ISMES to SEISAN PC, chan. def. no, resp no ISMES is an Italian seismic recorder. This is the first version of the program made by IIEES in Iran. The program can convert\index{ISMSEI} one file with up to 3 channels. \index{IRIS}
+
+\textbf{KACSEI: Kinemetrics ASCII acceleration to SEISAN} \verb|   | all, chan. def. yes, resp yes 
+\newline
+\index{Kinemetrics}\index{KACSEI}
+Kinemetrics ASCII film record acceleration files (type *.v1) to SEISAN. It is assumed that: 
+\begin{itemize}
+\item[-]
+channel 1 is N, 2 is Z and 3 is E 
+\item[-]
+there are always 3 channels in file 
+\item[-]
+input values are in 1/10 g, the output is in 1/1 000 000 g 
+\item[-]
+station code is taken from file name as given in first line of input file 
+\item[-]
+the 3 channels can have different number of samples, however it is 
+assumed that they all start at the same time 
+\end{itemize}
+
+
+\textbf{KINSEI, Kinemetrics DATASEIS to SEISAN} \verb|   | PC, chan. def. yes, resp yes \newline
+The program takes the station code fro\index{KINSEI}\index{Dataseis}\index{Kinemetrics}m the input files. The component codes are also taken from the input file as far as Z, N and is E is concerned, but the first letter is always set to S, like 'S  Z'. The program is also used if CNVSSR or CNVSSA have been used first. \index{CNVSSR and CNVSSA} 
+
+\textbf{K2SEI, Kinemetrics K2 to SEISAN} \verb|  | PC,Linux, chan. def. yes, resp yes \newline
+\index{K2SEI}\index{KW2ASC}
+Program for K2 binary files. The program works by first converting the binary files to ASCII by internally running the Kinemetrics program kw2asc (PC only). If no definition file is present, channel 1-3 will be A Z, A N and A E. If more channels they will be called A 04, A 05, etc. 
+
+\textbf{LEESEI, Willy Lee binary files to SEISAN} \verb|    | PC, chan. def. no, resp no\newline
+The number of channels is fixed to 16 and the time information is not read, it must be entered when converting the file. 
+
+\textbf{LENSEI, Lennartz ASCII to SEISAN} \verb|            | all, chan. def. yes, resp yes\newline
+\index{LENSEI}
+
+\textbf{LENPCQ, converting Lennartz to PCEQ format} \verb|   | PC\newline
+\index{LENPCQ}\index{Lennartz} 
+Only executable code for this program and only PC (made by the Royal Belgian Observatory). The format is used by an older version Lennartz tape recorder. The output files have the same names as the input files and are placed in a directory c:\\qcoda, WHICH MUST BE THERE. 
+
+\textbf{MSFIX MiniSEED to MiniSEED} \verb|    | all chan. def. no, resp no \newline
+SEISAN might have problems with reading some Steim2 MiniSEED files. Msfix rewrites the file to Steim1. 
+\index{MSFIX}\index{Steim2}\index{Problem: Reading Steim2}
+
+\textbf{M88SEI, Lennartz MARS88 to SEISAN} \verb|   |  all, chan. def. yes, resp yes\newline
+\index{M88SEI}\index{MARS88}
+
+\textbf{NANSEI, Nanometrics to SEISAN} \verb|    | PC, Sun, chan. def. yes, resp yes\newline
+\index{NANSEI}\index{Y5DUMP}\index{Nanometrics}
+The program converts from the Y-file format to SEISAN. This is done by first making an ASCII file with Nanometrics y5dump program (done internally in NANSEI). NOTE: The y5dump program requires some special Nanometrics libraries (Solaris) or *.DLL files (PC), which are included and installed with SEISAN (see installation section). The program converts single channel files only. 
+
+\textbf{NEISEI, NEIC digital data to SEISAN} \verb|   | PC, chan. def. no, resp no \newline
+\index{NEIC}\index{NEISEI}
+NEIC earthquake digital data comes on CDROM. The data is extracted with a program coming with the data and then converted to SEISAN binary waveform data. The response information is given as \index{Poles and zeros}poles and zeros in the SEISAN waveform file header. 
+
+\textbf{OS9SEI, converting SEISLOG files to SEISAN} \verb|  | PC, SUN, chan. def. no, resp yes\newline
+\index{OS9SEI}The program takes a \index{SEISLOG}SEISLOG ASCII (downloaded in CMP6 format) or binary file and converts to a SEISAN file. The input can be several files from a \texttt{filenr.lis} or an ASCII downloaded file either compressed or uncompressed. The program will look for the calibration file in the \index{CAL directory}CAL directory and add it to the SEISAN file, or give a message if it is not there. The program will work with SEISLOG files recorded under operating system OS9 or \index{QNX}QNX up to version 7.6. For QNX version 7.0, use program QNXSEI. 
+
+\textbf{PCQSEI, converting PCEQ format to SEISAN} \verb|   | PC, chan. def. yes, resp no \newline
+\index{PCQSEI}\index{PCEQ format}\index{IASPEI software library}PCEQ format to SEISAN. Earlier used with IASPEI software libraries. 
+
+\textbf{PDASEI, converting \index{PDAS files to SEISAN}PDAS files to SEISAN} 
+\verb|   |  all, chan. def. yes, resp yes \newline
+\index{PDASEI}\index{Geotech Instruments}
+The program converts a single channel PDAS file to a single channel file in SEISAN format. Several of these files can then be merged with SEISEI. PDASEI in previous SEISAN versions (before version 6.0) only worked with PDAS in 16-bit format, so if 32 bit or gain ranged format was input, the output would have been in error. The current version of PDASEI should be able to convert all 3 types of input files. A description of the PDAS format is found in the PDASEI program. 
+
+\textbf{PSNSEI, Public Seismic Networks to SEISAN} \verb|   | all, chan. def. yes, resp yes 
+\newline \index{PSNSEI}\index{Public Seismic Network} The Public Seismic Network recording system makes one file pr channel. Since component is not well defined, several files from the same recording system might get the same SEISAN file name. Do some testing when setting up the recording system. The one component files can be assembled into multichannel files with SEISEI. There might be a newer version of PSN format not supported. 
+
+\textbf{QNXSEI, SEISLOG QNX version to SEISAN} \verb|    | all, chan. def. no, resp yes \newline
+\index{QNXSEI}This program w\index{Time, uncertain flag in waveform file}orks as 
+OS9SEI except that it does not read the ASCII files. The program must 
+be used with Seislog 8.0. The program is currently the only program 
+that put in the time synchronization flag in SEISAN waveform files 
+except for data logging programs under Seislog Windows. See format 
+description in Appendix \ref{app:seisan-format}. The program recalculates 
+the sample rate based on the time in the first blocks in the file 
+and the last blocks in the file (each block is one second long). 
+For very long files, this might be of importance since the digitizer might not 
+have exactly the nominal sample rate.\index{SEISLOG} 
+
+\textbf{RSASEI, Andalucian Seismic Network to SEISAN} \verb|    | all, chan. def. yes, resp yes \newline
+Conversion of network and broad band files to SEISAN format. Covers several versions of the DTS format also used by other institutions in Spain. Not tested on Linux.\index{Spain}\index{Andalucia}\index{RSASEI} 
+
+\textbf{RT\_SEIS, Reftek Passcal to SEISAN} \verb|   | PC, chan. def. no, resp no \newline
+The RT\_SEIS program converts Reftek Passcal format to SEISAN. \index{RTU.INI}This program is provided by Refraction Technology Inc. The program does not use the \texttt{filenr.lis} as input file. To see the options of RT\_SEIS, start the program without any arguments.  In order to make use of the \texttt{RTU.INI} definition file, the environmental variable RTU needs to be set to for example c:\\seismo\\dat (see RefTek documentation for more details). This file can be used to set station names for respective unit IDs. 
+
+Example of \texttt{RTU.INI}: 
+
+[8020] \newline
+Station=SB00 \newline
+Network=CTBTO \newline
+CH1Band= \newline
+CH1Type= \newline
+CH1Axis=a \newline
+CH1Loc = \newline
+CH2Band= \newline
+CH2Type= \newline
+CH2Axis=b \newline
+CH2Loc= \newline
+CH3Band= \newline
+CH3Type= \newline
+CH3Axis=c \newline
+CH3Loc = 
+
+[8021] \newline
+Station=SB01 \newline
+Network=CTBTO \newline
+CH1Band= \newline
+... 
+
+\textbf{SEI2PSXY} \newline
+Converts waveform file to GMT psxy trace plotting ASCII file. The 
+output files have one line for each sample giving the date and time 
+and amplitude value, e.g.: \index{SEI2PSXY}\index{Trace plotting} \newline
+2005/06/16T00:59:59.51 -40.0000  \newline
+To plot the trace data with psxy, use projection `-JX$<$xsize$>$T$<$ysize$>$' and option `-R' giving time range in the same style as the data. To plot the data the gmtdefaults should be set to `gmtset INPUT\_DATE\_FORMAT yyyy/mm/dd INPUT\_CLOCK\_FORMAT hh:mm:ss.xx'. See psxy man pages for more details. 
+
+\textbf{SGRSEI} \verb|     | PC, chan. def. yes, resp yes \newline
+\index{SGRSEI}\index{SeisGram} 
+SeisGram binary to SEISAN. Only 3 component data has been tested. Channel order is assumed to be Z, N, E. The input real values have been multiplied by 100 000 before being converted to integers. Program little tested. 
+
+\textbf{SEED} \newline
+The Standard for Exchange of Earthquake Data (SEED\index{SEED}) format is defined by the \index{Federation of Digital Seismographic Networks}F\index{FDSN}ederation of Digital Seismographic Networks (FDSN). The rdseed program is distributed with SEISAN to extract data from SEED volumes.\index{RDSEED} RDSEED is an \index{IRIS}IRIS program to read SEED volumes. The program provides conversions to SAC (ASCII and binary), AH, CSS and miniseed. It is described in the file `rdseed.txt' in the INF directory. Updated versions of rdseed will be available at \url{http://www.iris.washington.edu/pub/programs}. A PC version (rdseed.exe) is distributed with SEISAN CD (also on home page). SEED volumes contain the complete response information, details on how to convert the SEED response to GSE response format can be found in \citet{havskov2004}. 
+
+\textbf{SEIM88A, conversion from SEISAN to MARS88 ASCII format} \verb|   | 
+all, chan. def. no, resp no \newline
+\index{SEIM88A}
+The program converts SEISAN waveform files to \index{Lennartz}Lennartz-ASCII MARS88 format. The program will write one file per channel. Output files are either mars.xxx if a single file is converted or marsxxx.yyy if the `\texttt{filenr.lis}' file is used as input. 
+
+\index{SEIPITSA}
+\textbf{SEIPITSA} \verb|      | all, chan. def. yes, resp yes \newline
+\index{PITSA}The program converts from SEISAN to PITSA ASCII format and back. The ASCII format has one file per channel. The user will be asked for a name of the output file-system. If a single file is converted, the channel number will be added to the output file-system name (e.g. data.001). If the `\texttt{filenr.lis}' file is used the filenumber will be added to the file-system name (e.g. pitsa001.004, first file and fourth channel). The program is no longer used for conversion when PITSA is started from EEV, but might be useful, since it creates one column ASCII data and can easily be modified. \index{ASCII files}\index{ASCII, convert to}\index{Convert to ASCII}
+
+\textbf{SEISAF, SEISAN to SESAME ASCII} \verb|     | 
+\index{SESAME} all, chan. def. no, resp no \index{SEISAF} \newline
+The 3 first channels in SEISAN file are read. There is no check if from same station. It is assumed that the order in SEISAN file is Z,N,E, that all 3 channels have the same start time, number of samples and sample rate. These values are taken from the first trace. 
+
+\textbf{SEISAN2MSEED} \verb|          | All chan.def. no resp no\newline
+\index{SEISAN2MSEED} 
+By \textbf{Chad Trabant}, IRIS Data Management Center
+
+Program developed at IRIS to convert from SEISAN to mseed, all platforms and all mseed formats. This program can be used as alternative to converting data with wavetool, advantage is that SEISAN2MSEED supports STEIM2 compression.
+
+Source code can be found at \url{http://www.iris.edu/chad/} 
+
+SYNOPSIS 
+
+seisan2mseed [options] file1 [file2 file3 ...] 
+
+Seisan2mseed converts SeisAn waveform data files to Mini-SEED. One or more input files may be specified on the command line. If an input file name is prefixed with an '@' character or explicitly named '\texttt{filenr.lis}' the file is assumed to contain a list of input data files, see LIST FILES below. The default translation of SeisAn components to SEED channel codes is as follows: a 3 character SEED channel is composed of the first, second and fourth characters of the component; furthermore if the second character is a space and the first and fourth are not spaces an 'H' is substituted for the 2nd character (i.e. 'S\_\_Z' $\to$ 'SHZ'). The default SEED location code is '00', if the third character of the SeisAn component is not a space it will be placed in the first character of the SEED location code. Other translations may be explicitly specified using the -T command line option. If the input file name is a standard SeisAn file name the default output file name will be the same with the 'S' at character 19 replaced by an 'M'. Otherwise the output file name is the input file name with a "\_MSEED" suffix. The output data may be redirected to a single file or stdout using the -o option. 
+
+OPTIONS \newline
+"-V " \newline
+Print program version and exit. \newline
+"-h " \newline
+Print program usage and exit. \newline
+"-v " \newline
+Be more verbose. This flag can be used multiple times ("-v -v" or "-vv") for more verbosity. \newline
+"-S " \newline
+Include SEED blockette 100 in each output record with the sample rate in floating point format. The basic format for storing sample rates in SEED data records is a rational approximation (numerator/denominator). Precision will be lost if a given sample rate cannot be well approximated. This option should be used in those cases. 
+\newline
+"-B " \newline
+Buffer all input data into memory before packing it into Mini-SEED records. The host computer must have enough memory to store all of the data. By default the program will flush it's data buffers after each input block is read. An output file must be specified with the -o option when using this option. \newline
+"-n Inetcode P" \newline
+Specify the SEED network code to use, if not specified the network code will be blank. It is highly recommended to specify a network code. \newline
+"-l Iloccode P" \newline
+Specify the SEED location code to use, if not specified the location code will be blank. \newline
+"-r Ibytes P" \newline
+Specify the Mini-SEED record length in Ibytes P, default is 4096. \newline
+"-e Iencoding P" \newline
+Specify the Mini-SEED data encoding format, default is 11 (Steim-2 compression). Other supported encoding formats include 10 (Steim-1 compression), 1 (16-bit 3 integers) and 3 (32-bit integers). The 16-bit integers encoding should only be used if all data samples can be represented in 16 bits. \newline
+"-b Ibyteorder P" \newline
+Specify the Mini-SEED byte order, default is 1 (big-endian or most significant byte first). The other option is 0 (little-endian or least significant byte first). It is highly recommended to always create big-endian SEED. \newline
+"-o Ioutfile P" \newline
+Write all Mini-SEED records to Ioutfile P, if Ioutfile P is a single dash (-) then all Mini-SEED output will go to stdout. All diagnostic output from the program is written to stderr and should never get mixed with data going to stdout. \newline
+"-T Icomp=chan P" \newline
+Specify an explicit SeisAn component to SEED channel mapping, this option may be used several times (e.g. "-T SBIZ=SHZ -T SBIN=SHN -T SBIE=SHE"). Spaces in components must be quoted, i.e. "-T 'S Z'=SHZ". \newline
+LIST FILES \newline
+If an input file is prefixed with an '@' character the file is assumed to contain a list of file for input. As a special case an input file named '\texttt{filenr.lis}' is always assumed to be a list file. Multiple list files can be combined with multiple input files on the command line. \newline
+The last, space separated field on each line is assumed to be the file name to be read. This accommodates both simple text, with one file per line, or the formats created by the SeisAn dirf command (\texttt{filenr.lis}). \newline
+An example of a simple text list: \newline
+2003-06-20-0643-41S.EDI\_\_\_003 \newline
+2005-07-23-1452-04S.CER\_\_\_030 \newline
+An example of an equivalent list in the dirf (\texttt{filenr.lis}) format: \newline
+\# 1 2003-06-20-0643-41S.EDI\_\_\_003 \newline
+\# 2 2005-07-23-1452-04S.CER\_\_\_030 
+
+\textbf{SILSEI} \verb|    | \index{SILSEI} all, chan. def. no, resp no\newline
+\index{Iceland}
+Conversion from the Icelandic SIL system to SEISAN. Only conversion from ASCII files. 
+
+\textbf{SISSEI, Sismalp to SEISAN} \verb|     | all, chan. def. yes, resp yes\newline
+The program converts from Sismalp to SEISAN. Sismalp is a French field recording system. \index{Sismalp}\index{SISSEI}The input consists of 2 files pr event, a header file and a data file. It is assumed that the Sismalp ndx files have the same file name as the header file except for the file extension. It is also assumed that the file names are 12 characters long.  
+
+\textbf{SUDSEI, PCSUDS to SEISAN} \verb|      | PC, chan. def. yes, resp yes\newline
+\index{SUDSEI}
+The program converts from PCSUDS to SEISAN. This is done by first running the program SUD\index{SUD2ASC}2ASC (included) \index{PCSUDS}\index{SUDS}and then converting to 
+SEISAN. The SUD2ASC program and test data was supplied by \index{REFTEK}REFTEK through the distribution of PC-SUDS Utilities by \citet{banfill1996}.  
+
+\textbf{TERSEI, Terra ASCII to SEISAN} \verb|     | all, chan. def. yes, resp yes \newline
+\index{TERSEI}\index{Terra Technology}
+Program converts from Terra Technology ASCII files to SEISAN. Only tested with 1-3 channel files 
+
+\textbf{WGSSEI to SEISAN} \verb|     | all, chan. def. yes, resp yes \newline
+\index{WGSSEI}\index{IRIS}
+Program converts from WGSN files to SEISAN. The format is used on IRIS stations as processing format. Little tested. 
+

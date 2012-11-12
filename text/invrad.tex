@@ -1,0 +1,24 @@
+
+\subsection{Moment tensor inversion program, INVRAD}
+\index{INVRAD} 
+\label{INVRAD} 
+
+The program is written by John Ebel \citep{ebel1990} for moment tensor inversion for very local events. The program uses instrument-corrected amplitudes of the direct (upgoing) phases of P, SV and SH phases and makes a linear inversion for the moment tensor. The program then finds the largest double couple component of the traceless moment tensor. For m\index{Moment tensor inversion}ore details see file invrad.txt in the INF directory.\newline
+The original program has been slightly modified in input and output to be integrated with EEV in SEISAN. The steps to get the fault plane solution are: 
+
+Select the event from EEV 
+
+\begin{enumerate}
+\item Plot each trace and select preferably the first clear amplitude of the direct wave. Mark the amplitude as usual and associate the amplitude with amplitude phases AMPG or AMSG (direct phases). This will create a separate line with amplitude readings only. The polarity must also be indicated on a separate phase , which must be Pg or Sg since the inversion program uses the polarity of the amplitude. The amplitudes MUST be picked on instrument corrected traces if all instruments do not have the same response function. At least 5 amplitudes must be selected. S phases picked on vertical or radial components will be considered SV while S-amplitudes picked on transverse components will be considered SH. Phases picked on NS or EW component cannot be used. If these new phases are not to be used for location, they can be weighted out. 
+\item Update event with command update to make distance and azimuths available. 
+\item Use command INVRAD to do the inversion. This command does several things hidden for the user: \index{INVRAD}
+\begin{itemize}
+\item[-] Creates the model input file for INVRAD called invrad.mod. This file is cr\index{Fault plane solution}eated from the STATION0.HYP file, either from the current directory or DAT. 
+\item[-] Creates the data input file for INVRAD called invrad.inp. This file is made from the current database file (S-file) by extracting all amplitudes associated with Pg and Sg amplitudes and converts to P, SV or SH amplitudes in microns. The depth of the event is taken from the S-file header and the estimated error is fixed to 0.1 micron. 
+\item[-] Runs the INVRAD program which produces the invrad.out file 
+\item[-] Reads the invrad.out file to get the fault plane solutions which overwrite the current fault plane solution in the S-file. If you do not want to get the current solution overwritten, put a character in column 79 on the solution, see also focmec program. 
+\end{itemize}
+\end{enumerate}
+
+The fault plane solution can then be plotted with FOCMEC. 
+

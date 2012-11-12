@@ -1,0 +1,558 @@
+
+\section{Seismic risk related programs} 
+\label{sect:risk-prog}
+\index{Seismic risk related programs} 
+
+This section is written by \textbf{K. Atakan}. Extensive testing of the programs 
+was done over the years by many users. \textbf{A.Ojeda}, performed testing 
+and prepared input files for the CRISIS99 and CRIATT programs. 
+
+\textbf{Introduction}
+
+Currently, the SEISAN package includes a series of stand-alone programs that can be used in a number of tasks that are needed to perform seismic hazard analysis. The basic requirements for performing a \index{Probabilistic seismic hazard analysis}probabilistic seismic hazard analysis may be summarized as follows: 
+
+Homogenize the earthquake catalogue and assess the completeness \newline
+Define the \index{Seismic source zones}seismic source zones. \newline
+Prepare input parameters from the \index{Earthquake catalogue}earthquake catalogue for each source zone. \newline
+Prepare \index{Attenuation relations}attenuation relations for the region. \newline
+Compute hazard in terms of peak ground acceleration (PGA). \newline
+Assess \index{Site effects}site effects.\newline
+Prepare \index{Seismic design spectra}response spectra. 
+
+Following is a list of programs that constitutes the part of the SEISAN analysis package, which deals with seismic hazard and related problems. Most of these programs are described in more detail in different sections of the SEISAN manual. 
+
+\textbf{SELECT}: Select a subset of earthquake data according to given criteria. \newline
+\textbf{STATIS}: Statistical information about the database is computed and can be used in the analysis. \newline
+\textbf{CATSTAT}: Program to compute and plot the yearly, monthly and daily number of events from a given catalogue. 
+\newline
+\textbf{CAT\_AGA}: Program to reorder the hypocenter lines in a CAT-file according to hypocenter agency in order to put the prime estimate in the beginning. \newline
+\textbf{CLUSTER}: Program that searches for the dependant events in time and distance in a given earthquake catalogue. \newline
+\textbf{EXFILTER}: Identifies the probable explosions, based on the 
+user-defined parameters involving time-of-day distribution and the 
+mining locations. It can be used for catalogue clean up and discrimination 
+between the earthquakes and man-made explosions. \newline
+\textbf{MAG}: Magnitude regression and conversion program. Prepares also a plot showing the scatter data and the best-fitted line. Magnitude conversions are then performed after a user defined priority list. \newline
+\textbf{EPIMAP}: Plots coastlines, national boundaries and earthquake epicenters. It can also contour the produced output map file from hazard programs such as EQRISK, and overlay on the epicenter map. It is also possible to select a subset of earthquakes from a chosen polygon on the epicenter map. \newline
+\textbf{BVALUE}: Prepares magnitude-frequency of occurrence diagrams and computes a- and b-values with maximum likelihood and least square approximation. In addition, the threshold magnitude and the maximum observed magnitude can be obtained. \newline
+\textbf{CODAQ}: Computes the Q value from a given set of seismograms. This can be used later in the CRIATT program to create the attenuation table. \newline
+\textbf{CRIATT}: Computes attenuation tables for a given set of parameters using the random vibration theory.\newline
+\textbf{CRISIS99}:
+\index{CRISIS99}
+Computes seismic hazard in terms of the probability of exceedance vs earthquake intensity measures such as \index{Peak ground acceleration}peak ground acceleration (\index{PGA}PGA) or \index{Peak ground velocity}any other spectral ordinate. It can also compute hazard for a given grid of map co-ordinates corresponding to user-defined different return periods. (\textbf{SUN and PC}). The Windows program must be installed separately, look for ZIP file in SUP. \index{EQRISK}\newline
+\textbf{EQRISK}: Program to compute seismic hazard in terms of probabilities of exceedances vs earthquake intensity measures such as peak ground acceleration (PGA), for a given site or a grid of sites for up to eight different return periods. Currently 1975 version is used. \newline
+\textbf{EQRSEI}: 
+\index{EQRSEI}
+Converts the output file from the EQRISK program "eqrisk.out", to individual contour files corresponding to each return period specified. These files can later be used directly as an input to EPIMAP to plot the PGA contour maps. \newline
+\textbf{SPEC}: Computes amplitude spectra for a given set of earthquake records and plots spectral ratios. It can be used to assess local site effects. 
+
+Probabilistic earthquake hazard computations can be done, using the 
+two alternative programs CRISIS99 or EQRISK. In addition, the programs 
+listed above and a number of other programs that manipulates earthquake 
+data within the SEISAN package, are useful tools to assess the parameters 
+that are needed to perform a seismic hazard analysis for an area of 
+interest. The two main programs, CRIATT for computing the attenuation 
+tables and CRISIS99 (modified version 1999) to compute seismic hazard 
+are explained in more detail in the following. Both programs are written 
+by \textbf{Mario Ordaz} of the Institute of Engineering, UNAM \citep{ordaz1991,ordaz1999}. 
+The well-known hazard program EQRISK, on the other hand, is written by 
+\textbf{Robin K. McGuire} and the original manual is distributed through United States Department of the Interior, Geological Survey \citep{mcguire1976}.  
+
+The two alternative hazard programs CRISIS99 and EQRISK have a number of features that are present in both. However, there are some advantages and disadvantages with both programs. In terms of the computing time and parameter input both programs require the same time. In the case of EQRISK, earthquake source zones are defined as arbitrary polygons (quadrilaterals). CRISIS99, on the other hand, operate with completely arbitrary polygons for the definition of the source zones and dipping planes may also be defined. In the MS-Windows 95 version, the source zones and the input parameters can be checked interactively through a user-friendly interface. In terms of the attenuation relations, CRISIS99 uses a table created by a separate program (CRIATT) and is therefore flexible (it also allows different attenuation relations for different source zones), whereas the attenuation relation, in the case of EQRISK, is given through a pre-determined mathematical formulation. Finally, CRISIS99 is superior to EQRISK, as it takes into account the uncertainties through the standard deviations introduced on several input parameters. 
+
+\textbf{Step by step procedure for seismic hazard analysis}
+\index{Seismic hazard analysis}
+
+Following is a summary of the steps that have to be completed in order to produce a seismic hazard map. 
+
+\begin{enumerate}
+\item
+ Compile a catalogue for the area of interest from local, regional and global sources. 
+\item
+ Evaluate the preliminary catalogue completeness by plotting histograms showing the distribution of events in time for different magnitude intervals. It may be necessary to divide your catalogue into two; 
+(i) pre-instrumental and (ii) instrumental. Programs SELECT and CATSTAT can be used for this purpose. 
+\item
+ Convert magnitudes into one uniform magnitude, preferably to moment magnitude MW. To do this, regression curves must be prepared for different magnitude scales. Program MAG can be used for this purpose. 
+\item
+ Clean up the catalogue for dependant events (i.e. induced seismicity, non-earthquakes, foreshocks, aftershocks, earthquake swarms). Here a search has to be made for clusters of events both in time and space. Plots of histograms for specific sequences of time and space will reveal this. Program CLUSTER can be used for this purpose. The probable explosions may be removed by using the program EXFILTER. 
+\item
+ The evaluation of the catalogue completeness is dependent upon the clean-up process and the magnitude unification. It is therefore necessary that steps 2-4 be repeated until a reliable catalogue is prepared. 
+\item
+ Select the set of earthquakes from your catalogue from the part, which is complete for the chosen threshold magnitude and uniform in magnitude scale. Program SELECT can be used with different criteria for this purpose. Note the catalogue time span. 
+\item
+ Prepare a seismicity map for the area of interest with the selected data, using EPIMAP. Delineate the earthquake source zones. Here, zooming and the area selection procedures of EPIMAP may be used. 
+\item
+ Use additional information from geology, geophysics, seismotectonics, paleoseismology etc. to improve the source zonation. 
+\item
+ For each earthquake source zone select the subset of events that fall in the chosen area. This can be done by using the EPIMAP program, which enables to draw polygons interactively on the screen and put the subset of events within this polygon into a file. Alternatively SELECT program can be used to extract the subsets of data corresponding to the defined source zones.  
+\item
+ If the hazard is to be computed using CRISIS99 or by EQRISK, note the x, y (longitude, latitude), co-ordinates for each corner of the polygon. 
+\item
+ The seismicity within each source zone is assumed to be uniform following a Poissonian occurrence. In order to define this, a set of critical parameters has to be assessed for each source. These are: Number of earthquakes above a threshold magnitude: This is the \index{A-value}a-value for the lower bound magnitude. Catalogue time span: This is the time span of your catalogue where it is complete.  Beta (bvalue * ln (10)) and its standard deviation: The \index{B-value}b-value is the slope of the best-fitted line to the cumulative curve for the magnitude frequency of occurrence distribution (Gutenberg-Richter relation). \index{Maximum expected magnitude}Maximum expected magnitude with its standard deviation: This is usually inferred through other available information, such as geology, palaeoseismicity, or subjective judgement of the scientist. It is usually set to half a magnitude higher than the maximum observed when no information is available. \index{Maximum observed magnitude}Maximum observed magnitude: This is the largest magnitude observed within the catalogue time span. \index{Threshold magnitude}Threshold magnitude: The so-called \index{Lower bound magnitude}lower bound magnitude, which is chosen, based on the engineering considerations. Usually magnitudes less than 4.0 are not considered engineering significant. In order to obtain each of the above critical parameters, a thorough evaluation of the earthquake catalogue is needed. BVALUE program can\index{Catalog work} be used to obtain some of these parameters. However, while running the program, choosing the magnitude interval and the magnitude increment has to be done critically, taking into account the catalogue completeness and the detection threshold. These parameters will later be used in the input for the seismic hazard analysis program CRISIS99. Alternatively, the same input parameters are also needed for the EQRISK program. For each source zone, plot the magnitude- frequency of occurrence curves. 
+\item
+ Try to assess whether there are characteristic earthquakes in your 
+region. This can be done with a careful examination of your catalogue 
+and the active faults in the area. Studying the magnitude-frequency 
+of occurrence through the BVALUE program will help assessing this. 
+\item
+ Try to establish an acceptable attenuation relation for your area. This can be done through empirical estimations or theoretically based on the random vibration theory (RVT). CRIATT program can be used to create the attenuation table. Alternatively, if you have an already established attenuation relation, this can be directly used in the EQRISK program. In this case, you can skip the steps 13-16, and continue from step 17 and onwards. 
+\item
+Establish a reliable Q factor by using the CODAQ program. This will be used in the attenuation program CRIATT to create the attenuation tables necessary for the hazard analysis. 
+\item
+ Create the necessary input file for the CRIATT by modifying the sample-input file `criatt.inp'. or use program CRIPAR.\index{CRIPAR} 
+\item
+ Run CRIATT to create the attenuation table necessary for the CRISIS99. 
+\item
+ Create the input file for the CRISIS99 program by modifying the example-input file `crisis99.inp'. Make sure that the critical parameters are reliable and the geometry of the source zones are correct (see the program description). 
+\item
+Run the CRISIS99 program with the input file you have created and the output attenuation table from CRIATT. The program will generate the output files with the probability of exceedance rate vs earthquake intensity (e.g. PGA), for the required return periods. Alternatively, if you have prepared the input for the EQRISK program, hazard can be computed by running the EQRISK program, for a given set of return periods (up to eight), for selected sites or for a grid of sites. 
+\item
+ Repeat stages 6 to 17 to refine your model and the corresponding results. 
+\item
+Convert the output hazard "map" file from CRISIS99 for the computed return periods to individual contour files. Alternatively, if you have used EQRISK to compute hazard, the output file "eqrisk.out" can be converted using EQRSEI program, into individual contour files for previously defined return periods. 
+\item
+Plot the hazard maps for the desired return periods. Contouring option from EPIMAP can be used for this purpose (only for the EQRISK). Plot also the graphs for probability of exceedance rates vs PGA for selected critical sites. 
+\item
+Try to assess the local site effects for the critical sites. SPEC program can be used to obtain the amplification factors due to unconsolidated sediments. These factors can be used later to adjust the response spectra. 
+\end{enumerate}
+
+Many of the programs mentioned above are described individually throughout this manual at different sections. In the following the programs that are directly relevant to hazard computations and not described in other sections of the manual are explained in detail. 
+
+\textbf{CRISIS99}:
+\index{CRISIS99}
+
+CRISIS99 is a computer program to compute seismic hazard in extended 
+regions. It was developed at the Institute of Engineering, UNAM, Mexico, 
+by \textbf{Mario Ordaz} (mors@pumas.iingen.unam.mx), \textbf{Armando Aguilar} and \textbf{Jorge Arboleda}. 
+
+Basic input data are: geometry of the sources, seismicity of the sources, and attenuation relations. Source geometry can be modeled as: 1) area sources, using a polygon with at least three vertex; longitude, latitude and depth must be given for each vertex, so this type of source can be used to model, for instance, dipping plates or vertical strike-slip faults; 2) fault sources, using polylines; and 3) point sources, included essentially for academic purposes. 
+
+Seismicity of the sources can be modeled either as Poisson or characteristic earthquake process. In the first, magnitude frequency relations are smoothly truncated Gutenberg-Richter curves, whereas for the second, the program assumes a Gaussian distribution of the magnitudes. Hazard computations can be performed simultaneously for several intensity measures, for instance, PGA, PGV, and several spectral ordinates. Required attenuation laws are given in the form of tables containing the median values of the intensity measures as a function of magnitude (the rows of the table) and focal distance (the columns of the table). Several attenuation models can be used in the same run, assigning an attenuation pattern to each source. Using a recursive triangularization algorithm, spatial integrations are performed optimizing the number of calculations, so CRISIS99 will integrate with more points for the nearest sources and less (or none) for distant sources. 
+
+CRISIS99 considers two different kinds of earthquake occurrence processes: Poisson process and characteristic earthquake process. CRISIS99 is oriented to computing hazard in extended regions. Hazard estimations are made for points in a grid that is not necessarily rectangular. The program can run under SunSOLARIS, SunOS and on PC (Windows95 or higher). Sun versions are to be used as a stand-alone program. The Windows version, on the other hand, also contains a windows interface for visual inspection of the input data as well as the results. Data validation options are available (only for the Windows version) and parameters can be given in a user-friendly graphic environment. CRISIS99 contains also a post-processing module that can be used to visualize the results, given in terms of maps of intensity measures for an arbitrary return period or exceedance rate curves for a selected site, not necessarily a point in the original grid of sites. Also, if several intensity measures are included in the computations, uniform-hazard spectra can be produced. The main results of a run are also written to ASCII files, so the user can use his/her own post-processing techniques/software. 
+
+For the Windows version, a separate compressed file `crisis99.zip' is included with sample-input data in SUP. Instructions on how to install the Windows version are included in the file `crisis99.txt' in the INF directory. The Sun UNIX versions, are part of the standard SEISAN distribution and need not be installed specifically. 
+
+Detailed description of the input and output files is given in the pages below. 
+
+\textbf{Input files for the CRISIS99}
+\index{Input files for the CRISIS99}
+
+There are basically two input files that are required. First is an attenuation table (or several tables), and second is the major input parameter file where the file name for the attenuation table is also given. The input file can be prepared based on the format descriptions given below or modifying the example input file. An example-input file is included in the DAT directory with the file name "crisis99.inp". 
+
+There are some limitations in the input parameters. Following is a summary of the maximum values set in the program: 
+
+\begin{verbatim}
+          Attenuation Models :                       5 
+          Intensity levels*:                         20 
+          Structural periods:                        15 
+          Number of regions:                         200 
+          Magnitudes in attenuation model:           10 
+          Distances in attenuation model:            21 
+          Number of sub-sources per region:          4000 
+\end{verbatim}
+
+(* the term 'intensity' here should not be mixed with macroseismic intensity. In this context 'intensity' is meant as any chosen ground motion measure, such as PGA, PGV or any other spectral ordinate). 
+
+In the following the input file is described in more detail (by \textbf{Mario Ordaz}). 
+
+I. GENERAL DATA FILE 
+
+Format is free unless indicated otherwise. 
+
+\begin{enumerate}
+\item
+General title of the run. 1 line \newline
+TITGEN (A80) 
+\item
+Global parameters of the run. 1 line. \newline
+NREG, NMOD, NT, NA \newline
+NREG: Total number of regions (sources) in which the seismogenic area is divided. \newline
+NMOD: Number of different attenuation models. \newline
+NT: Number of spectral ordinates (or, in general, measures of intensity) 
+for which seismic hazard is to be computed. \newline
+NA: Number of levels of intensity for which seismic hazard will be computed. 
+\item
+Parameters for each spectral ordinate. NT lines. Free format \newline
+T(I), AO(I), AU(I) \newline
+T(I): Structural period of i-th spectral ordinate. It is used only 
+for identification purposes, so in the cases in which structural 
+period has no meaning, it can be just a sequential number. \newline
+AO(I): Lower limit of intensity level for i-th spectral ordinate. \newline
+AU(I): Upper limit of intensity level for i-th spectral ordinate. 
+Exceedance rates for the i-th intensity will be computed at NA values, logarithmically spaced 
+between AO(I) and AU(I) 
+\item
+More Global parameters \newline
+RMAX, TR1, TR2, TR3, TR4, TR5 \newline
+RMAX: Parameter 
+controlling the spatial integration process. Sources at distances 
+greater than RMAX kilometers from a site will be ignored. \newline
+TR1,...,TR5: CRISIS-99 will generate a file containing intensity levels 
+for fixed return periods TR1,...,TR5. See below for the description of this 
+output file. Five values must be always given. 
+\item
+Parameters defining the basic grid of points in which hazard is to be computed. 1 line \newline
+LOI, LAI, DLO, DLA, NLO, NLA LOI, \newline
+LAI: Longitude and latitude, respectively, of the origin of the grid. \newline
+DLO, DLA: Longitude and latitude increments \newline
+NLO, NLA: Number of lines of the grid in the longitude and latitude directions, respectively. 
+
+Results will be given for points (LO(I ),LA(I)), where 
+
+LO(I) = LOI + (J-I)*DLO , J=1, NLO \newline
+LA(I) = LAI + (I-1)*DLA, I=1, NLA 
+\item
+Number of polygons to be used to reduce the initial rectangular grid. 1 line. \newline
+NPOLGRID 
+
+Introducing one or more boundary polygons can reduce the initial rectangular grid of points. If  polygons are given (NPOLGRID>0) the computation of hazard will be performed only for those  points of the grid, which are inside one of the polygons. If NPOLGRID=0 computations will be  made for all points in the rectangular grid. NPOLGRID<=10. If NPOLGRID>0 then the following lines must be given for each polygon: 
+\item
+Definition of the k-th boundary polygon. \newline
+NVERGRID (K) \newline
+\parbox{.33\linewidth}{LONG (K, 1), LAT (K, 1) \\
+\\
+LONG (K, 1), LAT (K, 1)}
+$\Bigg\}$ NVERGRID(K) lines 
+%\hfill $\Bigg\}$ \hfill NVERGRID(K) lines \hfill
+%\parbox{.3\linewidth}{}
+%\parbox{.3\linewidth}{\verb|                 |}
+%\parbox{.3\linewidth}{LONG (K, 1), LAT (K, 1)  LONG (K, 1), LAT (K, 1)}
+
+NVERGIRD(K): Number of vertex of polygon k. NVERGRID(K)$<=3$0.\newline
+LONG (K, I), LAT (K,I), I=1,...,NVERGRID(K): Co-ordinates of the polygon's vertex. 
+The polygon must be described counter clockwise. 
+
+\item
+Files of attenuation tables. NMOD lines MODELO (I) (A20) 
+
+MODELO (I): Name of the file containing the i-th attenuation table (including path). The  format of attenuation tables is explained below. 
+\item
+Data defining seismicity in each region. NREG blocks. \newline
+TITULO (N) (A80) \newline
+IC(N), IE(N), IMO(N) \newline
+NV(N) \newline
+%$\frac{LONG(1),LAT(1),PROF(I)}{\ldots} \bigg\}$ NV lines\newline
+\parbox{.33\linewidth}{LONG(1),LAT(1),PROF(I) \\
+\ldots}
+$\bigg\}$ NV lines\newline
+LONG(NV), LAT(NV), PROF(NV)\newline
+Poisson model: (IC(N)=1)\newline
+LAMBDA0(N), EB(N), CB(N), EMU(N), SMU(N), MMAX(N),M0(N)\newline
+Characteristic model: (IC(N)=2) \newline
+EMT(N), T00(N), D(N), F(N), SMT(N), M0(N), MU(N) 
+
+TITULO(N): Identification name for source N \newline
+IC(N): Flag defining the type of occurrence model assumed for N-th source. IC(N)=1 for Poisson model, IC(N)=2 for characteristic-earthquake model. \newline
+IE(N): Defines type of source. IE(N)=0 for area source, IE(N)=1 for line source and IE(N)=2 for point source. \newline
+IMO(N): Number of the attenuation model that will be used with this source. Must be between 1 and NMOD. \newline
+NV(N): Number of vertex defining source N.
+
+LONG(I), LAT(I), PROF(I), I=1,...,NV(N): Co-ordinates of vertex I of source N. LONG(I)  and LAT(I) are geographical coordinates of point i, whereas PROF(I) is the depth of the point,  in km, which must be positive.Sources can be of three types: areas (polygons), polylines or points. Polylines and points can be given in any order. In general, in the case of an area source, CRISIS99 will divide the polygon into triangles. It first checks if triangulation can be made in the XY plane. Numbering of the vertex of the polygon must be done counter-clockwise in this plane when looked from above the surface of the Earth. If there are vertical planes, CRISIS99 will try to triangulate the area in  the XZ plane, so numbering of vertex must be done counter-clockwise in this plane. Finally,  CRISIS99 will try to triangulate in the YZ plane. There are some bizarre source geometries  that cannot be well resolved by CRISIS-99, for instance, an L-shaped vertical plane. In these  cases, an error will be reported. 
+
+Poisson model: \newline
+LAMBDA0(N): Exceedance rate of magnitude M0(N). The units are earthquakes/year. \newline
+EB(N), CB(N): Expectation and coefficient of variation, respectively, of the "b-value" for the source, given in terms of the natural logarithm. \newline
+EMU(N), SMU(N): Expected value and standard deviation, respectively, of the maximum magnitude for the source. \newline
+MMAX(N): Maximum observed magnitude in this source. \newline
+M0(N): Threshold magnitude for source N. The catalogue of earthquakes is assumed to be  complete for M$>$M0. Earthquakes with M$<$M0 are absolutely ignored. 
+
+Characteristic model: \newline
+EMT(N): Median value of the times between characteristic earthquakes with M$>$M0. This is the inverse of the exceedance rate for M$>$M0. \newline
+T00(N): Time elapsed since the last occurrence of a characteristic earthquake. \newline
+D(N), F(N): Parameters defining the expected magnitude as a function of time, as in the slip­predictable model. It is assumed that 
+
+E(M$|$t)=max(M0(N),D(N)+F(N)*LN(t)) 
+
+Of course, if F(N) is set to zero, then D(N) becomes the expected time-independent magnitude of 
+the characteristic earthquake. \newline
+SMT(N): Standard deviation of the magnitude of the characteristic earthquake. It is assumed independent of time. \newline
+M0(N): Minimum possible magnitude of a characteristic earthquake. Earthquakes with M<M0 are absolutely ignored \newline
+MU(N): Maximum magnitude of the characteristic earthquake to be used in the integration process. 
+\item
+Name of the map file. 1 line \newline
+File name (including path) containing the base map to be used in post-processing with CRISIS99 for windows. This name does not have any influence in the hazard computations. However, CRISIS99 expects a line here. 
+\item
+Name of the file of cities. 1 line \newline
+File name (including path) containing the co-ordinates of cities, to be used in post-processing with 
+CRISIS99 for windows. This name does not have any influence in the hazard computations. However, CRISIS99 expects a line here. 
+\item
+ ATTENUATION TABLES \newline
+NMOD attenuation tables must be given each one in a different file. 
+\end{enumerate}
+
+
+The tables give to CRISIS99 the relations between magnitude, focal 
+distance and median  intensities. CRISIS99 expects the following 
+parameters in the i-th attenuation file, I=1,...,NMOD: 
+
+
+\begin{enumerate}
+\item
+Parameters defining the magnitude limits. 1 line \newline
+MINF(I), MSUP(I), NMAG(I) \newline
+MINF(I): Lower limit of magnitude given in the table. \newline
+MINF(I): Upper limit of magnitude given in the table. \newline
+NMAG(I): Number of magnitudes for which intensity is given. 
+
+CRISIS99 assumes than intensities are given for magnitudes M(K),  where M(K)=MINF(I)+(K-1)*DMAG, where DMAG=(MSUP(I)-MINF(I))/(NMAG(I)-1). 
+
+\item
+Parameters defining the distance limits. 1 line \newline
+RINF(I): Lower limit of distance given in the table. \newline
+RINF(I): Upper limit of distance given in the table. \newline
+NRAD(I): Number of distances for which intensity is given. 
+
+CRISIS-99 assumes than intensities are given for distances R(K),  where log(R(K))=log(RINF(I))+(K-1)*DLRAD, where DLRAD=(log(RSUP(I))-log(RINF(I)))/(NRAD(I)-1).  That is, distances are supposed to be logarithmically spaced. 
+
+\item
+For each of the NT different intensity measures, the following block 
+of lines: \newline
+T(I,J), SLA(I,J), AMAX(I,J) \newline
+SA(I,1,1,1), SA(I,1,1,2),...,
+SA(I,J,K,L),....,SA(I,NT,NMAG(I),NRAD(I) \newline
+T(I,J): Structural period 
+of j-th spectral ordinate. It is used only for identification purposes, so in the cases in which structural period has no meaning, it can be just a sequential number. SLA(I,J): Standard deviation of the natural logarithm of the j-th measure of intensity in the i-th model. \newline
+AMAX(I,J): Maximum possible value of the j-th intensity in model I. The integration process will be truncated, regarding as impossible (zero probability) values larger than AMAX(I,J). If AMAX(I,J) is set to zero, then integration with respect to possible values of intensity will be performed from 0 to $\infty$. \newline
+SA(I,J,K,M): Median value of the intensity in model I, for the J-th spectral ordinate, the K-th magnitude and the L-th distance. 
+
+
+For each attenuation model, given in a separate file, CRISIS99 reads the above mentioned parameters in the following form: 
+
+\begin{verbatim}
+D0 J=1,NT
+  READ(8,*) T(I,J),SLA(I,J),AMAX(I,J)
+  DO K=1,NMAG(I)
+    READ(8,*) (SA(I,J,K,L),L=1,NRAD(I))
+  ENDDO
+ENDDO 
+\end{verbatim}
+
+\end{enumerate}
+
+Output files from CRISIS99 
+\index{Output files from CRISIS99}
+
+CRISIS99 generates several output files, whose names begin with the base name requested at the beginning of the run. The output files are: 
+
+\begin{enumerate}
+\item
+Main results file. This file with - .res -extension contains a printout of the name of the run, the values assigned to the variables, characteristics of the attenuation models, geometrical and seismicity description of the sources, the data defining the computation grid, etc. It also gives the final results, that is, exceedance rates for each site and type of intensity. It also gives a brief 
+
+summary of the computations for each site, indicating which sources are of interest to the site and which sources were skipped. 
+
+\item
+Graphics file. The principal graphics file with - .gra - extension 
+contains a brief identification header, and the exceedance rates for 
+the type and levels of intensity requested. This file can be used 
+as input file to plot intensity versus exceedance rate curves. CRISIS99 
+generates also a binary file with the exceedance rates for each structural 
+period, so CRISIS99 will generate NT binary files. These binary files 
+will be used only in the Windows System version of CRISIS99 to make 
+hazard maps. The names of these files are base\_name.b1, base\_name.b2,..., base\_name.bNT. 
+
+\item
+Map file. This file with - .map - extension contains intensity levels for fixed return periods (TR1,...,TR5) for each type of intensity and site. It also gives the co-ordinates of each site. This file can be used to generate contour or 3d maps of intensity levels associated to constant exceedance rates. 
+\end{enumerate}
+
+Example output files are included in the DAT directory (crisis99.res, crisis99.gra, crisis99.map). 
+
+CRIATT: 
+\index{CRIATT}
+
+In this program, an earthquake source model and results from Random Vibration Theory (RVT) \citep[e.g.,][]{boore1983,boore1989}, are used to estimate attenuation of ground motion parameters as a function of moment magnitude, MW, and hypocentral distance, R. Ground motion is assumed to be band-limited, stationary and of finite duration. 
+
+For estimating the \index{Fourier acceleration spectra}Fourier acceleration spectra, a(f), it is assumed an \index{Omega square}omega square constant \index{Stress drop}stress drop source model given by \citet{brune1970}. The expression for a(f) is: 
+
+\begin{equation} \label{eq:fas}
+a(f) = CG (R) S(f) D(f) 
+\end{equation}
+
+where 
+
+\begin{equation}
+C = (4 \pi2 R_{V \phi} FV) / (4 \pi \rho\beta^3) 
+\end{equation}
+
+\begin{equation}
+S(f) = M_0 f^2 / (1+f^2/f_0^2) 
+\end{equation}
+
+and 
+
+\begin{equation} \label{eq:diminution}
+D(f) = P(f) e^{-\pi R f / \beta Q(f)} 
+\end{equation}
+
+Thus the spectrum a(f) is the multiplication of a constant C (independent of frequency), \index{Geometrical spreading}geometrical spreading term G(R), \index{Source function}source function S(f), and \index{Diminution function}diminution function D(f). In C, Rvø is equal to average \index{Radiation pattern}radiation pattern (0.55), F is \index{Free surface effect}free surface effect (2.0), V is partition of a vector into two horizontal components (0.707), . is density in gm/cm3, and ß is shear wave velocity in km/sec.  
+
+In S(f), M0 is the \index{Moment}seismic moment and f0 is the \index{Corner frequency}corner frequency, given by \citet{brune1970}
+
+\begin{equation}
+f_0 = 4.9 x 10^6 \beta (\Delta \sigma / M_0)^{1/3} 
+\end{equation}
+
+where $\beta$ is in km/sec, $\Delta \sigma$ is the stress drop in bars, 
+and $M_0$ is in dyne-cm. The diminution factor $D(f)$, accounts for loss 
+of energy due to internal friction and scattering. 
+
+At distances less than a certain critical value of 
+$R_c$, the strong motion records are dominated by S-waves. 
+Thus for $R < R_c$, $G(R) = 1/R$ is the geometrical spreading. 
+For $R > Rc$, $G(R) = 1/(R R_c)^{1/2}$. 
+
+The diminution function $D(f)$ in equation \ref{eq:diminution} requires $Q(f)$ and $P(f)$, 
+where the \index{Quality factor}quality factor defined by the 
+\index{Regional attenuation}regional attenuation is expressed by 
+$Q(f) = Q_0 f^{\epsilon} $ ($f$ is frequency and $\epsilon \leq 1.0$), and whereas 
+
+\begin{displaymath}
+P(f) = e^{-\pi \kappa f} 
+\end{displaymath}
+(23) 
+
+$P(f)$ reconcile an additional attenuation term which may be related to near-surface 
+loss of energy where $kappa$ is a \index{High frequency decay factor}high frequency 
+decay factor \citep{singh1982}. 
+
+\textbf{Input file for CRIATT}
+\index{Input file for CRIATT}
+
+The standard input file for the CRIATT program can be created by modifying the 
+example input file. A total of 23 parameters provide the necessary 
+input for calculating the attenuation tables, which is based on 
+equation \ref{eq:fas}, described earlier. The user should define the magnitude and 
+the distance limits. It is important to note here that some combinations 
+of parameters may result in 0 values for large distances in the table, 
+which creates problems for the CRISIS99 program. In order to avoid 
+this, the distance ranges are set to $R_{min}<10 km$ (CRISIS99 requires 
+one-digit only) and $R_{max} < 500 km$. Usually the regional attenuation 
+term and the site factor are the most critical factors in the definition 
+of a(f). The effect of the high-frequency decay factor can only be 
+seen when the combination of the kappa parameters ($kappa0$ and $kappa1$) 
+are chosen correctly (e.g. increasing kappa1 with $kappa0$ kept constant, 
+would result in low ground motion values). An example input file is 
+included in the DAT directory with the file name \texttt{criatt.inp}. 
+
+\index{Output file from CRIATT}
+\textbf{Output file from CRIATT}
+
+The output of the CRIATT program is a file containing the attenuation 
+tables for the selected spectral ordinates (i.e. as a default only 
+PGA corresponding to a period of $0.005 sec$ is computed). For each 
+spectral ordinate, the file will contain a set of values (e.g. PGA) 
+for different distances. This file is then used as one of the inputs 
+to the CRISIS99 program. The file name is user defined. An example 
+output file is included in the DAT directory with the file name \texttt{criatt.tab}. 
+
+\textbf{CRIPAR} \newline
+The program was used earlier to generate input for both crisis and criatt but now it is only used with criatt due a format change for crisis99.\index{CRIPAR} 
+
+\index{EQRISK}
+\textbf{EQRISK:}
+
+This popular program for computing seismic hazard is written by \citet{mcguire1976}, and the complete manual is published as an open file report. The following is a short summary of the program operation and a full description of the input parameters as well as format of the input file. These descriptions are as they are given in the original manual \citep{mcguire1976}. 
+The program EQRISK evaluates risk (hazard) for each site-source combination and intensity level and calculates the total annual expected number of occurrences of intensity greater than those levels of interest at a site by summing the expected numbers from all sources. Seismic source areas are specified as a set of arbitrarily shaped quadrilaterals. For ease of use, gross sources may be divided into sub-sources, which are a string of quadrilaterals, each two adjacent subsources having two common corners. A Cartesian co-ordinate system is used and the location of the origin is arbitrary. 
+
+\index{Input file for EQRISK}
+\textbf{Input file for EQRISK}
+
+The default input file is named "DATA" and is hardwired into the program 
+(for the SUN version file name should be uppercase). An example input 
+file is included in the DAT directory with the name "eqrisk.inp", which 
+should be renamed to "DATA" before running. Following is the description 
+of the individual parameters and their format as described in the 
+original manual \citep{mcguire1976}. 
+
+\begin{itemize}
+\item[Card 1] (Format 20A4): Title. Any 80 characters can be used 
+to describe the problem. 
+
+\item[Card 2] (Format 3I10): NSTEP, JCALC, JPRINT. \newline
+NSTEP is the number of integration steps used in integrating over 
+distance for each site-source combination. \newline
+JCALC is the flag indicating how integration on magnitude is to be 
+performed (JCALC=0 is used for analytical integration, and the form 
+of the attenuation function is described in the original manual. 
+JCALC=1 is used for numerical integration on magnitude. The user 
+must supply own attenuation function in subroutine RISK2.) \newline
+JPRNT is the flag indicating the desired output (JPRNT=0 is used to print only total expected numbers and risks at a site which is normally used when a grid of sites being examined. JPRNT=1 is used to print expected numbers from each site-source combination, normally used when examining a single site). 
+
+\item[Card 3] (Format I5, 12F5.3): NLEI, TI(1), TI(2), ..... TI(NLEI). \newline
+NLEI is the number of intensities to be examined. TI(1), TI(2) and so on, are intensities for which expected numbers and risks are calculated  at each site. Note, that the values for TI(i) may be Modified Mercalli Intensity or the natural logarithm of ground acceleration, velocity, displacement or spectral velocity. In printing results, the program prints both TI(i) and its antilogarithm. Values for array TI must be specified in increasing order. 
+
+\item[Card 4] (Format 8F10.2): RISKS(1), RISKS(2), ..... RISKS(8). \newline
+RISKS(1), RISKS(2), and so on are risks (probabilities of exceedance) for which the corresponding intensities are desired. These intensities are calculated by interpolation on a logarithmic scale, between intensities (in the list of examined intensities, TI) having larger and smaller risks. Both the corresponding intensity and its antilogarithm are printed. Values for array RISKS must be specified in order of decreasing risk. If fewer than eight values are desired, leave succeeding spaces on the card blank. To avoid large errors and subsequent misinterpretation, the program will not extrapolate to calculate intensity values corresponding to risk levels specified; it is the user's obligation to choose values for array TI which will result in risks which bound those specified in array RISKS. This is of course, a matter of judgement and experience. The user must be cautioned that in a grid site system appropriate values for array TI may vary considerably for the different sites examined. The intensities interpolated for levels specified in RISKS will be most accurate for closely spaced values of TI. 
+
+\item[Card 5] (Format 8F10.2): C1, C2, C3, SIG, RZERO, RONE, \newline
+AAA, BBB. C1, C2, C3 and RZERO are parameters in the \index{Attenuation equation}attenuation equation for mean intensity discussed in the original manual \citep{mcguire1976}: 
+\begin{displaymath}
+m_I(S,R)=C1+C2*S+C3*ALOG(R+RZERO) 
+\end{displaymath}
+SIG is the standard deviation of residuals about the mean. If no dispersion of residuals are desired, insert a very small value for SIG (rather than exactly 0.0). RONE is the limiting radius inside of which no attenuation of motion is desired, for values of focal distance closer than RONE, the mean intensity is calculated using RONE in place of R in the attenuation equation above. If this feature is not desired, insert zero for RONE. AAA and BBB are parameters in the equation limiting the mean intensity: 
+\begin{displaymath}
+max \, m_I(s)=AAA+BBB*S 
+\end{displaymath}
+The value specified for BBB must be between zero and C2 for this limiting equation to make sense. If it is not, an error message will result and program operation will terminate. 
+
+\item[Card 6] (Format I10, 6F10.2): NGS, NRS(1), NRS(2), .... NRS(NGS). \newline
+NGS is the number of gross sources to be specified. \newline
+NRS(1), NRS(2), and so on are the number of subsources in gross source 1,2, etc. See the original manual \citep{mcguire1976}, for a general description of the source specification. 
+
+\item[Card (set) 7] (Format I10, 6F10.2): LORS(I), COEF(I), AM0(I), AM1(I), BETA(I),  
+     RATE(I), FDEPTH(I). \newline
+There must be NGS+1 of these cards, one for each gross source and one for background seismicity. \newline
+LORS(I) is a flag indicating whether the source area has a loose or strict lower 
+bound (LORS=0 implies a loose lower bound and LORS=1 implies a strict lower bound). \newline
+COEF(I) is a coefficient modifying the expected number of exceedances from gross source I. Its most common value is +1.0. AM0(I) is the loose or strict bound lower magnitude or intensity for gross source I. 
+\newline
+AM1(I) is the \index{Upper bound magnitude}upper bound magnitude or intensity for gross source 
+I. 
+\newline
+BETA(I) is the value of $\beta$ for gross source I. It is equal to the 
+natural logarithm of 10, times the Richter \index{B-value}b-value for the source. \newline
+RATE(I) is the rate of occurrence of events having magnitudes of intensities greater than AM0(I). If a discrete distribution on intensities has been used to calculate the rate, the user may wish to specify AM0(I) as one-half intensity unit lower than the lowest intensity used to establish the rate. Note that for gross sources RATE(I) is in units of number per year; for \index{Background seismicity}background seismicity it is in units of number per year per 10,000 km. \newline
+FDEPTH(I) is the focal depth of events in gross source I, in km. If epicentral distances are required for all sources and for background seismicity for the attenuation function, insert zero for FDEPTH(I). \newline
+If no background seismicity is desired, leave the last card in this set completely blank. 
+
+\item[Card 8] (Format 4F10.2): X1, Y1, X2, Y2. \newline
+There must be NRS(1)+NRS(2)+ .... +NRS(NGS)+NGS of these cards. The first NRS(1)+1 cards specify co-ordinates of subsources in gross source 1, the next NRS(2)+1 cards specify co­ordinates of subsources for gross source 2, and so on. Internally, the point X1, Y1 is connected to X2, Y2, as well as both to the previous and the subsequent points designated as X1, Y1, as long as these are both in the same gross source. Point X2, Y2 is connected similarly. An example is elucidating. The following points define two gross sources having two subsources. 
+\begin{verbatim}
+ 0.0  0.0 10.0  0.0 
+ 0.0  5.0  8.0  8.0 
+-5.0 10.0  6.0 15.0 
+10.0 20.0 11.0 20.0 
+15.0 15.0 16.0 15.0 
+15.0  0.0 16.0  0.0 
+\end{verbatim}
+
+\item[Card 9] (Format 2I5, 4F10.2): NX, NY, XZERO, YZERO, XDELTA, YDELTA. \newline
+There can be any number of these cards, one for each site or grid of sites to be examined. 
+NX and NY are the number of grid points in the X (East-West) and Y (North-South) directions; 
+that is, they are the number of columns and rows in a grid of sites to be examined. For 
+specification of a single site, NX and NY must have values of unit. Zero or negative values for NX 
+and NY are meaningless and will cause program to terminate. \newline
+XZERO and YZERO are the co-ordinates of the site to be examined, or are the lower left corner 
+of the grid if NX and/or NY are greater than one. \newline
+XDELTA and YDELTA are the grid spacing in the X and Y directions. When the grid option is not 
+used, these variables may be left blank or set equal to zero. 
+
+\item[Final card:] Insert one blank card at the end of the input deck. 
+\end{itemize}
+
+\index{Output file from EQRISK}
+\textbf{Output file from EQRISK}
+
+There is only one standard output file generated by EQRISK which has a default file name of "eqrisk.out". This file contains the results of the hazard computations for each site for the specified exceedance probabilities. This output file can easily be converted to individual intensity (e.g. PGA) contour files (one for each level of exceedance probability), using the program EQRSEI. The resulting \index{Contour maps}contour maps from these output files may then be plotted by EPIMAP. 
+
+The detailed format of this output file is described in the original manual \citep{mcguire1976}, and is not repeated here. A test set of input and output files are given in DAT.  
+
+\index{EQRSEI}
+\textbf{EQRSEI:}
+
+The program EQRSEI converts the output file \texttt{eqrisk.out} from the EQRISK program into individual intensity contour files for the previously defined return periods. There may be up to eight such files (eqrsei1.out, eqrsei2.out ...., eqrsei8.out). These files can then be used as input to the EPIMAP program to plot the contours of PGA values on the epicenter maps. Each file contains also some header information, where the individual contours and the contour intervals are given. In addition, the color codes are also given. The individual contours and the contour intervals can be modified by editing the header lines of these files. 
+
+\index{CLUSTER}
+\textbf{CLUSTER:}
+
+This is a program that searches for the dependant events in a given catalogue (compact file) with respect to time and distance. It is written by Juan Pablo Ligorr´ia and Conrad Lindholm. The input is a standard Nordic file with header lines only (compact file). The user has to give the number of days to be searched before and after the main event, and the distance limits in km. The magnitude of the main event over which the search will be performed is also user defined. The output is a repetition of the input catalogue with "?" placed at the end of each dependant event which falls within the limits defined in the interactive input in time and distance. The default file name is \texttt{cluster.out}. The user should then work systematically through these events and decide whether they should be cleaned or not. This process, we feel, should be done manually, because deleting events from the catalogue (especially the historical part), may have serious implications later in the hazard computations. Clusters of foreshocks, aftershocks or other dependant events such as earthquake swarms can be delineated by this program. 
+

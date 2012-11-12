@@ -1,0 +1,32 @@
+
+\section{Wadati} 
+
+This is a program to make Wadati \index{WADATI}\index{Apparent velocity}\index{Vp/Vs, calculate}diagrams and apparent velocity from a Nordic file with one or many events. The apparent velocity is calculated from the arrival times and the calculated epicentral distances as given in the S-file. The apparent velocity is thus approximate and affected by the location. \newline
+The purpose of the program is to calculate Vp/Vs values for individual events and calculate the average for a group of events. In addition, the program can calculate the apparent velocity for each event based on P or S-times. Wadati diagrams with plot can also be calculated directly from EEV. 
+
+The information can be used to obtain a first impression of crustal \index{Crustal parameters}parameters. 
+For each calculation, events can be selected based on: Minimum number of stations, maximum rms of the fit (S-P vs P, or arrival times), and minimum correlation coefficient of the fit. For the apparent velocity calculation, the data can also be selected in distance and azimuth ranges. 
+
+The output gives: 
+
+\begin{tabular}{lp{10cm}}
+T0 : & Wadati calculated origin time \\
+N : & Number of stations used for Vp/Vs \\
+VPS : & Vp/Vs ratio \\
+NP : & Number of stations for P- velocity \\
+NS : & Number of stations for S-velocity \\
+AVSP: & Average S-P times with sd \\
+AVDI: & Average distance with sd \\
+\end{tabular}
+
+The average Vp/Vs is calculated for the whole data set. Individual Vp/Vs values outside the range 
+1.53 to 1.93 are excluded. An output file wadati.out is generated. A minimum of 3 stations is required for an event to be used. Only same type phases are used (like PG and SG).  
+
+Example of a run to calculate Vp/Vs 
+
+\verbatiminput{include/wadati.run1}
+
+Example of a run to calculate apparent velocity
+
+\verbatiminput{include/wadati.run2}
+

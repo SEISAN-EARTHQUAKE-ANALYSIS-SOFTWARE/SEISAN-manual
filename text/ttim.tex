@@ -1,0 +1,38 @@
+
+\subsection{IASPEI travel time software, program TTIM} 
+
+This program can be used for calculating global travel times, see below for details on phases calculated. The program assumes that you have the travel time tables in the working directory or in DAT, see computer notes below on how to generate these file if not already there. The same files are also used by HYPOCENTER. 
+
+After starting the program, the first two questions 'do you want xxxxx' relate to range summaries, etc., that are normally not required and can be answered with n(no) followed by ENTER. The program then asks 'Enter phases, one per line...' You can then enter a specific phase, or a keyword defined as follows:  
+
+
+\begin{tabular}{lp{10cm}}
+All & gives all phases \\
+P & gives P-up, P, Pdiff, PKP, and Pkikp \\
+P+ & gives P-up, P, Pdiff, PKP, Pkikp, PcP, Pp, Ppdiff, PPKP, 
+PPKIKP, Sp, Spdiff, SPKP, and SPKIKP \\
+S+ & gives S-up, S, Sdiff, SKS, Ss, Ssdiff, SSKS, Ps, Psdiff, and PSKS \\
+basic & gives P+ and S+ as well as ScP, SKP, PKKP, SKKP, PP, and P'P' \\
+\end{tabular}
+
+Writing all individual phases, separate by ENTER, terminating the 
+list with an additional ENTER.  The program will then enter a loop 
+where phase times are calculated for new distances entered on request. 
+The program is terminated for a particular distance by entering -1, 
+and a new depth can be used, or the program can be terminated by entering -1 again. \newline
+A special version of this program used in connection with MULPLT is IASP. \newline
+In order to generate the earth model files \index{IASP91.HED}IASP91.HED 
+and IASP91.TBL, first run program REMODL, then program SETBRN. The 
+program REMODL has the earth model hardwired. Note: These binary files 
+CANNOT be moved between platforms. They are included with SEISAN for 
+each respective distribution. If lost, they must be regenerated on 
+the same platform.  \newline
+For more information about IASP91 programs, see HYPOCENTER manual by \textbf{B. Lienert}. 
+
+%\textcolor{red}{pv-change: 
+On at \index{64 bit computer} 64 bit 
+computer the IASP files must be regenerated 
+is you have the files from a 32 bit computer, with the programs \texttt{REMODL} and 
+\texttt{SETBRN}. 
+
+

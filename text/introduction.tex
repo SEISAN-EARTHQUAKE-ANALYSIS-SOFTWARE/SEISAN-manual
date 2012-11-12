@@ -1,0 +1,233 @@
+%# feb 20 2011 jh: small change
+%# feb 22 2011 jh: add graphics windows size
+%# feb 28 2011 jh: small correction
+%# apr 02 2011 jh: add new eev options
+%# may 19 2011 jh: version 9.01
+%# nov 03 2011 jh: version 9.1
+%# jan 23 2012 jh: new format, more intro
+%# apr 25 2012 jh:  more intro
+%# jun 7  2012 jh: ---------
+
+\chapter{Introduction}
+\label{chp:intro}
+
+The SEISAN seismic analysis system is a complete set of programs and a simple database for analyzing earthquakes from analog and digital data. With SEISAN it is possible using local and global earthquakes to enter phase readings manually or pick them with a cursor, locate events, edit events, determine spectral parameters, seismic moment, azimuth of arrival from 3-component stations and plot epicenters. The system consists of a set of programs tied to the same database. Using the search programs it is possible to use different criteria to search the database for particular events and work with this subset without extracting the events. Most of the programs can operate both in a conventional way (using a single file with many events), or in a database manner. Additionally, SEISAN contains some integrated research type programs like coda Q, synthetic modeling and a complete system for seismic hazard calculation. 
+
+The data is organized in a database like structure using the file system. The smallest basic unit is a file containing original phase readings (arrival times, amplitude, period, azimuth, and apparent velocity) for one event. The name of that file is also the event ID, which is the key to all information about the event in the database. Although the database in reality only consists of a large number of sub-directories and files (all of which the user has access to), the intention is that by using the surrounding software, the user should rarely need to access the files directly, but rather do all work from the user's own directory. Test data and a tutorial (see %section 5
+chapter \ref{chap:training}) are supplied with the system. 
+
+%\textcolor{red}{lo-change:
+The programs are mostly written in Fortran, a few in C and almost all source codes is given, so the user should be able to fix bugs and make modifications. The programs have been compiled and linked with system compilers and linkers on SUN, GNU compiler on Linux 
+%\textcolor{red}{jh-change: 
+Windows
+and MaxOSX. 
+ SEISAN runs under Sun Solaris, Linux, MacOSX, Windows95/98/NT/2000/XP/Vista/Windows7. 
+%\textcolor{red}{jh-change: 
+For graphics, X is used on Unix systems and DISLIN 
+(www.dislin.de) used under Windows. 
+No format conversion is needed to move data files (binary and ASCII) between the systems if one of the standard formats (SEISAN, GSE2.0, SEED, SAC, GURALP) is used.  
+%}
+
+This manual resides in the directory INF (see below), when the system 
+has been implemented on your computer. The file is called 
+\texttt{seisan.pdf} (Adobe PDF). 
+
+The SEISAN system is built of programs made by many different individuals without whom it would never have been possible to make SEISAN. Acknowledgement is made throughout this manual where appropriate or in the acknowledgement section at the end. SEISAN now contains so many programs that when a new version is released, it is not possible to check all the options in all programs and we rely on the user to help finding the bugs, please report! 
+
+SEISAN is freely available for all non-commercial use. 
+
+In this manual names of computer programs are given with capital letters, names of 
+files and command line options are given by typewriter font.
+
+%\item WAV2BUL - A new program that add the new BUD archive waveform lines to nordic files, see page \pageref{page:wav2bud}.
+%\item SELECTC - A new program that search for text strings in nordic files, see page \pageref{page:selectc.jar}.
+
+Changes in next version
+\begin{itemize}
+\item R command in EEV can now be used to rename event type (L, R or D) and to change event ID e.g. LE or LP (use LB for blank)
+\end{itemize}
+
+\section{Latest changes}
+Changes in version 9.1
+\begin{itemize}
+\item Chad Tabant's seed read and write  routines are now used in all programs. 
+\item Dregers moment tensor inversion integrated with SEISAN.
+\item Compilation has been simplified with the integration of DISLIN and Libmsed into the seisan distribution.
+\item New option in SPEC(no plot, used for batch).
+\item New conversion program HINOR, Hypoinverse archive format to NORDIC.
+\item Several programs in SEISAN reads Guralp gcf format.
+\item Several programs in SEISAN read Helberger format (used for MT inversion).
+\item MULPLT can now, for the first time, write out any processed signal seen on the screen (option \texttt{OutW}).
+\item Filter routiens gave been reorgnized giving more options (see MULPLT section on filters).
+\item MULPLT can overlay channels.
+\item MULPLT can select many channels in multitrace mode by left and right button mouse click.
+\item MULPLT can plot files in a file of files via EEV, LIST option. 
+\item MULPLT can select only to plot stations for plotting in  a given distance from a point, usually the epicenter.
+\item SELECT has a new option for selecting data for CODAQ.
+\item GMAP new option: automatic plotting of epicenters in Google Earth, see page \pageref{subs:gmap}.
+\item GMAP: Error ellipses are implemented.
+\item CODAQ output results in at station-evetn midpoints
+\item CODAQ\_area: new program to sort CODAQ out put in areal bins.
+\item JSEISAN has been removed.
+\item SeisanExplorer, a new graphical interface to replace EEV and JSEISAN, distributed separately.
+\end{itemize}
+
+
+\section{Latest changes}
+Changes in version 9.0.1
+\begin{itemize}
+\item Fixed some minor bugs in version 9.0.
+\item New options and changes in EEV: IFP: Input munually fault plane solution, INPUTFPS: input complete fault plane solution line, COML: Input geographical location line, COMF: Input felt event comments, U: Update event (was UPDATE, UP: Update event list (was U), M: Input model indicator on header line.
+\item program FOC now also makes rose diagrams.
+
+\end{itemize}
+
+Changes in version 9.0 
+\begin{itemize}
+\item New compiler and graphics system for Windows: This is the largest change. Windows now uses Gfortran and gcc and the graphics library is DISLIN. This has stabilized the graphics on Windows end enabled to use the same compiler on most platforms. However, the gfortran on Windows has created new problem in some programs most of which probably has been solved.
+\item SEISAN can now extract and plot data from a BUD and a SEISCOMP archive, read more at page \pageref{page:bud-archive}.
+\item EEV has several new options: CM: Copy many files, DD: Duplicate header, FH: HASH fault plane solution, FP: FPFIT fault plane solution, FO: Plot all fault plane solutions, IFP: Input munually fault plane solution, INPUTFPS: input complete fault plane solution line, COML: Input geographical location line, COMF: Input felt event comments.
+\item FOC: A program to plot and analyze fault plane solutions.
+\item FPFIT: FPFIT fault plane solution program with SEISAN driver program FPFIT\_SEISAN.
+\item HASH\_SEISAN: HASH fault plane solution program.
+\item GETPDE - A new program that grap the PDE from the USGS web page and add the events in a database, see page \pageref{page:getpde}.
+\item SEIS2VIEWER - A new program for plotting earthquakes on a map, command smap, see page \pageref{page:seis2viewer}.
+\item EPIMAP: Can now plot fault plane solutions.
+\item MULPLT: Has a three component option facilitating working with three component data.
+\item AVQ: new program to average Q-relations.
+\item MAG2: new program to invert amplitudes for ML scale.
+\item Individual size of graphics windows for different programs can now be set in COLOR.DEF.
+\item The following programs do not work with Gfortran: HYPINV, HYP\_ISC, NORHYP, ARCSEI
+\end{itemize}
+
+
+Changs in Version 8.3 
+%\textcolor{red}{lo-change:}
+\begin{itemize}
+%\item SEI2PSXY, mulplt error ellipses, etc. in a GMT section ?? pv - not sure if it has been implemented...
+%\item ...
+\item Manual now written in Latex, html version is available
+\item Unix setup files were remamed to SEISAN.csh and SEISAN.bash to make them visible
+\item MULPLT: Plot hour and minute on time axis, show shortcut keys on menu, select picked traces from trace selection, new keyboard shortcuts when reading amplitudes, also shortcut keys for the first 10 traces in trace selection (these changes were put in by Wayne Crawford)
+\item Two events are now included in the SEISAN software, so that one can plot data after unpacking SEISAN, both events are found by typing \texttt{eev 199606 TEST} (Note : in unix one must first source the \texttt{COM/.SEISAN} file)
+\item PINV, new program for estimation of fault plane solution using polarities, see page \pageref{page:pinv}
+\item 64 bit, have only been tested on Linux
+\item SEISAN can now use SAC PAZ response as created with rdseed
+\item code now compiles with gfortran
+\item AUTOREG has new option for moving waveform file to WAV, see page \pageref{page:autoreg}.
+\item EEV accept SEED orientation codes : A,B,C,1,2,3,U,V,W,S and Z,N,E
+\item MULPLT orientation code 1 and 2 are read as N and E, respectively. 1 and 2 are used if orientation is different from N and E. (This still requires a more general solution)
+\item ASCSEI, A bug in in the reading of the input file was found and fixed, the first sample was lost if data was not PSN data.
+\item ISCNOR : A bug in the reading of surface wave amplitudes was fould and fixed.
+\item The problem with extracting time windows on the last page in MULPLT 
+continous mode has been fixed, page \pageref{page:mulplt.ext}.
+\item EEV copies the name and path of the 
+current s-file to a file named \texttt{eev.cur.sfile},
+when the system command \texttt{'o'} is used.
+\item Plot STATION?.HYP and SEISAN polygon files with Google Earth using GMAP, see page \pageref{subs:gmap}.
+\item The Herrmann modeling programs finally work under Windows.
+\item FOCMEC: Use of amplitudes has been improved and bugs fixed in amplitude section.
+\item New broadband body wave and surface wave magntudes have been implemented.
+\item New conversions programs: AHSEI, DIMASSEI, DATABASE2MSEED
+\item Noise spectra from continuouis data, CONNOI and EVANOI.
+\item Magnitude implementation has been adjusted to the new IASPEI standard, see table below.
+\end{itemize}
+%}
+
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{5}{|c|}{Codes for reporting amplitude readings} \\
+\hline
+Magnitude  & Old SEISAN & ISC & Old IASPEI & NEW IASPEI \\ \hline
+Local & AMP AMPL & AML & IAML & IAML  \\ \hline
+mb &  & AMB & IAmb & IAmb  \\ \hline
+mB & AMP AMB AMpb AMb AMPB &  & IAmB & IVmB\_BB  \\ \hline
+Ms & AMP & AMS & IAMS20 & IAMs\_20  \\ \hline
+MS &  &  & IAMSBB & IVMs\_BB  \\ \hline
+\end{tabular}
+
+%\textcolor{red}{pv-change: What is the code in the S-files for the new IASPEI amplitude readings ?\newline
+%which amplitude readings are used for local, mb, mB, Ms, and MS ?}
+
+Version 8.2.1 
+\begin{itemize}
+\item Improved handling of continous data bases, particularly with SEED data 
+\item New and expanded training document 
+\item Several bug fixes reported after version 8.2 
+\item Mistakes in manual reported after releases of version 8.2 
+\item More examples of making response files 
+\item Improved filtering in MULPLT by introducing tapering 
+\end{itemize}
+
+Version 8.2 
+\begin{itemize}
+\item Improved  SEED reading and writeing (still not perfect, sometimes problem with Steim2) 
+\item SEED channel naming convention now used 
+\item SAC reading and writing also under windows 
+\item New conversion programs 
+\item Improved WAVETOOL 
+\item SEISEI use all formats for input and SEISAN and MiniSEED for output 
+\item Store waveform data in memory for faster plotting  (see MULPLT section, 
+page \pageref{sect:mulplt}) 
+\item Array processing of teleseismic P- arrival on regional network using plane wave approach, PFIT 
+\item Plot of arrival times using EEV 
+\item Epicenter plotting using GoogleMap or GoogleEarth (program GMAP) 
+\item Spectral analysis also of teleseismic events 
+\item Particle motion plot in MULPLT 
+\item In MULPLT from continuous plot with one channel, it is possible 
+to extract out time windows in a data file, page \pageref{page:mulplt.ext}.
+\item SEISAN has been tested on Vista and there are problems with some graphic programs like LSQ. 
+\item EDRNOR, conversion program for USGS parametric data 
+\item GSERESP2SEED, prorgam to create dataless SEED volumes from GSE response files, \newline
+using GSE2SEED 
+\item QLg program has new features to test effect of noise and source perturbation 
+\item Instructions on how to use SEISAN under Cygwin have been added 
+\end{itemize}
+
+\section{Information about SEISAN online}
+\index{Homepage}
+\noindent
+\textbf{SEISAN homepage}
+
+The URL address where SEISAN and related software can be found is: 
+\newline
+%\href{http://www.geo.uib.no/seismo/SOFTWARE/}{hmmm}
+%\url{http://www.geo.uib.no/seismo/SOFTWARE/}
+\url{https://www.uib.no/rg/geodyn/artikler/2010/02/software}
+%\newline
+%(or \texttt{129.177.55.28} instead of \texttt{www.geo.uib.no}) 
+
+Here you can find information on the latest changes in SEISAN, access the online manual, download the software and much more. 
+
+\textbf{SEISAN anonymous ftp server}
+
+Seisan is available from the following ftp server: 
+
+\texttt{ftp.geo.uib.no} ( or \texttt{129.177.55.28}) 
+
+Login: ftp
+
+Password: $<$your email address$>$
+
+The files are stored in the directory \texttt{/pub/seismo/SOFTWARE/SEISAN}. 
+
+\textbf{SEISAN mailing lists} \index{Mailing lists}
+
+There is a mailing list, which is set-up to improve the exchange of information and questions on SEISAN. We strongly recommend that all users subscribe to the SEISAN list. The list is: 
+
+\texttt{seisan@geo.uib.no}
+
+The purpose of the list is: 
+
+To subscribe to the list, send an email to \texttt{seisan-join@uib.no} or 
+to \texttt{seisan-request@uib.no} with subject/body subscribe. 
+
+Subscription can also be done online via 
+\url{http://mailman.uib.no/listinfo/seisan}. 
+As a member of the list, it is possible to look through the archive 
+(since 2008) for questions and answers on SEISAN. Anyone is welcome 
+to reply to questions and a response to a question should be send 
+to the complete mailing list. 
+
+
+

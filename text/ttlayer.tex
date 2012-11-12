@@ -1,0 +1,7 @@
+
+\subsection{Calculation of travel times for layer and gradient model, TTLAYER}
+
+The TTLAYER\index{TTLAYER} program is written by Barry Lienert to calculate travel times for both layer and gradient model. In this version the program only works for zero depth, and therefore might not be very useful. The program reads a set of velocities and depths from an input file in `\texttt{STATION0.HYP}' format and calculates travel times for P and S velocities for a set of uniform-velocity layers, using the HYPOCENTER dtdx2 routine and also for a set of uniform gradient layers, using dtdxg, a new routine written to have the same input arguments as dtdx2. \newline
+The routine to calculate travel times for a gradient model uses an adapted version of Fred Klein's TTCAL routine, which he uses in his program TTGEN to generate a table of values from which to interpolate travel times and their derivatives in HYPOINVERSE.  \newline
+The program is easy to run and the output can be plotted with some standard xy plotting tool. 
+

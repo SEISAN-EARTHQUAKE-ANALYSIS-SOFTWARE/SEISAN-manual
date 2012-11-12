@@ -1,0 +1,35 @@
+
+\section{Inversion for $Q_{Lg}$, QLG} 
+
+The QLG program can be used to determine an average $Q_{Lg}$ or to 
+perform a tomographic inversion. The method is described in \citet{ottemoller2002}. 
+Here, we use the same names for the damping parameters, and many of 
+the other parameters should be self-explanatory. The program can also 
+produce the input for distance trace plots. Note that using the program 
+is no trivial task. The data set needs to be carefully selected and 
+the instrument calibration has to be known. The input to the program 
+is a Nordic file, which includes several events. The parameter file 
+needs to be carefully set up.\index{Lg waves}\index{$Q_{Lg}$} 
+
+The program can be used in the following way: 
+\begin{enumerate}
+\item
+Determine average $Q_{Lg}$ 
+\item
+Perform checker-board test to chose damping parameters 
+\item
+Tomographic inversion 
+\end{enumerate}
+
+Note: The main purpose of including the program is to give an example source code so that the user can make use of it when implementing similar programs. The program uses a linear grid... 
+
+Example of the parameter file \texttt{qlg.par} : 
+
+\verbatiminput{include/qlg.par}
+
+\citet{menke2006} pointed out the non-uniqueness in attenuation tomography between the source term and Q. They suggest to investigate the non-uniqueness by synthetic tests in which a perturbation is applied to the source term and the inversion for Q is done without inverting for differences in the source term. The solutions obtained are null-solutions and one needs to be careful not to mistake them for real patterns. These tests are possible within QLG by setting the parameter `SOURCE PERTURBATION, where the first parameter refers to the source that is perturbed and the second parameter gives the amount of perturbation in units of moment magnitude. 
+
+It is possible to invert real data without inverting for the site term by setting `FIX SITE'. This can be a useful test as there is also a trade-off with the site term. Fixing the site term is more problematic, as this is done based on the local magnitude, which may not be the same as the moment magnitude. 
+
+Another useful stability test is to add Gaussian noise to the spectra and check the inversion result. This can be done for both real data and the checkerboard test by setting the parameter `GAUSSIAN NOISE', units are equivalent to change in moment magnitude. 
+

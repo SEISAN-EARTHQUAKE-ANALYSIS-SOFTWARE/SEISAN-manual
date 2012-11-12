@@ -1,0 +1,54 @@
+% {\color{red}jh-change:
+\subsection{FPFIT}
+\index{FPFIT}
+\label{FPFIT}
+
+This well known program, written by \cite{reasenberg1985}, 
+%Reasenberg and Oppenheimer (1985), 
+uses polarities to find one or several fps's (see manual fpfit.pdf in INF). 
+Quoting the manual "Program FPFIT finds the double couple fault plane 
+solution (source model) that best fits a given set of observed first 
+motion polarities for an earthquake. The inversion is accomplished 
+through a two stage grid search procedure that finds the source model 
+minimizing a normalized, weighted sum of first motion polarity discrepancies". 
+The weighted sum is expressed through the F-factor (0-1) given as output 
+in S-file. A value below 0.5 is a good fit and a value of 1.0 is means 
+a perfect misfit. A station distribution ratio STDR is calculated. 
+Quoting the manual  "The station distribution ratio is 0.0 $<$ STDR $<$ 1.0. 
+This quantity is sensitive to the distribution of the data on the focal 
+sphere, relative to the radiation pattern. When this ratio has a low 
+value (say, STDR $<$ 0.5), then a relatively large number of the data 
+lie near nodal planes in the solution. Such a solution is less robust 
+than one for which STDR $>$ 0.5, and, consequently, should be scrutinized 
+closely and possibly rejected". This value is also written to the S-file.  
+One advantage with FPFIT compared to FOCMEC is that formal errors are 
+estimated and usually only one solution is given. The software is found at 
+\url{http://earthquake.usgs.gov/research/software/} 
+%http://earthquake.usgs.gov/research/software/index.php#
+
+The original program FPFIT is left unchanged except for a minor gfortran adaption. FPFIT is an interactive program with many options for parameters stored in a parameter file and different data input formats can be used. In the SEISAN implementation, this has been simplified and a SEISAN driver program FPFIT\_SEISAN is used. This program converts the observations to an input file in hypo71 format, fpfit.dat, makes a parameter file with preset parameters, fpfit.inp and a run file fpfit.run to run the program. After running FPFIT\_SEISAN (either free standing or through EEV with command fp), it is possible to run the original program directly with command fpfit and test different FPFIT parameters, using fpfit.inp as a starting parameter file (default). It is then possible to interactively get information about the different parameters. The hardwired parameters essentially use default settings,  ensure the use of all data (e.g. no magnitude-distance restrictions) with the same weigh on all data. In addition, the following is set:
+
+\begin{itemize}
+\item[-] Search in as fine a grid as the program allows, one deg for fine search.
+\item[-] Search for multiple solutions, not just the best. Gives an idea of uncertainty.
+\item[-] Minimum number of polarities to attempt a solution is 6.
+\end{itemize}
+ 
+Run the program: In EEV, use command fp, first solution is written to S-file. The previous solution of FPFIT will be overwritten. FPFIT in SEISAN implementation can work with both global and local data, while the original FPFIT only works with local data. 
+Outside EEV. See section on composite fault plane solution.
+
+\begin{tabular}{|lp{4cm}|lp{12cm}|}
+\hline
+\multicolumn{2}{|l|}{Output files:} \\
+\hline
+fpfit.out & Details of inversion. In the FPFIT manual, this file is called
+"Statistical summary file" \\ \hline
+fpfit.fps & The fps solution etc. In the FPFIT manual, this file is called 
+"Extended hypocenter summary card file" \\ \hline
+fpfit.pol & Station and polarities used, see FPFIT manual \\ \hline
+fps.out	 & The fps in SEISAN format in a cat file\\ \hline
+\end{tabular}
+
+Note: There is no check if polarities are read on Z-channel but it is required that the phase is P. 
+
+% }

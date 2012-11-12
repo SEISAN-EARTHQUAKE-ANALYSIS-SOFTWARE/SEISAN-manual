@@ -1,0 +1,204 @@
+
+\section{Searching in the database, SELECT}
+\label{sect:select}
+\index{SELECT}
+\index{Searching in the data base}
+
+Whenever selective search and extraction is wanted SELECT is used. The program can run on the CAT database, single CAT files (Nordic or Nordic compact) or the S-file data base. The output file, \index{Select.out}\texttt{select.out}, will also be in Nordic format. Since the input CAT database can contain both normal and compact files, the output will always be a normal file with blank lines between events. If however the input is one compact file, the output will also be a compact file. 
+Note: If SELECT is used on the CAT database (normal operation), you need to UPDATE your S-file database in order to transfer changes from the S-files to the CAT database. 
+Select can work with input in 3 different ways: 
+\begin{enumerate}
+\item 
+The user is asked for selections 
+\item 
+The selection parameters are in a file 
+\item 
+Parameters are given on the prompt line 
+\end{enumerate}
+The program is started by typing SELECT (parameters from screen), 
+SELECT `input file' (parameters from input file) or SELECT -options. 
+A typical user interactive run is shown below. Comments following ! 
+
+\verbatiminput{include/select.run}
+
+Note above, that the second time the menu is shown, the choice of magnitude limits is shown.  For each CAT file in the catalog, the number of events in file, number of events selected from that file and the accumulated number are listed. The last file might not show the correct number of events in file since SELECT might stop before reading the whole file if the end time is in the middle of the file. If start time is blank, 1980 is used. The end time can also be blank, and 2015 is used. This option is useful when selection on whole data base or whole file. 
+Input parameters: 
+
+In the input database (or file) a time window must always be given. If no more selection is done, all data in time window is selected. Further selection can be done by choosing a number and giving parameters. The chosen parameters are then shown on the next parameter selection menu as shown above for magnitude. Parameters can be reentered. Parameters not entered will have no influence in the selection. If several parameters (numbered selections below) are entered, conditions for all must be true for the event to be selected. Within each numbered selection, usually only one of the entered conditions must be fulfilled for the event to be selected. If e.g. Ml and Mb are selected, events, which have either magnitude, will be selected. When no more parameters are desired, press enter. 
+\begin{enumerate}
+\item 
+- Fault Plane Solution \newline
+Selects events with a fault plane solution (F- line in S-file). 
+%\textcolor{red}{jh-change: 
+There will also be the question: "Give quality, e.g. A or ABC, enter for all", in this way different qualities can be selected.
+\item 
+- Earthquake Felt\newline
+\index{Event felt, select for}Events felt indicated by a type 2 line 
+\item 
+- Magnitude Type(s) \newline
+Normally, all magnitudes for one event are searched to see if any 
+magnitude fits the selection criteria. With option 3 it is possible 
+to use one or a combination of magnitude types e.g. L and B. If 
+\index{Magnitudes without type}magnitudes without type are to be 
+selected, use underscore ``\_'' for magnitude type. If there is no 
+magnitude in the first magnitude position, chose ``N'' for one of the 
+magnitude types to be able to select the other 2 magnitudes on the 
+line. 
+%\textcolor{red}{jh-change: fixed new mags here}
+Magnitude types are: C: \index{Coda magnitude}Coda magnitude, 
+L: \index{Local magnitude}Local magnitude, b: \index{mb}mb, B: \index{mB}mB, s: 
+\index{Ms}Ms, S: \index{MS}MB and W: Moment magnitude. N: Find events with no 
+magnitude in first position. An event is selected if any one of the 
+types of magntudes are found. Magnitudes are only searched on first 
+header line unless ``Use all header lines is set''.
+\item 
+- Distance ID(s)                           \newline
+Restricting the search to be for one or a combination of the distance id's L, R and D. 
+\item 
+- Event ID(s)                              \newline
+Restricting the search to one or a combination of event id's, e.g. E and V for explosion and volcanic events. The letters used for selection are not limited to the examples shown above, they are however the ones used currently. It is thus e.g. possibly to label events as X for \index{Unknown type}unknown type (column 23 in header line) and then later on select out all those events by specifying X for event ID. For the 3 questions about types, up to 5 letters can be used. The currently used codes are: \index{Distance id} E: Explo\index{Explosion}sion, P: \index{Probable explosion}Probable explosion, V: \index{Volcanic}Volcanic, S: \index{Sonic boom}Sonic boom, Q: Earthquakes which is equivalent to blank for type. However, if blank is selected, all event types are selected, while if Q is used as input, only events with no ID or Q ID are selected. So if all earthquakes and volcanic event are to be selected, use QV. Without the Q, only volcanic events are selected. Selection is made if either one of criteria is met. 
+\item 
+- Magnitude Limits \newline
+Range of magnitudes to select.  Note that if no magnitude type is given, the extreme of all magnitude types reported is used. Magnitudes are only searched on first header line unless \"Use all header lines is set\". 
+\item 
+- Latitude Limits \newline
+Range of latitude. NOTE: If no latitude or longitude values are chosen, SELECT will include an event even when it is not located if the remaining criteria are OK. If it is required that only located events are searched for, enter at least one value like an upper latitude limit of 95. 
+\item 
+- Longitude Limits\newline
+Range of longitude. 
+\item 
+- Depth Limits\index{Depth, select for}\newline
+Range of depths. 
+\item 
+- RMS Limits\newline
+Range of rms travel time residuals. 
+\item 
+\index{Polarity, select for}
+- Number of Stations Limits \newline
+Range of number of stations. 
+\item 
+- Hypocenter Errors Latitude Limits \newline
+Range of hypocenter latitude errors. Works only if error line (E-type) is present in S-file. Currently error lines are generated by HYP and the ISC conversion program ISCNOR. There should only be one error line in file associated with the prime solution in first header line. However, if more than one error line is present, all are checked and if one fulfills the selection criteria, the event can be selected.\index{Errors in hypocenter}\index{Selection on errors}
+\item 
+- Hypocenter Errors Longitude Limits, See 12. 
+\item 
+- Hypocenter Errors Depth Limits, See 12. 
+\item 
+- Minimum Number of Polarities, only P-phases are used \newline
+Counts all polarities, useful to find potential events for fault plane solutions. 
+\item 
+- Hypocenter Agencies \newline
+Selects events only with given hypocenter agencies as indicated on header line. 
+\item 
+- Magnitude Agencies\newline
+\index{Magnitude, select for}\index{Agency, select for}Select only events with given magnitude agencies as indicated on header line. Magnitudes are only searched on first header line unless \"Use all header lines is set\". 
+\item 
+- Station Codes, components, distance range and phase\index{Distance range, select for}\index{Select for phase}\index{Phase, select in data base}\newline
+Selects only events with given stations, component, distance range and phase. A formatted help line comes up for selecting items. Any one or a combination can be selected, however, a station code  
+%\textcolor{red}{jh-change: 
+or component code 
+must be selected. The distance can be hypocentral or epicentral. Distances are integers right justified. A special option is to make a file used for input to CODAQ. The station name CODAQ is selcted and all stations present within the specified distance range are seleted and the output is written in file index.codaq which then contains the event-station combinations used as input to CODAQ. 
+\index{CODAQ, select events}
+\index{index.codaq}
+\item 
+- Polygon \newline
+Selects events within a given polygon of at least 3 latitude-longitude pairs.\index{Polygon, select}
+\item 
+- Use all header lines\newline
+All header lines are searched for relevant information 
+\item 
+- Look for waveform file names\index{Waveform files}\newline
+Search the database for particular waveform files, input can use a fraction of file name or * for any name. No wildcards can be used in the string so e.g. ASK* will select all due to the *. Use just ASK in this case to select all filenames with the string ASK. 
+\item 
+- Gap range\index{Gap range, select for}\newline
+The range of gap as given on the E-line (normally 2. header line). Only hypocenters calculated with SEISAN version 7.0 have gap. 
+\item 
+- Phase \newline
+Look for events with particular phases. Up to 6, 4 character phase names can be selected. The event is selected if at least one of the phases is present for the event. For a more selective selection based on phase, see option 18. 
+\item 
+- Volcanic subclasses \newline
+Search for events of given subclasses given by up to 10 codes. Any code can be given, however, normally they will be as defined in VOLCANO.DEF. The program searches for lines starting with `VOLC MAIN'. 
+\end{enumerate}
+
+Historical data: When working with historical data, it can be useful to work with catalogs of several centuries. The century is available in the Nordic Format, so catalogs can go back to year 0. 
+Output: 
+
+\texttt{select.out}: A CAT-file or compact file (depending on input) of selected events.  
+
+\texttt{index.out}: 
+\index{index.out}
+A list of event id's of selected events can be used with EEV or other programs accepting inde\index{Index file}x files. This could be used e.g. to work on only distant events in the database by first selecting all distant events and then working with these directly in the database using command EEV index.out. Index files can have any name (must contain a `.') so different subsets can be available with different index files.  
+
+\texttt{Waveform\_names.out}: 
+\index{Waveform\_names.out}
+A list of corresponding waveform files. It is mainly 
+intended for copying to or from tape specific waveform files.  It has the format of the \texttt{filenr.lis} files and can be used directly with e.g. MULPLT. See also program get\_wav for selecting waveform files from the database. 
+
+\texttt{select.inp}\index{select.inp}: A file with all the parameters used for the run. The file can be renamed, edited and used as input for select. This is particularly an advantage if a complex set of selection parameters are used and the selection is wanted again with just a small change. An example file is shown below 
+\verbatiminput{include/select.inp}
+
+Note: The TT at STAT line indicates that all stations must be present (True) and hypocentral distance 
+is used (True) 
+
+Select with input from the prompt line 
+
+This option is particular useful when using select with automated operations and has been made specifically to deal with extracting data out of the data bases using WEB based software. This option do not have all of the above options. The following are implemented: 
+
+\begin{tabular}{|lp{8cm}|}
+\hline
+-base : & 5 letter data base \index{WEB options} \\
+\hline
+-seisweb: & if set, WEB output parameters  \\
+\hline
+-time : & time interval (2 variables)  \\
+\hline
+-web\_out: & complete path to where data is placed, only \newline
+active if seisweb set. 3 files are made: \newline
+\begin{tabular}{ll}
+\hline
+\texttt{web\_out.id} : & id's, like \texttt{index.out} without \\
+\texttt{web\_out.all} : & like \texttt{select.out} \\
+\texttt{web\_out.head} : & header lines  \\
+\end{tabular} 
+\\
+\hline
+-area : & lat-lon grid, minlat,maxlat,minlon,maxlon  \\
+\hline
+-depth : & depth range, mindepth,maxdepth \\
+\hline
+-mag : & magnitude range, minmag,maxmag \\
+\hline
+-nstat : & range of number of stations, min,max \\
+\hline
+-gap : & range of gap, min,max \\
+\hline
+-rms : & range of rms, min,max \\
+\hline
+-magtypes : & up to 5 mag types, one string, e.g L \\
+\hline
+-disttype : & distance type, e.g D \\
+\hline
+-eventtype : & event type, e.g. E \\
+\hline
+\end{tabular}
+
+Problems: \index{Problem, select}An event might be found and listed in 
+\texttt{index.out}, but when looking for it with EEV, it is not there. 
+This can happen if an event has been deleted with EEV and no UPDATE 
+has been made, so that the event is still present in the CAT part of the database. 
+
+
+\subsection{Searching for text string in nordic files, SELECTC}
+\label{page:selectc.jar}
+\index{SELECTC}
+\index{Searching for text string in nordic files}
+
+The command SELECTC is used to search for text stings in nordic files 
+like \texttt{collect.out} or \texttt{select.out}. Events with the maching 
+text string is listed in the output file 
+\texttt{selectc.out}. 
+The program is written by \textbf{Ruben Soares Lu\'is}.
+Below is an example :
+
+\verbatiminput{include/selectc.run}
+

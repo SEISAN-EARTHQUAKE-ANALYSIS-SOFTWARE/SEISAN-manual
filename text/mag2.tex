@@ -1,0 +1,142 @@
+\section{ML inversion, MAG2}
+\index{MAG2}
+\label{MAG2}
+
+MAG2 is a program to invert for the local magnitude scale ML. 
+The difference to the inversion done in MAG is that MAG2 inverts 
+amplitudes from all events simultaneously for the scale and 
+station corrections. The program can invert for different scale 
+parameters depending on selected distance ranges. The reason for 
+this is that it is known that the geometrical spreading is not 
+the same for example between Pg and Pn. Some authors have suggested 
+distance dependent scales, but most commonly a single scale is used 
+for all distances for simplicity.
+
+The general ML scale is given by 
+
+\begin{displaymath}
+ML = log_{10} A + a log_{10}(R) + b R + S + c
+\end{displaymath}
+
+where we measure the displacement amplitude A in nm, R is the hypocentral 
+distance in km, S is the station correction of the individual stations, 
+and c is a constant added to make the scale comparable to other places at a 
+reference distance. The station corrections add up to 0. The region 
+dependant parameters in the scale are a, accounting for geometrical 
+spreading, and b, accounting for attenuation. The part 
+$(a log_{10}(R) + b R + c)$ is commonly written as $(-log_{10} A0)$. 
+
+The program applies singular value decomposition using 
+the Numerical Recipe \citep{press2003} routines to invert 
+the observations for a, b and S. It then computes the parameter 
+c based on the reference given through distance, amplitude and 
+magnitude. This allows to calibrate scales between different 
+regions so that they are the same at the reference distance. 
+Commonly c is set such that 480 nm amplitude at 17 km gives ML=2 
+(this is equivalent to 10 mm on a Wood-Anderson seismograph 
+giving ML=3 at 17 km \citep{hutton1987}. The inversion 
+can be setup to invert for the geometrical spreading  term a 
+in the scale for up to three distance ranges. However, a single 
+attenuation term b is used.
+
+As input the program requires a parameter file mag2.par in the 
+working directory,and a standard station file e.g. STATION0.HYP. 
+Then the user only has to enter the input file of events in Nordic 
+format. An example file, mag2.par, and an input file, mag2nor.cat, 
+with events from Norway are in given in DAT., 
+
+The parameter file has the following settings given by keywords (any order):
+
+INVERSION TYPE (f10.1) - 1. = singular value decomposition (no other choice yet)\newline
+DISTANCES (2f10.1) - distance range in km for observations to use\newline
+MINIMUM NUMBER OF OBS/EVEN (f10.1) - only events with more or equal number 
+of observations are used\newline
+MIN DISTANCERANGE RATIO (f10.1) - minimum range required computed as ratio 
+of distances defined by DISTANCES\newline
+ORIENTATION (f10.1) - use of components: 0. = horizontal and vertical, 
+1. = horizontal only, 2. = vertical only\newline
+SYNTHETIC (f10.1) - set to 1. for synthetic test, scale defined by FIX SCALE A and FIX SCALE B; 0. for inversion of data\newline
+NOISE (f10.1) - ratio of amplitude to be added as noise to synthetic test\newline
+FIX SCALE A (3f10.1) - set the fixed parameter a in scale, possible for the 
+three distance ranges given by SCALE DISTANCE\newline
+FIX SCALE B (3f10.1) - set the fixed b parameter in scale, possible for the 
+three distance ranges given by SCALE DISTANCE\newline
+FIX SITE (f10.1) - set to 1. to not invert for station corrections; 0. for 
+default inversion for station corrections\newline
+REFERENCE DISTANCE, REFERENCE AMPLITUDE, REFERENCE MAGNITUDE 
+(all f10.1) - setup of the reference, used to calculate parameter c, 
+give amplitude as Wood Anderson amplitude in mm\newline
+SCALE DISTANCE (2f10.1) - give up to two distances which give the 
+transition between the possibly three distance dependent scales; blank 
+or numbers larger than maximum distance will give only one scale\newline
+IGNORE COMP (a4)  - give component not to be used\newline
+IGNORE STAT (a5) - give station not to be used\newline
+
+
+The program produces a number of output files:
+
+mag2\_amp\_dis.out - amplitude versus distance for each event\newline
+mag2\_amp\_obs.out - list of observed amplitudes\newline
+mag2\_events\_read.out - listing of events that were read in\newline
+mag2\_events\_used.out - events used in Nordic format\newline
+mag2\_evxy.out - coordinates of events used\newline
+mag2.out - general output file, lists data used and computed scale\newline
+mag2\_paths.out - event-station path coordinates\newline
+mag2\_station\_hyp.out - hyp station file with scale and station corrections\newline
+mag2\_stat\_list.out - simple output of stations used\newline
+mag2\_statxy.out - coordinates of stations used\newline
+
+The output file mag2.out will give some details on the input data, as number of 
+stations, events and observations. It reports the reference used to fix the scale at 
+the reference distance. Next it gives the scale, consisting of three parts if inversion 
+is done for all possible segments. This will be given by a1, a2, a3, while b will be 
+assumed to be the same. First the scale is presented to include the reference distance, 
+second it is shown without the reference distance included with the scale. Then comes a 
+section with the stations and the respective site terms, and finally the list of events 
+with the source term inverted for.
+
+The output file mag2.out for the example in the DAT directory should look like this:
+
+\begin{verbatim}
+ML inversion output
+
+ SVD inversion
+
+ Total number of events:           69
+ Total number of stations:           23
+ Total number of observations:          600
+
+ Reference distance  =    100.0000    
+ Reference amplitude =    1.000000    
+ Reference magnitude =    3.000000    
+
+ Ml = log A + a log(dist/refdist) + b (dist-refdist) + c + S 
+     a1=  0.84717 +/-  0.39844
+     a2=  0.00000 +/-  0.00100
+     a3=  0.00000 +/-  0.00100
+     b =  0.00061 +/-  0.00136
+     c =  0.31807 +/-  0.00000
+
+ Ml = log A + a log(dist) + b (dist) + c + S 
+    a1 =  0.84717 +/-  0.39844
+    a2 =  0.00000 +/-  0.00100
+    a3 =  0.00000 +/-  0.00100                                                                    
+     b =  0.00061 +/-  0.00136
+    c1 = -1.43679
+    c2 =  0.25756
+    c3 =  0.25756
+
+Station #    1 STAV  -0.120  +/- 0.2612   58.935    5.702
+Station #    2 BLS5  -0.044  +/- 0.2204   59.423    6.456
+Station #    3 ODD1  -0.085  +/- 0.2125   59.911    6.627
+Station #    4 EGD    0.043  +/- 0.2221   60.270    5.223
+...
+Station #   21 MOR8  -0.018  +/- 1.3061   66.285   14.732
+Station #   22 ESK    0.851  +/- 1.1257   55.317   -3.205
+Station #   23 AKN    0.171  +/- 0.3797   62.178    6.997
+ Average site term:   0.00
+  Event #     1 2002051922484590  ML =  1.95 +/- 0.438
+  Event #     2 2002052614481700  ML =  1.68 +/- 0.577
+...
+\end{verbatim}
+

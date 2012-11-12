@@ -1,0 +1,17 @@
+
+\section{Extracting events from the database, COLLECT}
+\label{sect:collect}
+\index{Extracting events from the database}\index{COLLECT}
+
+The command COLLECT is used for collecting many event files from the database \index{S-file}S-files into a single file. This may be sp\index{SPLIT}lit into individual event files later using SPLIT. The file can be used for exchanging data with other agencies or be used with the epicenter plotting program. The questions are: 
+
+\verbatiminput{include/collect.run}
+
+%\textcolor{red}{jh-change: 
+If a local data base is input, default start time is 1980 and default end time 2015. In this way it is fast to collect all data from a local data base. 
+At the end, the program will give statistics of collected data, and file name. For getting data out of the database represented by the monthly CAT files, use SELECT. If an update has been made, SELECT will always be the fastest program to use. COLLECT and SELECT are the only programs that can make a CAT file from the individual S-files. \index{S-files, collecting}Program input can also be on the prompt line, below is an example: 
+
+\texttt{collect -start\_time 19910912 -end\_time 19911015 -base\_name BER -compact}
+
+This means that a CAT-file (default) is collected from BER and is written in compact format (-compact has no arguments). The time interval is between 19910912 and 19911015. Only start\_time is required, the other arguments are optional. The syntax is:  -"keyword" value -"keyword" value etc. 
+

@@ -1,0 +1,94 @@
+% mar 19 2011 jh: fixe error in location of libmseed
+% nov 03 2011 jh: changes realted to the inclusion of libmeseed and dislin
+%
+\section{Compiling SEISAN programs}
+\label{sect:compiling}
+
+The SEISAN distribution for all platforms includes the executables. 
+Therefore in general it is not necessary to recompile. However, 
+you may have the source distribution or you might want to modify 
+some of the programs for your own needs or remove bugs and will 
+have to compile programs\index{Compile programs}.
+
+The SEISAN programs on all platforms can be compiled using the make 
+utility On all platforms there is a `Makefile' \index{Makefile}in both the PRO and 
+LIB directories and the make file is the same for all operating 
+systems supported. The file might not need any modification, however 
+the following parameters must be set correctly:
+
+SEISARCH (environmental variable): This variable is used as keyword 
+for the compilation, and can be solaris, g77, gfortran, macosx, 
+macosxppc or windows. While the gfortran option should work on all 
+platforms, the other keywords allow to have specific compile options. 
+The keywords are also used to define which programs are compiled and 
+installed in addition to the default list of programs. See chapter 7 
+for differences between the platforms. (\textbf{Note:} Without setting SEISARCH, 
+the compilation will not work since make will not know what SEISARCH is). 
+On Linux/Unix system SEISARCH is set in the seisan.csh or seisan.bash in 
+COM while on Windows it is set in the Makefile itself or it can be set 
+manually as an environmental variable.  Most of the programs are the same 
+on all platforms, but not all. 
+
+
+Note that on all platforms the Chad Trabant MiniSeed library is used (new from 
+version 9.0). In the distribution they are located in file 
+libmseed.c in LIB and 4 include files in INC (see seisan.all in INF). The libmseed.c file contains all subroutines in the original Trabant distribution and all include files from Trabant distribution are in INC. The current version of the Trabant distribution is 2.6.1. If you want to use different version, the same process as described above must be done.
+ 
+
+For the Windows platform, a graphics library and an include file is
+needed for the DISLIN software (new from version 9.0). Files
+dislin.h and dismg.a are located in INC and LIB, respectively. 
+The files are for 32 bit Windows so if running on a 64 bit system, different
+files must be used, see
+\url{http://www.dislin.de/}.
+\index{Dislin}
+
+
+The compilation can now be started from the PRO directory (for windows, see 
+compiler installation below) by starting `make all'. From the Makefile in 
+the PRO directory, the Makefile in the LIB directory is started to create 
+the object libraries. A SEISAN archive in LIB for SEISAN routines is created, 
+`seisan.a' and in libmseed, an archive libmeseed.a is made. The archives contains \index{Libmseed} 
+\index{Chad Trabant}
+all library subroutines, and you can easily link to the archives if you want 
+to use SEISAN subroutines in your own programs. Finally all programs are compiled. 
+
+Single programs can be recompiled by starting `make program' .
+If you do changes in the LIB directory you need to compile using `make all', 
+which will also create the archive file. Then you can recompile individual 
+programs in PRO as explained above.
+
+When compiling SEISAN on SUSE Linux it has been suggested to use the following 
+compiler options `-malign-double -finit-local-zero' in addition to the ones 
+already used. Testing this on Redhat Linux produced very large executables, 
+but it may be worth trying on SUSE.
+
+If graphics programs do no link on Linux/Unix systems, check that you have 
+X11 libraries in \newline
+\texttt{\$LD\_LIBRARY\_PATH}\newline
+You can check what is there by command \newline
+\texttt{echo \$LD\_LIBRARY\_PATH}
+
+Compilers used for SEISAN version 9.0
+
+Linux 64 bit: Gfortran 4.1.2
+
+Linux 32bit: Gfortran xx
+
+Windows: Gfortran 4.5.0 under MinGW
+
+Compiler installation: 
+
+For Linux/Unix, compilers are usually installed when the operating system 
+is installed. 
+
+For Windows, the gcc/gfortran compiler is found at 
+\url{http://sourceforge.net/projects/mingw/}. 
+The Fortran compiler and the MinGW development toolkit must be installed. 
+SEISAN can be compiled using the GW shell where the path to compilers is 
+known. If you want to compile outside the GW shell (in the DOS window) 
+in the same way as under Linux/Unix, the compilers must be defined outside 
+the shell by adding c:\textbackslash mingw\textbackslash bin and c:\textbackslash mingw\textbackslash msys\textbackslash 1.0\textbackslash bin to the path 
+(assuming MinGW installation under c:\textbackslash mingw). 
+
+

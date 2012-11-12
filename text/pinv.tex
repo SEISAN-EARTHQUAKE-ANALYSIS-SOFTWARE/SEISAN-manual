@@ -1,0 +1,39 @@
+%\textcolor{red}{lo-change:}
+\subsection{Moment tensor inversion program, PINV}
+\index{PINV} 
+\label{PINV} 
+\label{page:pinv} 
+
+This program makes a preliminary best fault plane solution based on 
+polarities and is intended as a help to other methods of fault plane 
+solution. The original program was written by Suetsugu and some 
+information is found in \citep{suetsugu1998}.  A copy of this report, 
+which also gives general information about fault plane solutions, 
+is available as foc.pdf at 
+\url{http://iisee.kenken.go.jp/lna/?mod=view\&cid=S0-250-2007}
+
+To run the program from EEV:
+
+Command \texttt{pi} will locate the current event and then start PINV (stands for P-inversion).  PINV is hardwired to use hyp.out as input file and it will use all polarities from P-phases (capital P as the first letter). The result of the inversion is written out on the screen and in file pinv.out.  The strike, dip and rake and number of wrong polarities is also written to the S-file provided at least 5 polarities are available, however PINV will make an inversion with any number of polarities and write the result to the screen. In the S-file, the result is written as an OF-line giving the source of the inversion as PINV. A new inversion will overwrite the previous solution. This means that a PINV solution will be additional to the solution given by the F-line and therefore not considered as prime. It is also possible to directly compare the solution to the solution obtained by FOCMEC.
+
+To run program outside EEV.
+
+The program can run with one or many events (composite solution). First locate event(s) with HYP, then give command ‘pinv’ and the inversion is made. All polarities in the hyp.out file are used. The result only goes the screen and pinv.out.
+
+Principle of operation:
+
+Moment tensor inversion can be done most simply using amplitudes as observed on the focal sphere. In PINV, polarities are considered to be amplitudes of +1 or -1 corresponding to compression and dilation, respectively. This is a gross oversimplification since there will be large variation of real amplitudes over the focal sphere. This input data of ‘amplitudes’ is then inverted to get the moment tensor under the restriction of finding a single double couple. Despite the simplification, the advantage of this method is that it very quickly gives a ‘best’ approximation to the fault plane solution. This “best“ solution, particularly with few data, might be just one of many possible (see FOCMEC), but it serves to give an idea of a possible ‘best’ solution and it is in general consistent with the observations \citep{suetsugu1998}.  Unfortunately PINV does not give an error estimate to judge how reliable the solution is. It is therefore not recommended to use PINV to obtain prime fault plane solution, but rather as a help to select a solution when using FOCMEC unless much well distributed data is available.
+In some cases, FOCMEC will find a solution where all polarities fit, while PINV will get a similar solution with some polarity errors. This can be explained by PINV using the assumption of  +1 and -1 amplitudes and thus an overall fit to amplitudes near nodal planes might be difficult. The original  input  to the PINV program has an option to give zero amplitude of observations judged nodal, however in our experience it is hard to judge if a first polarity is nodal or just has a small amplitude du to path (e.g. Pn) so this option has not be included.  
+
+An example of a run is:
+
+\begin{verbatim}
+Number of data used for inversion=  8
+Absolute pseudorank tolerance     0.001210          Pseudorank   5
+Strike, dip, rake           72.3      38.9      34.6
+Consistent data:     8
+Inconsistent data:   0
+\end{verbatim}
+
+There were 8 observation which all fitted. The pseudorank indicates how many parameters can be determined in the inversion. In this case 5 since there are 8 observations. If less than 5 observations, the pseudorank will be less than 5.  The Absolute pseudorank tolerance  is a measure of the fit.
+

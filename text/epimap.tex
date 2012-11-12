@@ -1,0 +1,140 @@
+
+\subsection{EPIMAP} 
+
+The command for plotting epicenters is \index{EPIMAP}EPIMAP <file>, where the optional file is a file with EPIMAP commands. If file is not given, the user will be prompted for the input. The program can plot land contours, epicenters, macroseismic intensities, stations and level contours as well as depth profiles. It is possible to zoom in on selected areas (option by \textbf{Mario Villagr\'an}). The program has been much revised by \textbf{Jim Bolton}. 
+
+Input files: Land contours and other contours 
+
+The program will look for all files ending with .MAP located in the DAT directory. The user can then choose any one or a combination of files\index{Plot contours}. The users own contour files (e.g. faults) can be added to the DAT directory. A very detailed world map is available on the SEISAN CD and on the SEISAN web site. Areas can be selected out of these files with program SELMAP. 
+
+Stations 
+
+Epimap will look in \texttt{STATION0.HYP} for station coordinates. It will search first in the working directory, then in DAT. 
+
+Epicenters 
+
+The user will be prompted for epicenter input files. The format can 
+be Nordic or Nordic compact. Magnitudes are plotted proportional with 
+symbol size unless the ellipticity option is selected in which case 
+the error ellipses are plotted (if smaller than 100 km).
+%\textcolor{red}{jh-change:
+Fault plane solutions can optionally be plotted instead of error 
+ellipses. The first fault plan esolution found in file will be used. Name of 
+intensity files (SEISAN standard format, see Appendix \ref{app:nordic}) are also 
+entered here. The file name must have the 3 letters `mac' after the `.' 
+See also section \ref{sect:macro}. 
+
+Input files for EPIMAP can be made e.g. with the COLLECT command which collects S-files into one file or with the SELECT command selecting data from the database using several criteria.  HYP also generates a CAT-file (\texttt{hyp.out}) which may be used as input to EPIMAP. 
+
+Macoseismic information 
+
+EPIMAP can plot SEISAN macroseismic observations, see section \ref{sect:macro}.
+
+Magnitudes 
+
+The program will read all 3 magnitudes (magnitude1, magnitude2 and magnitude3) in the header line. It will use the first non-zero magnitude in the order magnitude1, \index{Magnitude in epimap}magnitude3 and magnitude2. Epimap will search the first header line only. If it is desired to use a particular magnitude from any header line for plotting, use MAG program first to select particular magnitude type which is then placed in first header line magnitude position one. Program NORHEAD can move magnitudes from following header lines to the first line. Program REPORT can move magnitudes around on the header line. 
+
+A typical run is as follows, comment after !: 
+
+\verbatiminput{include/epimap.run}
+
+\textbf{Interactive options}: 
+
+When the plot is shown, there appears in the lower left-hand corner a menu of several options: 
+
+Q: Quit \newline
+P: Profile \newline
+A: Area \newline
+Z: Zoom 
+
+Press one of the letters to continue. 
+
+P: Profile 
+
+One or seve\index{Depth profile}\index{Profile, hypocenters}ral depth section windows can now be selected with the cursor. First move the cursor to where the section shall start (from where distances are calculated), press any character to select point, move cursor to end of profile, press any character to select. A line between the two points is now plotted. Move the cursor to a point on the side of the line and press any character. A rectangle defined by the three points is now drawn, which defines the area used for the section. If more than one section is wanted (up to 9), press the number of sections instead. The selected number of profile boxes will now be plotted, all the same size.  Pressing any character will draw the depth sections \index{Autoscale depth profile}auto scaled, while PRESSING THE CHARACTER F, THE X AND Y SCALES ARE EQUAL and determined by the horizontal extension. When the first section appears, you can either press q to quit or any other character to plot next profile or, if the last profile, replot epicenter map and select new sections. IF YOU WANT ALL SECTIONS TO REMAIN IN PLOT FILE, QUIT AFTER PLOTTING THE LAST PROFILE. The plot file always stores what has been plotted so far, and is overwritten when a replot is made. It is also possible to plot a previously defined profile by entering O. The parameters are then taken from file profile.out. This file stores the last parameters selected by EPIMAP, but can also be edited by the user. 
+
+A: Area 
+
+Select, by clicking with the cursor, at least 3 points defining a polygon within which epicenters are selected. A new plot is made enclosing only the polygon and showing the epicenters within the polygon. The corresponding epicenters (S-files) are in file epimap.are. \index{Selection in polygon}\index{Polygon, select in}Known bug: \index{Problem, MULPLT area}Sometimes epicenters are still left outside, SELECT can be used instead. 
+
+Z: Zoom 
+
+Similar to Area, however a rectangle is selected by defining just the 2 diagonal corners. 
+
+%\textcolor{red}{jh-change:
+MAP files
+The map files consist of blocks of coordinate pairs. Each block starts with the number of pairs in the block. The format of the header line is i4 and the following lines 10f8.3. Thus each block can at most have 9999 pairs.
+
+Plotting place names \index{Place names}\index{Plotting place names}If option P is used when the program asks for place names or station codes, the user will be prompted for one or several files with place names. The place name file format is: 
+
+name latitude\_degrees longitude degrees 
+
+eg: 
+
+\begin{verbatim}
+Edinburgh    55.94422  3.20096   or
+Edinburgh   55.94422   3.20096   etc.
+\end{verbatim}
+
+The only requirement is that at least 2 blanks separate the place 
+name and the geographical co-ordinates. Note that the place name 
+can contain one or more blanks, however each blank must occur singly. 
+%\textcolor{red}{jh-change:  
+An example of a place name file is place\_names.macro located in DAT.
+Epimap contour file\index{Contour file} 
+EPIMAP has a simple contouring routine accepting a regular spaced grid. Below is an example (output from EQRSEI). The top part of the file is just comments, the data starts at "Fields to use". The data must come in longitude, latitude pairs (+ value of contour) in order as shown below. The contour value is plotted exactly as shown below. E. g. the value 117 is plotted as \_\_117\_\_\_\_\_ where "\_" is blank. By specifying \_\_\_\_117.0\_, the value would be plotted as 117.0 and moved one space to the left on the plot. Currently only programs EQR\index{EQRSEI}SEI (version 7.0) and C\index{CRISEI}RISEI from SEISAN version 6.0 make contour files. In the DAT directory, there is an example of an EQRSEI.OUT file 
+
+NB: In the input file shown below, the FIRST COLUMN MUST BE blank. 
+
+\verbatiminput{include/epimap.input}
+
+\textbf{EPIMAP output files:}
+
+\texttt{epimap.out}: Gives a numbered list of all events within main window. This can be used in connection with the number option. 
+
+\texttt{epimap.cor} and \texttt{epimap.are}: If option A (selecting area) has been used, the coordinates of the corners will be given in \texttt{epimap.cor} and the complete events (S-files) within the selected area, in \texttt{epimap.are}. \index{Epimap.cor} 
+
+\texttt{epimap.num}: A compact file of \texttt{epimap.out} with the numbers plotted.\index{Select epicenters in an area}\index{Epicenter area selection}\index{Epimap.num} 
+
+\texttt{epimap.eps}: Postscript plot file of epicenters and possible profiles. If only one profile has been selected, all is on one page. If several profiles are selected, there will be two profiles per page up to a maximum of 6 pages (one with map and 5 with profiles). 
+
+\texttt{epimap.inp}: This file is storing all input parameters of the run and can be used to run epimap again without entering any \index{Epimap.inp}parameters. The file can be edited if a run has to be repeated with e.g. a new epicenter file. The file can have any name so several predefined plot definitions can be stored and thereby automate\index{Automate EPIMAP} map production. 
+
+\texttt{profile.out}: The \index{Profile.num}file stores the parameters used with the profiles. The file is overwritten for each new profile parameter selection. An example is: 
+
+\begin{verbatim}
+  60.93583   7.21519  63.29655   1.36709  63.39875   5.01266
+      27.8
+         3
+\end{verbatim}
+
+The first line gives latitude and longitude of the 3 points used for selecting profile (see explanation for interactive section), next line the azimuth calculated for the profile and the last line gives the number of profiles. The file can be used to repeat the same profile as in an earlier run or to predefine a more exact profile than can be selected with the cursor. 
+
+\texttt{profile.num}: \index{Profile.num}Output of distance and depth of the profile in km. Distance is only correct in unzoomed plots. 
+
+Problems: Known bug: When selecting events with polygon, sometimes some events remain outside\index{Problem, EPIMAP} 
+
+Figure 
+\ref{fig:epimap}
+and Figure 
+\ref{fig:epimap-area}
+shows examples of plots made with EPIMAP. 
+
+
+\begin{figure}
+\htmlimage{scale=2.0}
+\centerline{\includegraphics[width=0.9\linewidth]{fig2/fig5a}}
+\centerline{\includegraphics[width=0.9\linewidth]{fig2/fig5aa}}
+\caption{An example of using EPIMAP. The top shows epicenters plotted and the bottom the first of a series of profiles. The frames on the top plot show the location of the profiles. 
+}
+\label{fig:epimap}
+\end{figure}
+
+\begin{figure}
+\htmlimage{scale=2.0}
+\centerline{\includegraphics[width=0.9\linewidth]{fig2/fig5b}}
+\caption{An example of using EPIMAP with area selection. The top plot shows where the area is selected, while the bottom plot shows the selected area. 
+}
+\label{fig:epimap-area}
+\end{figure}
+

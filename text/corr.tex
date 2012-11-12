@@ -1,0 +1,160 @@
+
+\section{Correlation of waveform signals, CORR and detection of event clusters XCLUST}
+
+\index{Correlation}\index{CORR}\index{XCLUST} 
+The cross-correlation function provides a measure of similarity between signals. 
+In seismology cross-correlation can be used to measure the similarity 
+of waveforms between seismic events and in case of similarity to determine relative arrival times of a seismic wave between two events. Waveform similarity is caused by proximity in hypocenter location and similarity in focal mechanism between two events. Cross correlation can be computed with the program CORR and the output be processed with program XCLUST to detect groups of similar events. 
+
+\textbf{CORR}
+
+The program CORR computes correlation and can be used to measure relative arrival times. It also can be used to determine correlation of a master event with continuous data and extract event based data. The output of maximum correlation for a station recording different events can be used to identify event clusters within the data set, this can be done using the program XCLUST.  
+The cross-correlation function of signals x and y is computed in the time domain as: 
+
+\begin{displaymath}
+r_{xy}(i) = \frac{\sum_{j=1}^{n} x_j y_{(j+i-1)}}
+{\sqrt{\sum_{j=1}^{n} x_j^2} \sqrt{\sum_{j=1}^{n} y_{j+i-1}^2}}
+\end{displaymath}
+
+Phase arrivals 
+
+Phase arrivals of similar events can be determined accurately through cross-correlation. P and S arrivals can be determined independently. The procedure starts by selecting and picking phases for a master event that is representative for the group of events. Analysis of this event needs to be done accurately as it is the basis for the subsequent analysis. Phases of the other events in the group can be determined through cross-correlation of either the complete trace or a selected phase window with the master event. To pre-select a time window, manual identification of the phase for subsequent events is required prior to running CORR. This may be necessary for example if the waveform file contains several events. The phase arrival time is given by the maximum of the cross-correlation function that needs to exceed a minimum threshold. The arrival time is written out as absolute time. Filtering is applied to the signals if selected for both master and subsequent events, this may be necessary especially when dealing with events of different size. The filtering introduces a phase shift, which is applied to both signals. However, the absolute phase arrival for the subsequent event is consistent with the master event picked time. 
+
+The calculation of the relative phase time (dt) is done by taking 
+the travel time for the master event (AT1 -OT1) (where AT is arrival time and OT origin time) minus the travel time of the other event (CAT -OT2), where CAT is the time corresponding to the maximum amplitude in the cross correlation function. The output file dt.cc can be used with the double difference location program HYPODD. \index{HYPODD} 
+
+Cross correlation matrix
+
+In this mode the cross-correlation is computed between the same stations for all pairs of events (that fulfill the criteria for maximum distance between the events, and event and station). The resulting 
+cross-correlation matrix (for each station containing $\sum_{i}^{n}(i-1)$ values, where n is the number of 
+events) can be used to identify groups of similar events using the program XCLUST.  
+
+Continuous mode 
+
+The main objective of running CORR in this mode is to identify a master waveform signal in a continuous data stream, given by waveform data files. The times when correlation is higher than the selected threshold level are written out, and can be visualized by splitting the corr.out file and using EEV and MULPLT. In addition, it is possible to cut out individual event files (see CONTINUOUS EXTRACT parameter). 
+
+Input file 
+
+Input to the program is given through the file corr.inp. A sample file is given in the DAT directory; the data used in the example are part of the test data set (TEST database 2003/06, see training document). The program is run by command corr in the same directory as corr.inp and the s-files. The waveform files can be in any SEISAN standard place. All standard waveform formats can be used. 
+
+The parameters in \texttt{corr.inp} are as follows:
+
+Event file names: 
+
+\begin{tabular}{lp{11.0cm}}
+SFILE MASTER: & sfile name of master event, remove or comment out this parameter 
+                to run program in group identification mode to determine 
+                cross-correlation matrix between all events and identify group of similar events \\
+SFILE EVENT:  & sfile name of events that will be either cross-correlated among themselves, or 
+                compared to the master event, there can be several of these. \\
+SFILE INDEXFILE: & texttt{filenr.lis} file can be used to give S-file names instead of listing 
+                   them with `SFILE EVENT' \\
+\end{tabular}
+
+General parameters: 
+
+\begin{tabular}{lp{8.0cm}}
+INTERACTIVE: & set to 1. for interactive use where graphics are 
+               displayed on the screen, which is useful for testing; 
+               or set to 0. for non-interactive run \\
+CC MATRIX WINDOW: & time interval in seconds to use in computation of cross-correlation matrix instead of the duration given for each station given on STATION line, if different from 0.; full trace is used if EVENT SELCRIT is set to 0. \\
+CONTINUOUS MODE: & write out all detection times for correlation above threshold if set to 1.; otherwise only phase for maximum correlation CONTINUOUS EXTRACT: extract event waveform files for correlation above threshold, 0. for no extract, 1. to extract single channel used, 2. extract all channels  \\
+EVENT SELCRIT: & cross-correlation with the master signal can be computed either for the complete trace of the subsequent event (0.) or the same part of the signal (either P or S) as for the master event (1.) including the pre signal part and of the same duration as defined in STATION line \\
+FILTER: & this parameter allows to enable (1.) or disable (0.) filtering as defined for each channel with parameter line \\
+STATION FIX DEPTH: & allows to fix depth to given value in corr.out, which 
+                    can be useful if data is input to 
+                    location program; set to 999. to disable \\
+MAX EVENT DISTANCE: & maximum distance between event pair to compute correlation \\
+MAX STAT DISTANCE: & maximum distance between event and station \\
+MIN CORR:&  minimum correlation required either for grouping or phase identification \\
+MIN CORR CHAN: & number of stations required for event pair to be correlated. \\
+N DOUBLE SRATE: & if sampling rate is to be increased give factor n to double sampling rate n times, 
+0. for none, this makes it possible to get phase reading with resolution greater than 
+sampling interval \\
+PRE SIGNAL: & duration of signal to include before phase arrival if used \\
+SINGLE BIT: & the data can be reduced to 1 bit; reduce to 0 (-) and 1 (+) if set to 1, full data if set to 0.  \\
+START LATITUDE and START LONGITUDE: & these can be set to write values to corr.out, which is in 
+Nordic format and can be used as input for location programs; this can be used if all events analyzed belong to one cluster and the same starting location is to be used for all of them; set to 999. to disable \\
+TRACE OUTPUT: & flag to write corr.trace output file (1. for true) \\
+WAVE CORR OUT: & CORR can write out cross-correlation function and input traces to waveform output files of the selected duration, to disable set this parameter to 0., 1. for full data or 2. for reduced data, where 1 for data > MIN CORRELATION, otherwise 0 \\
+WAVENAME OUT: & CORR writes out waveform filenames to corr.out, it is possible to either keep original waveform names (0.) or put corr output file names (1.), which after SPLIT of corr.,out allows inspection of the results using eev and mulplt  \\
+\end{tabular}
+
+Station parameters: 
+
+\begin{tabular}{lp{11.0cm}}
+STATION: & one line for configuration of each channel 
+\begin{tabular}{lp{7.0cm}}
+STAT, COMP: & station and component codes \\
+SELCRIT: & 1=P, 2=S, 4=full trace \\
+DURATION: & signal duration in seconds if (selcrit<4) starting from either P or S \\
+FLOW, FHIGH: & filter limits for bandpass filter, can be; can be disabled by FILTER (see above)  \\
+\end{tabular}
+\end{tabular}
+
+Example of STATION line: 
+
+\verbatiminput{include/corr.stat}
+
+Output files: 
+
+\texttt{corr.out}: This is the main output file. The file is in Nordic format and contains the phase readings if run in phase detection mode and can be used with the SEISAN location programs directly. In continuous mode, the file can contain more than one phase reading per channel. In group identification mode the file contains the event list, cross-correlation matrix and suggested groups of similar events. \newline
+\texttt{corr.trace}: This files gives details of program run and can provide information on cause of errors. dt.cc: Input file for hypodd giving relative phase times and correlation (see hypodd manual for details), 
+e.g. \newline
+\verbatiminput{include/corr.trace}
+
+\texttt{cc\_pairs.out}: List of event pairs giving, index and s-file of first event, index and s-file of second event, number of stations and average correlation of all stations. This file is used as input to XCLUST. 
+
+\verbatiminput{include/cc_pairs.out}
+
+\textbf{XCLUST}
+
+XCLUST is a simple program for cluster analysis of output from program 
+CORR (\texttt{cc\_pairs.out}) to identify groups of similar events. 
+This is done in a rather simple approach: 
+
+\begin{itemize}
+\item
+sort event pairs with descending correlation 
+\item find group 
+\begin{itemize}
+\item[o]start with highest correlation 
+\item[o]
+add events that are linked into group this group in several loops over all pairs until no more events can be added to group; link into group is given by one of the events in the pair being correlated with any of the events in the cluster 
+\end{itemize}
+\item continue to find next group 
+\end{itemize}
+
+Visual inspection of the waveforms is highly recommended to confirm the clustering results. 
+
+Input file: \texttt{xclust.par}
+
+This is the file for the main parameters, which are: \newline
+MINIMUM CORRELATION: minimum correlation required for pair to be used \newline
+MINIMUM STATIONS: minimum number of correlated stations required for pair to be used \newline
+MINIMUM PERGROUP: minimum number of events required to make a group \newline
+TRACE OUTPUT; flag to write trace output file (1. for true) 
+
+Output files: 
+
+\texttt{xclust.trace}: gives some details of what the program does, useful for debugging \newline
+\texttt{xclust.out}: gives list of events for each cluster and for each event the number of links with other events in that cluster 
+
+\begin{verbatim}
+============= 
+ group:     1 number of events:      20 
+-------------
+  event links 
+-------------
+      5     7 
+     11     8 
+      6     5 
+      2     7 
+      1     6 
+      7     9 
+...
+\end{verbatim}
+
+\texttt{Index.xxx}: Index file where xxx refers to number of cluster. This file 
+can be used with eev (e.g. \texttt{eev index.001}) to work on a specific cluster. 
+

@@ -1,0 +1,172 @@
+% feb 14 11 jh: jh_change: add sample_read_arc
+% jan 25 12 jh: ad more sample programs
+%
+\chapter{Programming in SEISAN and list of files in SEISAN distribution}
+\label{chap:programming}
+
+This chapter gives a bit more technical details of SEISAN starting 
+with a short programmers guide with description of sample and test programs. 
+\index{Test programs} 
+
+\section{Programmers guide and some test programs}
+
+SEISAN is conglomerate of programs and subroutines and it can be 
+difficult to find out which routines to use and how to start a new 
+SEISAN program. The most common method is to use an existing program 
+and modify it. The intention with this section is to make it easier 
+by providing a few sample programs which then can be modified to 
+do specific tasks. 
+The compilation of existing SEISAN programs has been described in 
+section \ref{sect:compiling} and details of the commands are found in the Makefiles. 
+In this distribution, sample programs have been included, which 
+each illustrate the used of some SEISAN features. All  programs 
+are included in the Makefiles and can therefore be compiled directly, 
+modified and recompiled. 
+
+Reading and writing S-files 
+
+A basic operation is to be able to read and write S-files, since 
+all parameters are contained in the S-files. Starting with version 
+7.2, a new library (\texttt{rea.for}) and include block (\texttt{rea.inc} 
+for definition 
+of variables) has been included to make it easier to read and 
+write data into S-files. Earlier, S-files were only read and written 
+as text strings and individual parameters were then read/written to 
+the text strings. Now the new routines do it all. These routines are 
+now used in a few programs, but will be included whenever a program 
+is substantially modified. The sample program is called 
+\texttt{sample\_read\_write\_s.for}. The program illustrates how to read all 
+parameters in an S-file, make modifications and write out the file 
+again. The program can be useful, if the user needs a program where 
+special parameters are needed for a particular analysis or for output 
+in another format. 
+\index{Read S-file}\index{Write S-file}\index{S-file, parameters} 
+
+Reading %\textcolor{red}{lo-change: 
+and writing 
+waveform files 
+
+In SEISAN, waveform files can be in SEISAN, SAC (Unix only) or 
+GSE format. SEISAN format is slightly different depending on which 
+compute platform it is written and byte swapping has to be done in 
+some cases. In order to automatically handle the reading of waveform 
+files, irrespective of format and computer platform, a set of standard 
+routines are used (waveform.for) and an include block where all 
+parameters and data end up (\texttt{waveform.inc}). 
+\index{Waveform.inc}\index{Waveform.for}\index{SAMPLE\_READ\_WAV} 
+The sample %\textcolor{red}{lo-change: 
+reading 
+program 
+is called \texttt{sample\_read\_wav.for}.There is a similar program sample\_write\_wav for writing SEISAN waveform files.\index{sample\_write\_wav} 
+
+The program illustrates how to read many waveform files belonging 
+to one event as if it was one file, irrespective of format. It also 
+demonstrates how to read just one waveform file. There is no detail 
+on how to write a SEISAN binary file in this program, but some info 
+is given under the format description in Appendix 
+\ref{app:seisan-format} 
+and the program \texttt{tsig.for} described below illustrates a simple write. 
+The sample program sample\_read\_cont illustrates how to 
+extract out a time segment of the continuous data base. The program 
+also shows how to write a Seisan file with all headers. The program 
+is started from the command prompt: 
+
+sample\_read\_cont start\_time interval 
+
+where start time is yyyymmddhhmmss and interval is interval in minutes. 
+
+There is a similar program for reading data from archives, sample\_read\_arc. \index{SAMPLE\_READ\_ARC}
+
+sample\_read\_write\_seed interval
+
+Thsi program can read and write seed files using Chad and Rubens routines. it works independently of SEISAN subroutines.
+
+\index {SAMPLE\_READ\_WRITE\_SEED}
+\index{SAMPLE\_READ\_CONT} There is also a routine in Java available 
+to read all SEISAN binary formats. The program is called SFORMAT 
+\index{SFORMAT}\index{Java} (written by T. Utheim). Similarly there 
+is a sample program to read all SEISAN binary formats in Perl 
+(written by Angel Rodriguez). The program is called 
+\texttt{seibinasc.pl} and you need a Perl interpreter to run it. 
+Before starting the program, a DIRF must first be made of waveform 
+input files. The output is identical to a SEISAN ASCII file as 
+made by SEIASC. \index{Perl}\index{SEIBINASC} 
+
+%\textcolor{red}{lo-change: 
+The sample write program is called
+\texttt{sample\_write\_wav.for}. It is a simple example 
+of writing a straight line. The output formay is SEISAN.
+
+Graphics in SEISAN 
+
+SEISAN uses a set of graphics routines, which are identical in call 
+on all 3 platforms . These routines then call low level routines 
+which are platform dependent (X on Unix and Windows calls on PC). 
+The programmer only has to use the high level routines. The routines 
+also generate a PostScript output if a given parameter is set. 
+The program is called \texttt{sample\_grapichs.for}. 
+The program illustrates how to initiate graphics, make a few simple 
+calls, get up and use the mouse and make a hard copy file. Most of 
+the general graphics routines are located in file \texttt{seiplot.for} and 
+common variables in \texttt{seiplot.inc}. The program can be 
+useful for testing functionality of the mouse. 
+\index{Graphics}\index{Test mouse}\index{Mouse, test}
+\index{Test graphics}\index{SAMPLE\_GRAPHICS} 
+
+Program LSQ is a simple example of how to make xy-graphics. It 
+also shows how to make the output files for gmtxy. In order to find 
+more info (apart from manual in INF) on gmtxy, see file 
+\texttt{gmt.for} in LIB and \texttt{gmt\_xy\_par} 
+in INF. \index{LSQ}\index{GMTXY} 
+
+Program to make test signals, TSIG:
+\index{Test signals, make}\index{TSIG}\index{Brune spectrum}
+
+It is often useful to be able to work with controlled waveform data 
+so a program making test signals is included. The program makes 
+several traces, all with same length and sample rate and trace 1 
+is the sum of all traces. For each trace selected, the parameters 
+selected are: Frequency, amplitude (remember this is integer numbers 
+in file so use at least 1000), phase, delay (delay time when the 
+signal appears on trace relative to start of trace, the data before 
+is zero) and damping. The damping is used to simulate seismometer 
+damping or simple a damped signal and has a similar physical meaning 
+as the seismometer damping constant, but period is not recalculated 
+to simulate changing period with damping. Zero damping is no damping. 
+\index{Signal, damped}\index{Damped signal} \newline
+An additional trace can be made with a Brune displacement pulse 
+generated with parameters corner frequency (f0), Q and kappa (see 
+MULPLT) and travel time. Travel time is used for Q-correction and 
+also places the pulse at travel time distance from the origin (start 
+of trace), so length of trace must be longer than travel time. If 
+zero q and kappa, no attenuation is used. The program also write 
+an S-file with relevant parameters. The program illustrates a 
+simple writing of a SEISAN waveform file.  
+
+Java programs in SEISAN 
+
+The Java programs are each given as a Jar-file,
+% like \texttt{jseisan.jar}, 
+the jar-files are located in the PRO directory. The jar-file contains 
+all the Java source code, the Java classes and the project file so 
+a user can decompress the jar file, change the script and make a 
+new version of the program. The programs are started using a script 
+file in the COM directory and no classpath has to be set, when SEISAN 
+has been correctly installed. \index{Java} 
+
+\section{CONTENTS OF PRO, LIB, INC, INF, COM, DAT, SUP, ISO and PIC DIRECTORIES}
+
+The PRO, LIB, INC and COM directories contain software, the DAT 
+directory parameter files for operating the SEISAN system and INF 
+contains documentation and manuals. All files are listed and explained 
+in the file \texttt{seisan.all} in the INF directory. 
+The ISO directory contains macroseismic information. 
+
+The program CHECK \index{Check}can check if a distribution is 
+complete. Run CHECK and use option `basic'. The content of the 
+distribution is compared to the \texttt{seisan.all} file in the INF directory. 
+
+The \texttt{seisan.all} file also list programs no longer 
+compiled, but with source code included in case there should 
+be a future need for these programs 
+

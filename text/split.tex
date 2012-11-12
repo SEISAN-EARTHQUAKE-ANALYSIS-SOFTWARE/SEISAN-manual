@@ -1,0 +1,12 @@
+
+\section{Inserting events into the database, SPLIT}
+\label{sect:split}
+
+\index{Inserting events in the database}\index{SPLIT} The program splits up a \index{Multiple event S-file}multiple event S-file in Nordic format (usually made by COLLECT or NEWEVE) or compact file to single files in the database or in the users own directory. Type SPLIT to start program and questions are: 
+
+\verbatiminput{include/split.run}
+
+In the above example, there was already an event in the database with the same file name and therefore the same id. It is up to the user to decide if this is the same event in which case it should be ignored or if it is a new event which happens to have the same id (start time or origin time to the same second and same event type). In case of a new event, a new id with one second different will be tried. Sometimes it can be desirable to overwrite the whole database event by event. If e.g. a station code is wrong in all events, this can be corrected by making a coll\index{Duplicate ID}\index{Event, duplicate ID}ect to extract all events, edit the \texttt{collect.out} file using a global substitute, and finally use split to put the events back in. In that case the option of overwriting all should be chosen. 
+
+\index{Compact file}Compact files can also be split up. Since this is unusual to do, the user will be prompted 2 times to confirm the split up. Since there is no ID line in a compact file, the database name will be generated from the header time. This option to be able to split up compact files has been made to facilitate work with seismic catalogs where it is often desirable to be able to access individual events even when no readings are available.\index{Catalog work} 
+

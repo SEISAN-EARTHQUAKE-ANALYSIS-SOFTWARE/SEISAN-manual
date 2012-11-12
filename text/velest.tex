@@ -1,0 +1,162 @@
+
+\subsection{VELEST} 
+
+\textbf{Introduction}
+
+The program \index{VELEST}VELEST is used to solve the coupled hypocenter velocity model problem for local earthquakes. It performs a simultaneous inv\index{Inversion}\index{Joint hypocenter determination}\index{JHD}ersion for hypocenters and velocity model. The inversion is limited to first arriving phases. A detailed program description is given in the `VELEST USER'S GUIDE' \citep{kissling1995}. A recipe for preparing data and use of the inversion routine is presented in `Initial reference models in local earthquake tomography' \citep{kissling1994}. The two documents are available in one Postscript file in the INF directory, the filename is `velest.ps'. The derived model can be used as an improved model for earthquake location or as a starting model for 3-D inversion. For a fixed velocity model and constant station corrections, VELEST in simultaneous mode performs the Joint-Hypocenter-Determination (JHD). 
+
+%\textcolor{red}{lo-change:
+Before you start please see the two articles Kissling-1988.pdf and Kisslig-1994.pdf in the INF directory.
+%}
+
+The original version of VELEST by Kissling is included in the Sun and Linux versions. A version modified to compile VELEST under Windows has been provided by Freddy Aldersons (e-mail: faldersons@earthlink.net). This Windows package is included in the file velest\_pc\_3.3.zip, which is located in the SUP directory. The files have to be extracted to the PRO directory.\index{Velest for Windows} 
+
+The implementation of VELEST to SEISAN is given by the program VELMENU.  
+
+\index{VELMENU}
+VELMENU provides: 
+\begin{itemize}
+\item[-]
+automatic format conversion to VELEST 
+\item[-]
+generation of parameter files using the SEISAN system 
+\item[-]
+execution of VELEST 
+\item[-]
+conversion back to SEISAN format 
+\end{itemize}
+
+After preparing a dataset of local earthquake data, VELMENU can be used to work with the VELEST inversion routine. The first time VELMENU is used, all input files for the inversion with default parameters can be generated. These parameter files then can be changed interactively and the inversion started with VELMENU. 
+
+\textbf{Running VELMENU}
+
+The program is started with `velmenu'. After entering the filename of the earthquake data the menu of VELMENU appears. 
+
+Example of program run : 
+
+\begin{verbatim}
+velmenu 
+
+File name of earthquake data in Nordic Format :
+select.out 
+
+VELEST MENU 
+-----------
+
+1. Create VELEST command file (vele\index{Velest.cmn}st.cmn)
+2. Edit/change VELEST command file (velest.cmn)
+3. Create station select file (selstat.lis)
+4. Edit/change station select file (\index{Selstat.lis}selstat.lis)
+5. Create model file 
+6. Edit/change model file
+A. RUN VELEST 
+B. Edit inversion output file
+C. Convert VELEST output to Nordic format and make diff-file 
+Q. End 
+
+Choice ? 
+\end{verbatim}
+
+The complete inversion-process of earthquake data in SEISAN format, including all conversions and preparation of parameter files, can be done with VELMENU. The steps are as follows:   
+
+\begin{itemize}
+\item[1:]
+Create VELEST command file (\texttt{velest.cmn}) \newline
+The user is asked for inversion or JHD and the appropriate parameters 
+are set. The file \texttt{velest.cmn} is the central VELEST parameter 
+file. To create it, the file of earthquake data is read to determine 
+the parameters that depend on the data. These are the number of events 
+and the center of Cartesian coordinate system, which is simply determined as the average of latitude and longitude of epicenter locations. The remaining parameters are set to default values. 
+\item[3:]
+Create station select file (\texttt{selstat.lis}) \newline
+For the inversion, VELEST will use phases from stations with an 
+epicentral distance below a maximum distance only. In addition in 
+VELMENU a selection of stations has to be used, only phases from 
+stations given in the file \texttt{selstat.lis} will be used for inversion. 
+When generating the file, the maximum distance between station and 
+hypocenter (parameter `dmax') is read from \texttt{velest.cmn} and 
+the input data are scanned to get a list of stations, which are within the 
+limit to any epicenter. Editing the file, stations can be added or removed. 
+If all stations should be used for inversion, the parameter `dmax' in 
+the file \texttt{velest.cmn} has to be increased. 
+
+Example of \texttt{selstat.lis}:
+\begin{verbatim}
+#
+# STATION SELECT FILE FOR PROGRAM VELEST 
+#
+# STATIONS WILL BE USED IN THE VELEST 
+#      INVERSION PROGRAM 
+# 
+# COMMENT LINES START WITH 
+# 
+#
+KONO
+BER
+NRA0
+... 
+\end{verbatim}
+NOTE: The order of the stations is as given by the input data file. VELEST uses the last station as reference station, so you may want to change the order. 
+\item[5:]
+Create model file \newline
+The input model file `model.inp' is created using the model as given in the `\texttt{STATION0.HYP}' file. The `\texttt{STATION0.HYP}' file, if available, will be read from the local directory, otherwise from the DAT directory. This might be a reasonable starting model, but of course the model file has to be changed. 
+\end{itemize}
+
+A. RUN VELEST 
+
+Once the parameter files are created the inversion program can be started. The inversion study requires interactive changing of parameters, which is supported by VELMENU. All input parameter files can be changed from VELMENU. NOTE:, `... please accept the warning: To calculate a Minimum 1-D model a single or even a few VELEST runs are useless, as they normally do not provide any information on the model space!' \citep{kissling1995}. The conversions and the inversion programs are started as one process. 
+
+Before the inversion routine is started the station locations will be converted from the \texttt{STATION0.HYP} file and the earthquake data in Nordic format will be converted to CNV (hypocenters and travel times) format. NOTE: VELEST does not support 5 character station codes, therefore in the conversion to VELEST, only the first 4 characters are used if the station code has 5 characters. In the conversion of the earthquake data only phase readings from stations included in the station selection file will be used. Arrivals with a time residual, given in the Nordic input file, above five seconds are omitted. Only the first arriving phase of P and S respectively are used. The hypocenter location given by the inversion will be determined by first arrivals only. The original data might include more phases like Pg, Sg or Lg. Therefore, to get a comparison of hypocenter locations between the HYP location program and VELEST, a Nordic file including the same data as the CNV file is created and the HYP program run on this file before VELEST is started. The HYP program can be skipped by pressing `CTRL+C', while it is running. 
+
+The results of the inversion will be given in a text file that can be 
+viewed within VELMENU. VELMENU provides an option to convert the VELEST 
+output file with final hypocenter locations in CNV format back to 
+Nordic format and to write a file that shows differences 
+(\index{Velout.dif}\texttt{velout.dif}) in location and time between 
+the two location routines, HYP and VELEST, based on the same input data. 
+
+Example of \texttt{velout.dif} : 
+
+\verbatiminput{include/velout.dif}
+
+Files will be overwritten, when VELMENU is started again. To work with different datasets or parameter files it is recommended to work on different directories or to change the filenames, but note that the default filenames (see below) will be used in VELMENU. 
+
+\textbf{Problems}: VELEST\index{Problem, VELEST} skips events without phase readings and therefore the number of events read by VELEST will be different from the number given in the \texttt{velest.cmn} file. If this is the case VELEST stops with the message STOP: ...end...(VELEST was running with the SINGLE­EVENT-OPTION). Events without phase readings will not be listed in the invers.out file, and should be deleted from the input file. 
+
+\textbf{Joint-Hypocenter-Determination (JHD)}
+\index{Joint hypocenter determination}\index{JHD}
+
+VELEST for fixed velocities and station corrections can be used as a JHD routine. For JHD, VELMENU is used in the same way as described above for inversion. The only difference is that when generating the \texttt{velest.cmn} you have to choose JHD. The appropriate file for JHD is then generated. Some parameters in the `\texttt{velest.cmn} file are different, compared to the inversion. These are dmax, nsinv and invertratio, see `VELEST USER'S GUIDE' for details. The output of final hypocenter locations as described above can be converted to Nordic format, but note that the JHD will be based on first arriving phases only. 
+
+Example of JHD: 
+
+\verbatiminput{include/jdh.run}
+
+\textbf{Potential problem}: We have seen cases where in JHD mode the depth 
+parameter in the inversion is sensitive to invertratio, which when 
+set to 1. in JHD means that VELEST inverts for station correction 
+in every iteration. VELEST in this case worked better with an invertratio 
+of larger than 1. See VELEST manual for details. \index{Invertratio} 
+
+List of files generated by VELMENU / VELEST 
+
+\begin{tabular}{lp{11.0cm}}
+\texttt{data.cnv} & earthquake data in CNV format, VELEST input, generated by VELMENU \\
+\texttt{data.nor} & earthquake data in Nordic format, HYP input, generated by  VELMENU \\
+\texttt{fin\_hyp.cnv} & final hypocenter locations in CNV format, VELEST output \\
+\texttt{hyp.out} & earthquake data in Nordic format, HYP output \\
+\texttt{hypsum.out} & HYP output file \\
+\texttt{input.mod} & input model, VELEST input, generated by VELMENU \\
+\texttt{invers.out} & documentation of inversion, VELEST output \\
+\texttt{nor1.date} & earthquake data in Nordic format, VELMENU input \\
+\texttt{print.out} & HYP output file \\
+\texttt{selstat.lis} & selection of stations, generated by VELMENU \\
+\texttt{sta\_cor.out} & station corrections, VELEST output \\
+\texttt{station.sta} & station locations, VELEST input, generated by VELMENU \\
+\texttt{velout.dif} & difference file between HYP and VELEST location routine, VELMENU output \\
+\texttt{velout.nor} & final hypocentre locations, same as \texttt{fin\_hyp.cnv}, in Nordic format,  
+\end{tabular}
+
+VELMENU output \newline
+velest.cmn \verb|           |VELEST control file, VELEST input, generated by VELMENU 
+

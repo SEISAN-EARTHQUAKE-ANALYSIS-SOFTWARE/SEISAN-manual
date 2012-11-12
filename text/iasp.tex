@@ -1,0 +1,10 @@
+
+\subsection{IASP, travel times for MULPLT} 
+\label{subs:iasp}
+
+This program is a special version of IASP91 to be used in connection with EEV and MULPLT. Giving command iasp from the EEV prompt (or from within MULPLT), the program will read the current active S-file, and for each station, calculate possible IASP91 phases and arrival times relative to the hypocenter and origin time given in S-file. The origin information can be obtained from two places in the S-file: (1) The header lines are searched for hypocenter lines and the first found after the main header will be used, (2) If no secondary header lines, the main header line is used. The intention of this order is that it is possible to put in a PDE solution in a secondary header line (option INPUTONE in EEV) so that theoretical travel times are calculated relative to a fixed solution and not the temporary solution made by the local agency. 
+
+The IASP91 tables can be found in the local directory or DAT and have the same names as used in HYP and TTIM. The program generates an output file iasp.out in Nordic format. This file is read by MULPLT and the theoretical phases displayed on the screen. The number of phases calculated can be very large making it hard to see which phase is which. IASP therefore has a definition file, IASP.DEF, where phases to be written out are given. The file can be in the working directory \index{Iasp.out}\index{IASP}or in DAT. If no definition file is available, all phases will be written to the iasp.out file. Below is an example of a IASP.DEF file. 
+
+\verbatiminput{include/iasp.def}
+

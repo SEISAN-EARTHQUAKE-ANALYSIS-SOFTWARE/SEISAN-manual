@@ -1,0 +1,105 @@
+convert mt-depth.bmp mt-depth.pdf
+exit
+convert mt-dreger-2.bmp mt-dreger-2.eps
+convert mt-dreger-1.bmp mt-dreger-1.eps
+exit
+convert mt.dreger.2.bmp mt.dreger.2.png
+convert mt.dreger.2.bmp mt.dreger.2.pdf
+convert mt.dreger.1.bmp mt.dreger.1.png
+convert mt.dreger.1.bmp mt.dreger.1.pdf
+exit
+convert spec-example.bmp spec-example.png
+convert spec-example.bmp spec-example.pdf
+exit
+convert travel-time-plot.png travel-time-plot.pdf
+exit
+# ls *eps | awk -F"." '{print "convert "$1".eps "$1".pdf"}'
+# ls *png | awk -F"." '{print "convert "$1".png "$1".pdf"}'
+convert fig1.png fig1.pdf
+convert foc.png foc.pdf
+convert fps-compare.png fps-compare.pdf
+convert fps-many.png fps-many.pdf
+convert fps-slick.png fps-slick.pdf
+convert fps-twomaps.png fps-twomaps.pdf
+convert haiti2010.png haiti2010.pdf
+convert jens.png jens.pdf
+convert seis2viewer.png seis2viewer.pdf
+exit
+convert fig21.bmp fig21.eps ; convert fig21.eps fig21.pdf
+convert fig17.bmp fig17.eps ; convert fig17.eps fig17.pdf
+convert fig18.bmp fig18.eps ; convert fig18.eps fig18.pdf
+exit
+convert fig5.bmp fig5.eps ; convert fig5.eps fig5.pdf
+convert fig11.bmp fig11.eps ; convert fig11.eps fig11.pdf
+exit
+convert fig44.bmp fig44.eps ; convert fig44.eps fig44.pdf
+convert fig45.bmp fig45.eps ; convert fig45.eps fig45.pdf
+convert fig46.bmp fig46.eps ; convert fig46.eps fig46.pdf
+convert fig47.bmp fig47.eps ; convert fig47.eps fig47.pdf
+convert fig48.bmp fig48.eps ; convert fig48.eps fig48.pdf
+exit
+convert fig38.bmp fig38.eps
+convert fig38.eps fig38.pdf
+exit
+convert cop.eps cop.pdf
+convert fig10.eps fig10.pdf
+convert fig11.eps fig11.pdf
+convert fig12.eps fig12.pdf
+convert fig13.eps fig13.pdf
+convert fig14.eps fig14.pdf
+convert fig15.eps fig15.pdf
+convert fig16.eps fig16.pdf
+convert fig1.eps fig1.pdf
+convert fig21.eps fig21.pdf
+convert fig23.eps fig23.pdf
+convert fig27.eps fig27.pdf
+convert fig2.eps fig2.pdf
+convert fig31.eps fig31.pdf
+convert fig32.eps fig32.pdf
+convert fig33.eps fig33.pdf
+convert fig34.eps fig34.pdf
+convert fig35.eps fig35.pdf
+convert fig36.eps fig36.pdf
+convert fig3.eps fig3.pdf
+convert fig43.eps fig43.pdf
+convert fig49.eps fig49.pdf
+convert fig4.eps fig4.pdf
+convert fig50.eps fig50.pdf
+convert fig51.eps fig51.pdf
+convert fig52.eps fig52.pdf
+convert fig5.eps fig5.pdf
+convert fig6.eps fig6.pdf
+convert fig7.eps fig7.pdf
+convert fig8.eps fig8.pdf
+convert fig9.eps fig9.pdf
+exit
+
+convert fig2.bmp fig2.eps
+convert fig3.bmp fig3.eps
+convert fig4.bmp fig4.eps
+convert fig5.bmp fig5.eps
+convert fig6.bmp fig6.eps
+convert fig7.bmp fig7.eps
+convert fig8.bmp fig8.eps
+convert fig9.bmp fig9.eps
+convert fig10.bmp fig10.eps
+convert fig11.bmp fig11.eps
+convert fig12.bmp fig12.eps
+convert fig13.bmp fig13.eps
+convert fig14.bmp fig14.eps
+convert fig15.bmp fig15.eps
+convert fig16.bmp fig16.eps
+convert fig21.bmp fig21.eps
+convert fig23.bmp fig23.eps
+convert fig27.bmp fig27.eps
+convert fig31.bmp fig31.eps
+convert fig32.bmp fig32.eps
+convert fig33.bmp fig33.eps
+convert fig34.bmp fig34.eps
+convert fig35.bmp fig35.eps
+convert fig36.bmp fig36.eps
+convert fig43.bmp fig43.eps
+convert fig49.bmp fig49.eps
+convert fig50.bmp fig50.eps
+convert fig51.bmp fig51.eps
+convert fig52.bmp fig52.eps

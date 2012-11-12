@@ -1,0 +1,22 @@
+
+
+         PC file structure                       Sun and Linux file structure
+     Up to and inluding version 6.0              PC structure from version 7.0
+
+----------------------------------------         -----------------------------
+one byte: K indicates start of file              4 bytes: # of bytes following
+----------------------------------------         -----------------------------
+one byte: # of bytes following                   one block of data
+----------------------------------------         -----------------------------
+128 bytes or less of data                        4 bytes: # bytes in prev. write     
+----------------------------------------         -------------------------------
+one byte: # of bytes in previous record          4 bytes: # of bytes following
+----------------------------------------         -------------------------------
+one byte: # of bytes in following record         one block of data
+----------------------------------------         -------------------------------
+128 bytes or less of data                        ........
+.....                                            ........
+.....                                            ........                      
+
+For 64 bit systems, the above 4 byte numbers are 8 byte numbers.
+

@@ -1,0 +1,74 @@
+Line 1
+   1     5: STATION CODE (A5)
+   6     9: COMPONENT (A4), E.G. SZ L : SZ LOW GAIN, AN: ACCELERATION NS
+  10      : CENTURY, 0: 1900, 1:2000
+  11    12: YEAR
+  14    16: DOY
+  18    19: MONTH
+  21    22: DAY
+  24    25: HR
+  27    28: MIN
+  30    35: SECOND (F6.3)
+  52    59: LATITUDE (F8.4), optional
+  61    69: LONGITUDE (F9.4), optional
+  71    75: ELEVATION (METERS), optional
+  78      : P: Poles and zeros
+            Blank: Seismometer period etc used for response info. See below for 
+                   details.
+            T: Use up to 30 tabulated values irrespective of what is given
+               below. If less than 30, blank characters must be given.
+  79      : C: a combination of table, poles and zeros or instrument
+               constants have been used, for information only. Value in 78
+               must then be T.
+            F: Force use of header response. Only
+               gain at 1 hz is correct and 78 must be set to T.
+
+Line 2
+   1   80: COMMENT LINE DESCRIBING THE SYSTEM RESPONSE (A80)
+ 
+
+OPTION 1
+
+If character 78 is blank, option 1:
+
+Line 3
+  1 - 80: (10G8.3)   1. SEISMOMETER PERIOD
+                     2. FRACTION OF CRITICAL DAMPING
+                     3. SEISMOMETER GENERATOR CONSTANT (V/m/s) or
+                        ACCELEROMETER SENSITIVITY (V/G)
+                     4. AMPLIFIER GAIN
+                     5. RECORDING MEDIA GAIN (I.E. 2048 COUNTS/VOLT)
+                     6. GAIN AT 1.0 HZ, UNITS: COUNTS/METER
+                     7. CUTOFF FREQUENCY FOR FILTER1 (HZ)
+                     8. # OF POLES FOR FILTER1 (NEGATIVE FOR HIGHPASS)
+                     9. CUTOFF FREQUENCY FOR FILTER2 (HZ)
+                    10. # OF POLES FOR FILTER2 (NEGATIVE FOR HIGHPASS)
+
+Line 4
+  1 - 80: (10G8.3) FREQUENCIES AND #'S OF POLES FOR FIVE MORE FILTERS
+
+
+Lines 5-13: RESPONSE CURVE in 3 blocks of 3 lines
+  1 - 80: (10G8.3) FREQ.
+  1 - 80: (10G8.3) AMPL. (REL. 1.0 HZ)
+  1 - 80: (10G8.3) PHASE,
+
+The are only for info in option 1
+
+
+OPTION 2
+If character 78 is T, use tablated values, format as in option 1
+
+
+OPTION 3
+If character 78 is P, option 2:
+
+Line 3
+  1 - 22:   (1X,2I5,G11.4) 1. NUMBER OF POLES
+                          2. NUMBER OF ZEROS
+                           3. NORMALIZATION CONSTANT, COUNTS/M
+  23 - 80 (5G11.4)         2 Poles in pairs of real and imaginary parts
+
+Lines 4-13
+  1 - 80: (G11.4) Remaining poles and zeros. 7 values are written
+                           and then 3 spaces are left blank.

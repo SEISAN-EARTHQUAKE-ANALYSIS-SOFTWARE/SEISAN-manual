@@ -1,0 +1,42 @@
+ 
+                   -------------------                                     
+                   | EVENT  FILE     | at least 12* 80 BYTES
+                   |    HEADER       |
+                   -------------------                                     
+                            |
+                   -------------------                                     
+                   | EVENT  FILE     |
+                   | FIRST  CHANNEL  | 1040 BYTES
+                   |    HEADER       |
+                   -------------------                                     
+                            |
+                   -------------------                                     
+                   |      DATA       |
+                   | FIRST  CHANNEL  |
+                   -------------------                                     
+                            |
+                   -------------------                                     
+                   | EVENT  FILE     |
+                   | NEXT   CHANNEL  | 1040 BYTES
+                   |    HEADER       |
+                   -------------------                                     
+                            |
+                   -------------------                                     
+                   |      DATA       |
+                   | NEXT   CHANNEL  |
+                   -------------------                                     
+                            |
+                            |
+                            |
+                            |
+                   -------------------                                     
+                   | EVENT  FILE     |
+                   | LAST   CHANNEL  | 1040 BYTES
+                   |    HEADER       |
+                   -------------------                                     
+                            |
+                   -------------------                                     
+                   |      DATA       |
+                   | LAST   CHANNEL  |
+                   -------------------                                     
+ 

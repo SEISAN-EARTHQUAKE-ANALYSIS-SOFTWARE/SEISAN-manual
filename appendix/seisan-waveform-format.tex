@@ -1,0 +1,49 @@
+\chapter{The SEISAN waveform file format}
+\label{app:seisan-format}
+% Appendix 2 - The Seisan waveform file format{tc  \l 1 "Appendix 2 - The Seisan waveform file format}
+\index{Format, waveform}
+
+The file is written from Fortran as an unformatted file. This means that the file contains additional characters (not described below, see end of this\index{Waveform file format} Appendix) between each block, which must be taken into account if the file is read as a binary file. If read as Fortran unformatted, the content will appear as described below. However, the internal structure is different on Sun, Linux and PC. SEISAN automatically corrects for these differences. The SEISAN ASCII format \index{SEISAN ASCII format}has identical headers to the binary files, however the binary samples are written as formatted integers, one channel at the time just like the in the binary format. \index{SEIASC format}
+
+\verbatiminput{appendix/seisan-waveform-format.par}
+\index{Timing indicator}
+\index{Poles and zeros}
+\index{Gain factor}
+\index{Response file}
+\index{Response in header}
+
+For each pole or zero, there are two real numbers representing the real and imaginary part of the pole or zero, thus the number of poles is half the number of values written. First all the poles are written in pairs of real and imaginary parts, then follow the zeros. There is room for a total of 37 poles and zeros (74 pairs). The poles and zeros are written in a simulated line mode to make it easier to read, thus the 3 blanks after writing 7 values. It is assumed that the response is in displacment with units of counts/m. 
+
+\verbatiminput{appendix/seisan-waveform-format.resp}
+
+NOTE: The component information in character 6 IS VERY IMPORTANT. It MUST be A if an accelerometer is used, any other character assumes a velocity transducer. This is only relevant however if option 1 is used where response values will be calculated from the free period etc. If option 1 with discrete values or poles and zeros are used, the first component character can be anything. 
+
+\verbatiminput{appendix/seisan-waveform-format.ilu}
+
+To write a SEISAN file: If main headers are called mhead, channel header chead, data is data (integer), there is nchan channels and each has nsamp samples, then the file is written as 
+
+\begin{verbatim}
+Do i=1,12
+  Write(1) mhead(i)
+Enddo
+Do k=1,nchan
+  Write(1) chead
+  Write(1) (data(i),i=1,nsmap)
+Enddo 
+\end{verbatim}
+
+This example only works up to 30 channels when writing main header. For more channels, see e.g. program SEISEI how to do it. 
+
+\textbf{Details of binary file structure}
+\index{Binary SEISAN waveform file structure}
+\index{Unformatted read and write} 
+
+When Fortran writes a files opened with "form=unformatted", additional data is added to the file to serve as record separators which have to be taken into account if the file is read from a C-program or if read binary from a Fortran program. Unfortunately, th\index{Waveform file structure}e number of and meaning of these additional characters are compiler dependent. On Sun, Linux, MaxOSX and PC from version 7.0 (using Digital Fortran), every write is preceded and terminated with 4 additional bytes giving the number of bytes in the write. On the PC, Seisan version 6.0 and earlier using Microsoft Fortran, the first 2 bytes in the file are the ASCII character "KP". Every write is preceded and terminated with one byte giving the number of bytes in the write. If the write contains more than 128 bytes, it is blocked in records of 128 bytes, each with the start and end byte which in this case is the number 128. Each record is thus 130 bytes lon\index{Sun and PC differences}g. All of these additional bytes are transparent to the user if the file is read as an unformatted file. However, since the structure is different on Sun, Linux, MacOSX and PC, a file written as unformatted on Sun, Linux or MacOSX cannot be read as unformatted on PC or vice versa. . The files are very easy to write and read on the same computer but difficult to read if written on a different computer. To further complicate matters, the byte order is different on Sun and PC. With 64 bit systems, 8 bytes is used to define number of bytes written. This type of file can also be read with SEISAN, but so far only data written on Linux have been tested for reading on all systems. \index{64 bit computer } 
+This means that version 7.0 can read all earlier waveform files on all platforms from all platforms. However, files written on version 7.0 PC cannot be read by any earlier versions of Seisan without modifying the earlier seisan version. 
+In SEISAN, all files are written as unformatted files. In order to read the files independently of where they were written, the reading routine (buf\_read in seisinc, in LIB) reads the file from Fortran as a direct access file with a record length of 2048 bytes. The additional bytes are thrown away, the relevant bytes fished out and swapped if the file is written on a different computer than where it is read. 
+Since there is no information stored in the header of the file giving the byte address of each channel, the routine must read the first file-header, calculate how many bytes there are down to where the next channel starts, jump down and repeat the process until the desired channel is reached (this is also how S\index{SUDS format}UDS files are read). However, compared to reading the file as unformatted, only a fraction of the file is read to fish out a particular channel. Once the channel header has been read, the start address is stored in the subroutine so any subsequent access to that channel is very fast. Overall, random access to SEISAN waveform files is much faster with the binary read than the previous (version 5.0 and earlier) unformatted read. Only in the case where the whole file is read is the unformatted read faster. 
+
+\verbatiminput{appendix/seisan-waveform-format.str}
+
+From version 7.0,the Linux and PC file structures\index{Linux file structure} are exactly the same. On Sun the structure is the same except that the bytes are swapped. This is used by SEISAN to find out where the file was written. Since there is always 80 characters in the first write, character one in the Linux and PC file will be the character P (which is represented by 80) while on Sun character 4 is P.  
+

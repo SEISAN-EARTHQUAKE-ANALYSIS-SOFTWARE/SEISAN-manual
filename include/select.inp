@@ -1,0 +1,41 @@
+ Base or file name            : TEST_                             
+ Start time                   : 19930300000000
+ End time                     : 19961231235959
+ Minimum number of stations   :              0
+ Maximum number of stations   :            999
+ Minimum latitude             :        -90.000
+ Maximum latitude             :         90.000
+ Minimum longitude            :       -360.000
+ Maximum longitude            :        360.000
+ Minimum magnitude            :          5.000
+ Maximum magnitude            :          7.000
+ Magnitude agencies           :                               
+ Hypocenter agencies          :                               
+ Minimum rms                  :          0.000
+ Maximum rms                  :        999.000
+ Minimum depth                :        -99.000
+ Maximum depth                :      99999.000
+ Minimum error in latitude    :          0.000
+ Maximum error in latitude    :      99999.000
+ Minimum error in longitude   :          0.000
+ Maximum error in longitude   :      99999.000
+ Minimum error in depth       :        -99.000
+ Maximum error in depth       :      99999.000
+ Magnitude types (L,C,B,S,W)  :      
+ Distance (ID) types (L,R,D)  :      
+ Event types (e.g. E,V,P)     :      
+ Minimum number of polarities :              0
+ Felt earthquakes             :              F
+ Fault plane solution         :              F
+ Check all header lines       :              F
+ Waveform files to check      :                                         
+ Minimum gap                  :          0.000
+ Maximum gap                  :        360.000
+ Phases                       : P   SSS PP
+ Volcanic subclasses          :        
+ Stat., comp. dist range, phase (1x,a5,a2,2i7,1x,a4) one pr line, end blank line:
+ STAT CO Mindis Maxdis Phas All stat hdist->TT
+ BER  SZ      1    999 P    
+
+ Polygon points (lat,lon), one pair pr line, end with blank line :
+

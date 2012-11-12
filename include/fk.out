@@ -1,0 +1,24 @@
+ DATE, TIME AND WINDOW LENGTH     99 256  9 13 12  0 33.843     7.62
+ APPARENT VELOCITY  10.26   AZIMUTH          140
+ NORM. POWER MAX     0.99   POWER MAX IN dB  72.44
+ MAX X SLOWNESS      0.06   MAX Y SLOWNESS   -0.07
+ LOW FREQUENCY       0.94   HIGH FREQUENCY    5.00
+ QUALITY (1=best, 4=worst)  1
+ VALUES TO SAVE
+ APPARENT VELOCITY  10.26   AZIMUTH          140
+ Station     Long      Lat         Elev   Xcoord    Ycoord Zcoord
+ NRA0 S  Z   11.54150  60.73533    300         0         0    300
+ NRA1 S  Z   11.54233  60.73650    291        45       129    291
+ NRA2 S  Z   11.54333  60.73433    311        99      -111    311
+…
+ NRD4 S  Z   11.56333  60.72717    379      1186      -907    379
+ NRD5 S  Z   11.54750  60.72217    348       326     -1463    348
+ NRD6 S  Z   11.52883  60.72334    352      -688     -1334    352
+ NRD7 S  Z   11.51617  60.73017    337     -1377      -574    337
+ NRD8 S  Z   11.51667  60.73900    301     -1349       407    301
+ XSLOW   YSLOW  POWER
+  0.40    0.40   0.05
+  0.38    0.40   0.05
+  0.37    0.40   0.05
+  0.35    0.40   0.05
+...

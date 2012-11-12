@@ -1,0 +1,34 @@
+EXAMPLE RUN
+
+#   29 13 May 2001  8:26 59  L 55.1020 -3.6388 12.3 H      2.9L      16  ?
+#   29 13 May 2001  8:26 59  L 55.1020 -3.6388 12.3 H      2.9L      16  ? hypo71
+ HYPO71 completed successfully
+Date        : 13/05/01
+Origin time :  8:26:59.78
+Epicentre   : 55- 5.45 deg N   3-37.11 deg W   (  55.0908 /   -3.6185 )
+Grid Ref    : 296.716 East /  578.581 North
+Depth       :   2.13  Quality     : B B*B
+  
+              NO DM GAP M  RMS  ERH  ERZ 
+Statistics  : 22 10 127 1 0.29  0.8  1.8 
+Magnitude   :  2.8 ML     (from  6 readings)
+Magnitude   : No valid coda readings
+  
+ STN   DIST AZM AIN   P-RES P-WT   S-RES  S-WT
+ BWH    9.7 346  43   0.08  7.22              
+ BHH   25.6  89  43  -0.03  1.03   -0.29  0.51
+ BCC   26.8 108  43   0.26  0.71    0.01  0.36
+ GCD   32.7 219  43  -0.40  1.75              
+ ECK   32.8  72  43  -0.28  1.02              
+ ESK   36.4  46  43  -0.39  1.00   -0.91  0.26
+ BBH   44.2  84  43  -0.29  0.77              
+ BBO   46.1 149  43   0.20  0.54    0.01  0.36
+ BDL   54.1 126  38   0.34  0.70              
+ BTA   63.2 109  38   0.42  0.69    1.04  0.09
+ CKE   65.0 150  38   0.27  0.54              
+ XAL   93.4 106  38   0.16  0.54              
+ EDI   96.6  16  38   0.33  1.00              
+ GIM  104.4 212  38   0.02  1.35    0.36  0.87
+ WCB  200.0 198  30  -0.91  0.45              
+ CWF  302.7 150  30  -0.08  0.24              
+  

@@ -1,0 +1,44 @@
+This file is for defaults for SEISAN and called SEISAN.DEF. The name must
+be in upper case on Sun. The following shows the parameters which can be set. The file can 
+contain any lines in any order, only the lines with 
+recognized keywords and a non blank field under Par 1 will be read. The
+comments have no importance. Numbers are real numbers.
+
+KEYWORD............Comments.............Par 1.....Par 2
+CONFIRMATION       level 0 or 1         0.
+CONT_BEFORE        start min before     20.
+CONT_AFTER         start min after      1. 
+CONT_BASE          REA continuous bas   CBER	     1.0
+CONT_BASE          REA continuous bas   CBER
+COPY_WAV_DIR       data base copy reg.  BER
+CURSOR             0,1,2=poi,cr,crhair  2
+EPIMAP_STATIONS    pl. st. a for all                
+EPIMAP_MAP_FILE    name of map          EUROPE 
+EPIMAP_PROJECTION  real number            3.
+FOCMEC MAXSOL                           100.
+FONT               graphics font        
+HERKIJ_DISTANCE                         100.0
+HIGH_ACCURACY      high accuracy (0/1)    1.
+HYPO71_OFFSET      offset in degree     0.0
+INIT_IMGMAP_FILE   path to fi           c:\seismo\dat\IMGWORLD.GIF
+MAP_LAT_BORDER     dist from center       3.0
+MAP_LON_BORDER          "                 6.0
+MAP_SERVER                              2
+MERGE_WAVEFORM     Code for merging wa  NSN
+SPECTRAL GEO_DEPTHS                     10.0       14.0
+REG_KEEP_AUTO      keep phases when reg.  1.0
+TEXT_PRINT         printer command EEV  nenscript -Psps
+WAVEFORM_BASE      Waveform base name   AGA
+WAVEFORM_BASE      Waveform base name   LOF
+WAVEFORM_BASE      Waveform base name   BER
+WAVEFORM_DIRS      Waveform directory    /net/seismo/seismo/WOR/seisnet
+OUTPUT_DIR                              ./
+INIT_IMGMAP_FILE                        /net/seismo/DAT/IMGWORLD.gif
+MAP_SERVER                              0
+IMGMAP_PATH                             /net/seismo/DAT/MAP
+INIT_MAP_LOWER_LATITUDE                 -90.0
+INIT_MAP_UPPER_LATITUDE                 90.0
+INIT_MAP_LEFT_LONGITUDE                 -180.0
+INIT_MAP_RIGHT_LONGITUDE                180.0
+INTERNET_BROWSER                        /prog/netscape
+HELP_DIR                                /net/seismo/INF

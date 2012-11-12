@@ -1,0 +1,9 @@
+ Plot options:           Interactive picking          Return 
+                         Multi trace plot on screen, def (0) 
+                         Multi trace plot on screen      (1) 
+                         Multi trace plot on screen+laser(2) 
+                         Multi trace plot on laser       (3) 
+                         Continuous on screen            (4)
+                         Continuous on screen + laser    (5)
+                         Continuous on laser             (6)
+                         Stop                            (9)

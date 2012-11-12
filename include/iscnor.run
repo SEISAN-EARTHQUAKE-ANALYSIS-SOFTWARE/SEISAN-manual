@@ -1,0 +1,38 @@
+ Phases selected can be:
+   User reported phases (default=return)          : 1
+   ISC identified phases only                     : 2
+   ISC identified phases and user reported phases    
+       when not identified by ISC                 : 3
+3
+ Output: All hypocenters and phases : Return
+         All hypocenters            : 1
+         Prime hypocenter           : 2           
+
+ Latitude range, return for all 
+60.2 70.5
+
+ Longitude range, return for all
+10, 20
+
+ Depth range, return for all
+
+Magnitude range, return for all
+
+Write selected events on screen (y/n=return)
+
+ No agency.isc file present
+ If ISC CDROM, give drive letter, else return
+d
+
+Give first year and month, e.g. 199501 198601
+Give  last year and month, e.g. 199602 198602
+
+ Now opening d:\1986\198601.FFB                                                              
+ Number of agencies in input file        244
+
+etc, for each month
+
+
+        493 events converted
+ Output file name is iscnor.out
+ File with stations is isc.sta

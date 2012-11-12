@@ -1,0 +1,14 @@
+# KEYWORD:D,R,V1,V2,..;T,C,W,X|D,R,V1,V2,..;T,C,W,X
+# D:default,R:Range(R,U),V1:value;T:type(F,I,S),C:column,W:width,X:decimals
+X_SCREEN_SIZE:90.0,R,10,100;F,40,4,0      
+Size of initial X-window in % of total screen
+Size of initial X-window in % of total screen
+
+SPECTRAL Q0:440.0,R,0,1000;F,40,6,1
+Q0 for spectral analysis
+Q is defined as q0*f**qalpha, default 0 meaning no Q-correction  
+
+SPECTRAL KAPPA:0.0,R,0,10;F,40,5,2   
+Spectral kappa - near surface attenuation
+Spectral kappa - near surface attenuation, default 0 meaning no attenuation
+............................

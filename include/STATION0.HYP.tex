@@ -1,0 +1,31 @@
+\begin{boxedverbatim}
+RESET TEST(01)=0.3
+RESET TEST(03)=0.6
+RESET TEST(06)=0.1
+RESET TEST(07)= 3.0
+RESET TEST(08)=2.6
+RESET TEST(09)=0.001
+RESET TEST(11)=50.0
+RESET TEST(13)=5.0
+RESET TEST(50)=1.0
+                                  ! one and only one blank line here
+  UPP 5951.50N 1737.60E  14       ! station lines
+  COP 5541.00N 1226.00E  13
+  KBS 7855.08N 1155.44E  46
+  EBH 5614890N  330490W 375       ! high accuracy lat-lon     
+  OSG 6029.80N  252.55E-100
+  01A06049.43N 1049.95E 426
+ BERGE6057.12N 1133.15E 100       ! 5 char station name 
+-BEBGE6157.12N 1133.15E1100       ! 5 char station name and at –1100 m 
+
+...
+
+                                  ! one and only one blank line here
+  6.2       0.0         !         ! model lines  
+  6.6      12.0
+  7.1      23.0           3.8       2.2       200.0     300.0 **
+  8.05     31.0      N  ! N  indicates location of Moho    
+  8.25     50.0           
+  8.5      80.0         !  
+15.  600. 1300. 1.73    5  5.0  10.0     ! control parameters   
+BER                     ! Reporting agency    (a3)\end{boxedverbatim}

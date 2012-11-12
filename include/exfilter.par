@@ -1,0 +1,35 @@
+
+--------------Parameter file for program EXFILTER-----------------
+------------------------------------------------------------------
+        This file must follow the following format rules: __________
+1. Any number of comment lines
+2. Any line with first character # defines the parameters of that area
+3. Any line with first character * defines the parameters of exceptions within
+   an already defined area. I.e. you can define an area around a volcano,
+   and make an exception for that very small  area.
+4. In the first line of each parameter set the parameters are:
+    Maxdepth: Events with depth above this value are not explosions
+    Maxmag  : Events with magnitude above this value are not explosions
+    Lhour   : Lower limit of time interval for explosion time 
+    Hhour   : Upper limit of time interval for explosion time
+    Btime   : Lower limit of yearly interval
+    Etime   : Upper limit of yearly interval
+    N       : Number of latitude longitude pairs in polygon
+5. From the second line the lat long pairs are given
+------------------------------------------------------------------
+ Area------------Maxdepth Maxmag   Lhour   Hhour   Btime   Etime       N         
+
+# area 1           100.0     3.6      11      15  197001  200012      12
+                   64.0    23.8    66.70   23.80   68.80   20.20   69.80    18.30
+                   70.50   20.0    71.20   26.00   70.80   29.50   70.00    27.50
+                   68.50   28.50   67.00   29.50   64.30   29.50   64.00    34.00
+
+# area 2           100.0     3.8      15      20  197001  200012       4
+                   67.90   17.80   68.80   20.20   66.70   23.80   66.50    21.00
+
+# area 3           100.0     3.5       0       1  197001  200012       4
+                   67.90   17.80   68.80   20.20   66.70   23.80   66.50    21.00
+
+# area 4           100.0     4.0       2      17  197001  200012       4
+                   68.50   28.50   68.50   36.00   67.00   36.00   67.00    29.50
+

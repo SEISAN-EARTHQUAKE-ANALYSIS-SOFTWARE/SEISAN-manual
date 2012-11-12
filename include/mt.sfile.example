@@ -1,0 +1,35 @@
+ SYNT: MODEL--:     THICK        VP        VS      DENS        QP        QS    3
+ SYNT: MODEL--:     1.000     3.200     1.500     2.280   600.000   300.000    3
+ SYNT: MODEL--:     2.000     4.500     2.400     2.280   600.000   300.000    3
+ SYNT: MODEL--:     1.000     4.800     2.780     2.580   600.000   300.000    3
+ SYNT: MODEL--:     1.000     5.510     3.180     2.580   600.000   300.000    3
+ SYNT: MODEL--:    12.000     6.210     3.400     2.680   600.000   300.000    3
+ SYNT: MODEL--:     8.000     6.890     3.980     3.000   600.000   300.000 N  3
+ SYNT: MODEL--:    60.000     7.830     4.520     3.260   600.000   300.000    3
+ SYNT: MODEL--:    50.000     8.000     4.600     3.260   600.000   300.000    3
+ SYNT: ST-D-RK:      48.0      85.0      -1.0                                  3
+ SYNT: DEPTH--:      10.0         5       5.0                                  3
+ SYNT: NPOINTS:       512 MT-NP-USE       280                                  3
+ SYNT: TIMES--:     TOTAL    60.000   INITIAL     0.000  SY-TRACE    60.000    3
+ SYNT: BOUPAR-:     800.0      2000     0.010                                  3
+ SYNT: PHASES-:        Pg        Sg       PmP       SmS       SmP              3
+ SYNT: DT-Tsou:     0.050      .100   MT_RATE       1.0                        3
+ SYNT: MTSTART: 1998-0812-0410-00.0 MT-WINDOW     305.0                        3
+ SYNT: MT-D-V-: displacement                                                   3
+ SYNT: REDVELO:    0.0000 MT-REDVL:       8.0                                  3
+ SYNT: COMPON-:    RADIAL                                                      3
+ SYNT: STAT-AT:  no                                                            3
+ SYNT: MT-FILT:     0.015     0.030         4         1                        3
+ SYNT: NSTAT--:         4------------------------------------------------------3
+ SYNT: NEW STAT:---------------------------------------------------------------3
+ SYNT: STATION: PKD  S  Z  DISTANC:     122.0 MTOFFSET:        22 MT-COMP: TRZ 3
+ SYNT: STATION: PKD        AZIMUTH:     137.0 BAZIMUTH:     317.8              3
+ SYNT: NEW STAT:---------------------------------------------------------------3
+ SYNT: STATION: BKS  S  Z  DISTANC:     142.0 MTOFFSET:         0 MT-COMP: TRZ 3
+ SYNT: STATION: BKS        AZIMUTH:     331.0 BAZIMUTH:     151.0              3
+ SYNT: NEW STAT:---------------------------------------------------------------3
+ SYNT: STATION: CMB  S  Z  DISTANC:     171.0 MTOFFSET:         0 MT-COMP: TRZ 3
+ SYNT: STATION: CMB        AZIMUTH:      34.0 BAZIMUTH:     214.1              3
+ SYNT: NEW STAT:---------------------------------------------------------------3
+ SYNT: STATION: KCC  S  Z  DISTANC:     201.0 MTOFFSET:         0 MT-COMP: TRZ 3
+ SYNT: STATION: KCC        AZIMUTH:      71.0 BAZIMUTH:     252.3              3

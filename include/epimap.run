@@ -1,0 +1,86 @@
+
+Projection menu
+===============
+
+   1: POLAR STEREOGRAPHIC     conformal, azimuthal             
+   2: ORTHOGRAPHIC            view from infinity, azimuthal    
+   3: MERCATOR                cylindrical, conformal           
+   4: LAMBERT EQUAL AREA      azimuthal                        
+   5: GNOMONIC                Great Circles are straight lines 
+   6: AZIMUTHAL EQUIDISTANT   distance from origin is to SCALE$ 
+   7: STEREOGRAPHIC           conformal, azimuthal             
+   8: EQUIDISTANT CYLINDRICAL           
+   9: OBLIQUE MERCATOR        cylindrical, conformal           
+  10: MOLLWEIDE ELLIPTICAL    pseudocylindrical, equal area    
+  11: SANSON'S SINUSOIDAL     pseudocylindrical, equal Area    
+
+Please enter projection number   :  3
+Enter latitude  range of the map :  60 70    ! N  positive
+Enter longitude range of the map :  0 30     ! E  positive
+
+Center of geographical map space is ( 65.0,  15.0) degrees.      
+         ! can be used e.g. to make an accurate MERCATOR at high latitude
+ Press <return> to accept these as the reference latitude 
+ longitude for the projection or <N>o to enter your own
+co ordinates :  
+
+ Enter latitude of any grid line and also the grid spacing
+:  60 2      ! possible to have grid spacing at any value
+ Enter longitude of any grid line and also the grid spacing
+:  0 4
+
+DO YOU WANT THE EVENTS NUMERATED? (Y/N=RETURN)  
+	  ! a sequential number will be plotted besides each hypocenter, the     !
+corresponding hypocenters are found in output file epimap.out.
+
+Plot title (max 60 chars), or press <return> for none:  
+Plot error ellipses: e or fps: f (n=return)?:       ! from HYP or fps programs
+File name for contour levels, or press <return> for none: ! format below  
+Plot place names (P) or                             ! file format below
+Plot all (a) or some (s) stations with a label, ! if s, question given about 
+                                ! which station, give in UPPER CASE all stations
+without a label (X), or none <return>
+...Enter in uppercase if you wish the symbols to be filled
+and this facility is available...     ! only filled out in Postscript
+:  
+
+Available colour index values are:
+           1) Blue           
+           2) Green          
+           3) Red            
+           4) Yellow         
+           5) White          
+           6) Black (default)
+
+
+ Enter epicenter filename and colour index,
+ separated by a blank, otherwise press <return>
+collect.out 2              ! plot first file green
+
+ Input file is Nordic      ! full Nordic format of input file
+
+ Enter epicenter filename and colour index,
+ separated by a blank, otherwise press <return>
+select.out  3              ! plot second file red
+
+ Input file is Compact     ! compact file format of input file
+
+
+ Enter epicenter filename and colour index,
+ separated by a blank, otherwise press <return>
+
+ Enter the following in uppercase if you wish the symbols 
+ to be filled and this facility is available...
+ By default, symbols will be plotted according to 
+ magnitude, do you wish them to be plotted according 
+ to magnitude range ?
+
+==== Loading Epicenters...
+
+! now comes the plot, see below for options
+
+ Earthquake locations inside the window are in epimap.out
+ Coordinates of the surrounding area are in epimap.cor
+ Area selected epicenters are in epimap.are
+ Plot file is called epimap.eps
+

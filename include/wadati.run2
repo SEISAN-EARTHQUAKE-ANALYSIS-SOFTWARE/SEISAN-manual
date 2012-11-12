@@ -1,0 +1,27 @@
+Input file name
+collect.out
+ Wadati (1), apparent velocity (2) or both (3) ?
+2
+ Apparent velocity parameters:  Distance range
+50 200  Azimuth range
+0 180
+ Minimum number of stations
+2
+ Maximum rms
+1
+AVSP:  30.212.7  AVDI: 152.0  30.7 NP:    4 VP :  6.95 RMS:   0.20 CORR:  1.000
+                 AVDI: 143.3  31.1 NS:    3 VS :  3.82 RMS:   0.25 CORR:  1.000
+AVSP:  23.0 9.5  AVDI: 158.7  26.6 NP:    3 VP :  6.76 RMS:   0.00 CORR:  1.000
+                 AVDI:  90.5  35.8 NS:    6 VS :  3.72 RMS:   1.79 CORR:  0.998
+                 AVDI:  89.0  35.6 NS:    6 VS :  3.69 RMS:   2.78 CORR:  0.996
+AVSP:  50.536.0  AVDI: 145.8  40.8 NP:    6 VP :  7.60 RMS:   0.42 CORR:  1.000
+                 AVDI: 116.3  38.2 NS:    3 VS :  3.97 RMS:   0.04 CORR:  1.000
+                 AVDI: 118.8  45.6 NS:    4 VS :  3.61 RMS:   0.66 CORR:  1.000
+AVSP:  14.4 7.5  AVDI: 106.0  39.2 NP:    5 VP :  6.75 RMS:   0.94 CORR:  0.999
+                 AVDI: 111.7  37.7 NS:    6 VS :  3.82 RMS:   0.97 CORR:  0.999
+AVSP:  14.4 7.5  AVDI: 176.7   1.5 NP:    3 VP :  5.13 RMS:   0.07 CORR:  1.000
+                 AVDI: 178.0   2.9 NS:    4 VS :  2.80 RMS:   1.06 CORR:  0.859
+AVSP:  22.0 5.7  AVDI: 150.0   4.2 NP:    2 VP : 10.17 RMS:   0.00 CORR:  0.000
+
+ Output file is wadati.out
+

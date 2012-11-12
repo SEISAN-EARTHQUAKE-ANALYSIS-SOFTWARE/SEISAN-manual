@@ -1,0 +1,15 @@
+Type codaq, the program asks about output:
+
+0: Only q is calculated
+1: Q is calculated and a plot on the tek screen is shown
+2: Q                                                    ,
+   and at the same time hard copy plots are made.
+3: Q is calculated and hard copy plots are made, but
+   no screen plot.
+
+Parameter file, name codaq.par is default (return)
+   Just hit return if default file, otherwise give name.
+
+File with event stations, codaq.inp is default (return)
+   Just hit return if default file, otherwise give name.
+

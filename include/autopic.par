@@ -1,0 +1,56 @@
+
+                                                                   
+%
+% Input parameters common to all filters:
+%
+% LWIND  : used to define step length (DELTA=WINDOW/LWIND)
+% ISHIFT : defines time shift between STA and LTA window (ISHIFT*DELTA)
+%          Delay for LTA window (15 * 0.1) ==> 1.5 sec. after STA window.
+% ISIGMA : defines fall off rate of LTA window (larger values   longer windows)
+%          LTA(i) = (1   2^(isigma)) * LTA(i 1) + 2^( isigma) * STA(j)
+% COHMIN : Polarization threshold.
+%          Minimum coherence (see thresh_1 and thresh_2)
+% NDMIN  : Mimimum number of consecutive triggered windows in a detection
+% SVELO  : S wave velocity of the medium below the station (used for 3 comp)
+% NFILT  : number of filters
+% CRAT   : Ratio for calculation of coda duration ( range 1   4)
+% LWIN   : Window used in coda duration routines (range 20   50 seconds)
+% THRES  : Quality threshold (range 2   5). Used on the maximum to average
+%          amplitude ratio in order to sort out the most noisy traces.
+%
+% Input parameters defined for each filter:
+%
+% WINDOW : length of the moving time window (sec)
+% F1     : lower cutoff frequency (Hz) of band pass filter
+% F2     : higher cutoff frequency (Hz) of band pass filter
+% THRSH1 : STA/LTA threshold for polarized signals
+% THRSH2 : STA/LTA threshold for unpolarized signals
+%          If coherence > cohmin then detection is made on thresh_1
+%          If coherence < cohmin then detection is made on  thresh_2
+%
+% Output parameters:
+%
+% D    : day of year
+% H    : hour
+% M    : minute
+% SEC  : second
+% DUR  : duration, i.e. time in detection state (sec)
+% FRQ  : centre frequency of filter giving the best detection (Hz)
+% SNR  : signal to noise ratio (SNR=STA/LTA)
+% STA  : short time average (root mean square of amplitude)
+% NT   : total number of triggered time windows in the detection
+% NH   : number of windows with best SNR on one of the horizontal comp.
+% NV   : number of windows with best SNR on the vertical comp.
+% NC   : number of windows with acceptable polarization
+% Q    : quality class, 1(best)   4(worst)
+% PS   : P/S wave discriminator, 0(S)   10(P)
+% AZI  : backazimuth in degrees measured from North through East
+% DA   : variability in azimuth (deg)
+% VEL  : apparent velocity (km/s)
+% DV   : variability in apparent velocity (km/s)
+%
+% Note : azimuth and apparent velocity calculations are based on the
+%        assumption of P wave, so that these variables should be
+%        neglected for S waves.
+%
+

@@ -1,0 +1,32 @@
+   SENSOR TYPE: SEISMOMETER       RESPONSE: DISPLACEMENT
+   SEISMOMETER PERIOD=    1.00000
+   GENERATOR CONSTANT=    300.000
+   DAMPING RATIO     =   0.700000
+   AMPLIFIER GAIN(DB)=    40.0000
+   RECORDING GAIN=        2048.00
+   FILTER CONSTANTS
+   F= 10.00   POLES=  2
+   GAIN AT 1 HZ=          2.75728E+08
+
+  F=  0.0050   T=  200.00    AMP=      0.000000    AMPDB=-135.1    PHAS=   -90.4
+  F=  0.0059   T=  169.49    AMP=      0.000000    AMPDB=-130.8    PHAS=   -90.5
+  F=  0.0070   T=  142.86    AMP=      0.000000    AMPDB=-126.4    PHAS=   -90.6
+  F=  0.0083   T=  120.48    AMP=      0.000001    AMPDB=-121.9    PHAS=   -90.7
+  F=  0.0098   T=  102.04    AMP=      0.000001    AMPDB=-117.6    PHAS=   -90.9
+  F=  0.0120   T=   83.33    AMP=      0.000002    AMPDB=-112.3    PHAS=   -91.1
+  F=  0.0140   T=   71.43    AMP=      0.000004    AMPDB=-108.3    PHAS=   -91.2
+  F=  0.3900   T=    2.56    AMP=      0.082352    AMPDB= -21.7    PHAS=  -125.9
+  F=  0.4600   T=    2.17    AMP=      0.133868    AMPDB= -17.5    PHAS=  -133.0
+  F=  0.5500   T=    1.82    AMP=      0.224204    AMPDB= -13.0    PHAS=  -142.3
+  F=  0.6500   T=    1.54    AMP=      0.356744    AMPDB=  -9.0    PHAS=  -152.9
+  F=  0.7700   T=    1.30    AMP=      0.554684    AMPDB=  -5.1    PHAS=  -165.6
+  F=  0.9100   T=    1.10    AMP=      0.820676    AMPDB=  -1.7    PHAS=  -179.7
+  F=  1.1000   T=    0.91    AMP=      1.198877    AMPDB=   1.6    PHAS=   163.3
+  F=  1.3000   T=    0.77    AMP=      1.580098    AMPDB=   4.0    PHAS=   148.6
+  F=  1.5000   T=    0.67    AMP=      1.933016    AMPDB=   5.7    PHAS=   137.0
+  F=  1.8000   T=    0.56    AMP=      2.420457    AMPDB=   7.7    PHAS=   123.6
+  F=  2.1000   T=    0.48    AMP=      2.877005    AMPDB=   9.2    PHAS=   113.5
+  F=  2.5000   T=    0.40    AMP=      3.460298    AMPDB=  10.8    PHAS=   103.0
+  F=  2.9000   T=    0.34    AMP=      4.027073    AMPDB=  12.1    PHAS=    94.6
+  F=  3.5000   T=    0.29    AMP=      4.855642    AMPDB=  13.7    PHAS=    84.1 
+

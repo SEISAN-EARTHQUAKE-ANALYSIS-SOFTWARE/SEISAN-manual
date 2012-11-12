@@ -1,0 +1,30 @@
+#!/bin/ksh
+
+echo "\\begin{boxedverbatim}" > eev.199311.tex
+cat eev.199311       >> eev.199311.tex
+echo "\\end{boxedverbatim}"  >> eev.199311.tex
+
+echo "\\begin{boxedverbatim}" > eev.199405.tex
+cat eev.199405       >> eev.199405.tex
+echo "\\end{boxedverbatim}"  >> eev.199405.tex
+
+echo "\\begin{boxedverbatim}" > hyp.run.tex
+cat hyp.run          >> hyp.run.tex
+echo "\\end{boxedverbatim}"  >> hyp.run.tex
+
+echo "\\begin{boxedverbatim}" > STATION0.HYP.tex
+cat STATION0.HYP     >> STATION0.HYP.tex
+echo "\\end{boxedverbatim}"  >> STATION0.HYP.tex
+
+echo "\\begin{boxedverbatim}" > mulplt.eev.1.tex
+cat mulplt.eev.1     >> mulplt.eev.1.tex
+echo "\\end{boxedverbatim}"  >> mulplt.eev.1.tex
+
+echo "\\begin{boxedverbatim}" > mulplt.eev.2.tex
+cat mulplt.eev.2     >> mulplt.eev.2.tex
+echo "\\end{boxedverbatim}"  >> mulplt.eev.2.tex
+
+echo "\\begin{boxedverbatim}" > mulplt.main.tex
+cat mulplt.main      >> mulplt.main.tex
+echo "\\end{boxedverbatim}"  >> mulplt.main.tex
+

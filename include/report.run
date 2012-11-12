@@ -1,0 +1,34 @@
+report collect.out
+
+Below is shown parameters which can be chosen for output.
+ A return will chose all, placing any character under a field
+ will chose that parameter in the output. Each field starts
+ with a capital letter and ends within the following blank.
+ The order of the output can be changed by placing a number
+ under the field and fields will be written out in the order
+ of the numbers. E after time, lat, lon and dep are errors,
+ L E is distance and event id s, F is both fix flags and A is
+ agency for magnitude.
+ The following example shows that Mc, Depth(Dep) and Time with
+ error are selected and written out in given order.
+Date TimeE L E LatE LonE Dep E F Aga Nsta Rms Gap McA MlA MbA MsA MwA Fp Spec 
+     30  45              20                       10
+
+Date TimeE L E LatE LonE Dep E F Aga Nsta Rms Gap McA MlA MbA MsA MwA Fp Spec 
+x               x    x    x            x       x                       x
+ Number of output fields            8
+
+ Number of events                                     12
+ Number of events with spectra:                        1
+ Number of events with fault plane solution:           3
+ Number of events with error estimates:               16
+ Number of events with mc             :               10
+ Number of events with ml             :               10
+ Number of events with mb             :                8
+ Number of events with ms             :                5
+ Number of events with mw             :               12
+
+ Output report file is report.out
+ Output nordic file is report_n.out
+ Output of choices used in report.inp
+

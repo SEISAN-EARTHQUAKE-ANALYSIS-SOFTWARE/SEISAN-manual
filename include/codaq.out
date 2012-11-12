@@ -1,0 +1,46 @@
+start in s-times                             2.00
+absolute start time (sec)                    0.00
+window length (sec)                         15.00
+spreading parameter                          1.00
+constant v in q = q0*f**v                    1.00
+minimum signal to noise ratio                5.00
+noise window in front of signal and len     15.00      5.00
+minimum correlation coefficient              0.50
+maximum counts to use                      500000
+ASK  SUE  KMY  EGD  HYA                                                        
+S  Z S  Z S  Z S  Z S  Z                                                                                                                             
+ \SEISMO\WAV\1996-06-07-1324-51S.TEST__009                                       
+ \SEISMO\WAV\1996-06-07-1324-51S.TEST__009                                       
+ \SEISMO\WAV\1996-06-07-1324-51S.TEST__009                                       
+  1996 6 7132458 KMY   tc  41.3  f 16.0  s/n 37.4  Q 1077  corr -0.55  rms 0.30
+ \SEISMO\WAV\1996-06-07-1324-51S.TEST__009                                       
+ \SEISMO\WAV\1996-06-07-1324-51S.TEST__009                                       
+ \SEISMO\WAV\1996-06-25-0336-34S.TEST__032                                       
+  1996 625 33715 ASK   tc  87.2  f  4.0  s/n121.9  Q  340  corr -0.60  rms 0.19
+  1996 625 33715 ASK   tc  87.2  f  8.0  s/n 72.5  Q  551  corr -0.56  rms 0.28
+ \SEISMO\WAV\1996-06-25-0336-34S.TEST__032                                       
+  1996 625 337 5 SUE   tc  57.3  f  4.0  s/n 96.9  Q  193  corr -0.61  rms 0.34
+ \SEISMO\WAV\1996-06-25-0336-34S.TEST__032                                       
+  1996 625 33730 KMY   tc 143.5  f  8.0  s/n 13.6  Q  506  corr -0.61  rms 0.27
+ \SEISMO\WAV\1996-06-25-0336-34S.TEST__032                                       
+ \SEISMO\WAV\1996-06-25-0336-34S.TEST__032                                       
+  1996 625 33653 HYA   tc  84.4  f  2.0  s/n 51.5  Q  288  corr -0.54  rms 0.12
+  1996 625 33653 HYA   tc  84.4  f  4.0  s/n239.5  Q  427  corr -0.56  rms 0.17
+  1996 625 33653 HYA   tc  84.4  f  8.0  s/n112.1  Q  504  corr -0.61  rms 0.27
+ 
+ Freq      2.00     4.00     8.00    16.00
+ Band      1.00     2.00     4.00     8.00
+
+        AV Q  SD AV Q  SD AV Q  SD AV Q  SD
+
+ NT=  8    N=  1    N=  3    N=  3    N=  1    N=
+    q    288   0  320 118  520  27 1077   0
+  1/q    288   0  287 123  519  26 1077   0
+f:1/q    206  91  333 147  537 237  867 382
+   
+    q   cq0= 84  sd= 37  q0=143  sd= 49  v= 0.65  sd= 0.16  cor= 0.94           
+  1/q   cq0= 82  sd= 38  q0=128  sd= 57  v= 0.69  sd= 0.20  cor= 0.93           
+ 
+  Corr: 0.540.00 0.590.03 0.590.03 0.550.00
+ 
+  Average lapse time with sd       83.704498       29.501974

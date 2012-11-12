@@ -1,0 +1,112 @@
+oxygen-(larso)23: resp
+
+  RESP - PROGRAM TO CREATE RESPONSE FILES IN SEISAN
+         OR GSE FORMAT. THE RESPONSE CAN BE CREATED
+         AS POLES AND ZEROS (PAZ) OR FREQUENCY
+         AMPLITUDE AND PHASE (FAP). THE SAME
+         TRANSFER FUNCTION AND FILTERS ARE USED
+         IN BOTH CASES.
+
+  CHOSE OUTPUT FORMAT: 0: NO OUTPUT FILE 
+                       1: SEISAN FAP 
+                       2: SEISAN PAZ 
+                       3: GSE2 FAP 
+                       4: GSE2 PAZ 
+4
+  TYPE OF SENSOR:       1: NONE 
+                        2: SEISMOMETER 
+                        3: ACCELEROMETER 
+2
+  SEISMOMETER NATURAL PERIOD ? 
+1
+  SEISMOMETER DAMPING RATIO ? 
+.7
+  SENSOR LOADED GENERATOR CONSTANT (V/M/S OR V/G) ? 
+300
+  RECORDING MEDIA GAIN (COUNT/V OR M/V) ? 
+2048
+  AMPLIFIER GAIN (DB) ? 
+40
+  NUMBER OF FILTERS (0-10), RETURN FOR NONE ? 
+1
+  FREQUENCY AND NUMBER OF POLES FOR EACH FILTER,
+  POLES NEGATIVE FOR HIGH PASS 
+10 2
+  FILE NAME FOR FILE WITH POLES AND ZEROS, RETURN FOR NO FILE
+
+  FILE NAME FOR MEASURED VALUES, RETURN FOR NO FILE 
+
+
+
+
+             AMPLITUDE RESPONSE   SEISMOMETER       DISPLACEMENT   
+  AMPL      ---------------------------------------------------------------
+   9.88     I.         .         .         .         . ++++++++++        .I
+   3.66     I                                    ++++++          ++++++   I
+   1.36     I.         .         .         .  +++    .         .       +++I
+  0.504     I                             + ++                            I
+  0.187     I. . . . . . . . . . . . . .++ . . . . . . . . . . . . . . . .I
+  0.694E-01 I                         ++                                  I
+  0.257E-01 I.         .         .  ++     .         .         .         .I
+  0.955E-02 I                     ++                                      I
+  0.354E-02 I.         .        ++         .         .         .         .I
+  0.131E-02 I. . . . . . . . .++ . . . . . . . . . . . . . . . . . . . . .I
+  0.488E-03 I.         .    ++   .         .         .         .         .I
+  0.181E-03 I             ++                                              I
+  0.671E-04 I.         .++       .         .         .         .         .I
+  0.249E-04 I         ++                                                  I
+  0.924E-05 I. . . .++ . . . . . . . . . . . . . . . . . . . . . . . . . .I
+  0.343E-05 I     ++                                                      I
+  0.127E-05 I.  ++     .         .         .         .         .         .I
+  0.472E-06 I ++                                                          I
+  0.175E-06 I+         .         .         .         .         .         .I
+            ---------------------------------------------------------------
+  FREQ      0.01      0.03      0.14      0.71      3.68     19.19    100.00
+ GAIN FACTOR AT 1 HZ: 0.276E+09     RETURN FOR PHASE RESPONSE
+
+             PHASE RESPONSE   SEISMOMETER       DISPLACEMENT   
+  PHAS DEG  ---------------------------------------------------------------
+   163.     I.         .         .         .  +      .         .         .I
+   144.     I                                  ++                         I
+   125.     I.         .         .         .     +   .         .         .I
+   106.     I                                     ++                      I
+   87.1     I. . . . . . . . . . . . . . . . . . . .++ . . . . . . . . . .I
+   68.0     I                                         ++                  I
+   49.0     I.         .         .         .         .  ++     .         .I
+   29.9     I                                             +               I
+   10.8     I.         .         .         .         .     +   .         .I
+  -8.21     I. . . . . . . . . . . . . . . . . . . . . . . .++ . . . . . .I
+  -27.3     I.         .         .         .         .        +.         .I
+  -46.3     I                                                  +++        I
+  -65.4     I.         .         .         .         .         .  ++++   .I
+  -84.4     I++++++++++++++                                           ++++I
+  -103.     I. . . . . . . ++++++++++. . . . . . . . . . . . . . . . . . .I
+  -123.     I                        +++                                  I
+  -142.     I.         .         .      ++ .         .         .         .I
+  -161.     I                             + +                             I
+  -180.     I.         .         .         . +       .         .         .I
+            ---------------------------------------------------------------
+  FREQ      0.01      0.03      0.14      0.71      3.68     19.19    100.00
+ GSE RESPONSE FILE (Y/N=default)?y
+ Enter station code. e.g. BERGE, max 5 chars 
+TEST
+  Enter component (4 chars) e.g. SH Z
+  First character is type, should be one of the following:
+  E, S, H, B, M, L, U
+  Second character is instrument code, should be one of the following:
+  H, L, G, M, N
+  Third character is not used, leave blank
+  Last character is orientation, must be Z,N or E
+S  Z
+ Enter date as YYYYMMDDHHMMSS, at least up to the day  (e.g. 19880123):20000101
+ Latitude (Up to 4 decimal places and - for south), return for none:
+ Longitude (Up to 4 decimal places and - for west), return for none:
+ Enter elevation in meters (integer), return for none:
+ Enter comments, one line. e.g. amp type, sensor type return for none
+
+ Response file name is: TEST_S__Z.2000-01-01-0000_GSE
+
+
+  RESPONSE CURVE IS IN FILE resp.out
+
+

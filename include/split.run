@@ -1,0 +1,38 @@
+
+ INPUT FILE NAME                         !  Give file name 
+COLLECT.OUT                              !  File name
+ INPUT BASE NAME:                        !  Indicate which type    
+   BER FOR STANDARD DATABASE:           !  - database
+   THREE LETTER CODE FOR OTHER BASE
+   RETURN FOR SPLIT UP IN LOCAL DIRECTORY
+BER                                      !  Choice was standard base
+   OPERATOR ID, MAX 4 CHARS              !  Operator id logged in file
+jh
+
+1988  2  5  13:51 35.0  L       RECORDS:  4 ! Listing of events split up   
+File already exists, options are:        ! try to make a file with same
+                                         !  id
+Ignore (leave old event):             Return
+Ignore all                            I
+Overwrite duplicate:                  O
+Overwrite all duplicates              A
+Create a new event, different ID:     N
+Create new events for ALL duplicates: * O
+
+1988  2  5  14:15 25.2  D       RECORDS:  4
+1988  2  5  19: 4 10.0  D       RECORDS:  3
+
+1992 11  1   1:32  1.0  D       RECORDS: 55
+
+
+NUMBER OF LOCAL EVENTS:       1            ! Statistics of events  
+NUMBER OF REGIONAL EVENTS:    0            ! - split up
+NUMBER OF DISTANT EVENTS:     2
+NUMBER OF EXPLOSIONS:         0
+NUMBER OF PROB. EXPLOSIONS    0
+
+TOTAL NUMBER OF EVENTS:       3
+
+TOTAL NUMBER OF RECORDS:     14
+
+FORTRAN STOP

@@ -1,0 +1,78 @@
+
+
+ Input file name, select.out or collect.out are defaults
+    ! Give filename or return
+ Which magnitude type, C,L,B,W or S, return for no type
+    ! C: coda, L: Ml, B: mb and S: surface wave magnitude, W: Moment mag.
+         blank: no magnitude type
+ Output:
+ Number of events selected from file:    91 
+Duration of catalog in years: 0.502
+
+    ! Output number of events selected and duration of catalog
+ New input:
+ Magnitude step 1.0, 0.5, 0.25, 0.2 or 0.1
+    ! Magnitude step for summing number of events, MUST be one of the above.
+ Magnitude range m1,m2 for b value and fixed b-value
+    ! Range for calculating b value, and the fixed b-value for which a-value is calculated. The a value is calculated as the average of N(i) + bfix * mag(i), where N(i) is the accumulated number of events at magnitude mag(i) and bfix is the fixed bvalue.
+ 
+ Output is now:
+      n    m1    m2 maxl a maxl b   sd  lsq a  lsq b   cor    rms   bfix   afix   sd
+     52    2.0  4.0 3.25     0.68 0.46   3.77   0.93  0.93   0.14    1.0   4.02 0.16
+ Normalized         3.55                 4.07                              4.32
+ Normalized m1      2.19                 2.21                              2.32
+ Norm. lin. m1     154.9                162.2                             208.9
+
+! Normalized means normalized to one year (m=0), Normalized m1 (m=m1) and Norm. lin. m1 is just antilog the previous. So in the above example, it is expected that 162.2 earthquakes occur larger than or equal to 2 in one year (least squares relation).
+
+   mag  nmag  cmag
+    0.4     1    91
+    0.6     1    90
+    0.8     3    89
+    1.0     6    86
+    1.2     6    80
+    1.4     7    74
+    1.6     4    67
+    1.8    11    63
+    2.0     8    52
+    2.2    11    44
+    2.4     6    33
+    2.6     7    27
+    2.8     5    20
+    3.0     4    15
+    3.2     7    11
+    3.4        
+
+ n: Number of values used
+ m1 and m2: Magnitude range used for b value calculation
+ maxl a and b: Maximum likelihood a and b
+ sd: Standard deviation
+ lsq a and b: Least squares a and b ( the one plotted) 
+ cor and rms: Correlation coefficient and rms of above
+ bfix: fixed b-value given at input
+ afix: a-value for above
+ sd: standard deviation for above
+ mag: magnitude
+ nmag: number of events within mag interval
+ cmag: cumulated number of events
+
+ Questions:
+ 
+ Plot(y/n)
+   ! This will make a plot and a postscript plot file.
+     Note that only the last plot on screen is saved. The plot
+     must be sent manually to the printer.
+
+ Which b-value 1: Least squares (default)
+               2: Fixed bvalue
+               3: Maximum likelihood
+   ! Choice of b-value to plot
+
+ Run again with other parameters (y/n)
+   ! Another step length or range can be selected 
+ 
+The final output is:
+
+Output file in bvalue.out
+Last plot in file bvalue.eps
+

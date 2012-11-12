@@ -1,0 +1,37 @@
+\begin{boxedverbatim}
+EEV 199405 EAF
+
+1994  5 Reading events for base EAF         613   ! the month has 613 events
+#    1  1 May 1994  1:18  8 D                                               ? 
+#    2  1 May 1994 11:37  6 L                                               ? 
+#    3  1 May 1994 12:00 33 D   36.607   68.449 15.0  2.4    ! go to day 20 ? d20
+#  366 20 May 1994  5: 2  8 R                                               ? c
+                                                ! copy an event to working dir.
+ Copy event: Other database, give 1-5 letter name
+             Working directory in file eev.out: return
+
+#  366 20 May 1994  5: 2  8 R                                              ? 
+#  367 20 May 1994 10:59 32 D      ! jump to 530                           ? 530
+#  530 26 May 1994  8:55 11 D      ! look for time association             ? s
+ 
+  549 27 May 1994  9:27 41 L                                        Associated
+  548 27 May 1994  9:27  1 L       ! append to next event            ? aa
+ Event #  549 appended to event #  548   Appended event still present
+ Do you want to delete appended event(y/n=return)y   ! delete appended event
+
+Backup copy saved as: \seismo\REA\DELET\1994\05\27 0927-41L.S199405 ! del. ev. save   
+Deleted file          \seismo\REA\EAF__\1994\05\27 0927-41L.S199405 ! app.ev. del.
+1994 05 Reading events for base EAF         612    ! event list updated
+#  548 27 May 1994  9:27  1 L                     ! jump to 222            ? 222
+#  222 12 May 1994 23:28 10 L                     ! change event type      ? r
+ 
+ Change event type to L,R or D ?r
+
+New file       \seismo\REA\EAF__\1994\05\12 2328-10R.S199405      
+Deleted file:  \seismo\REA\EAF__\1994\05\12 2328-10L.S199405    
+Reading events for base EAF         612
+#  222 12 May 1994 23:28 10 R                                        ? 
+#  223 13 May 1994  1: 1 37 L                                        ? 
+#  224 13 May 1994  1:16 44 L                                        ? q
+
+Stop   Program terminated.\end{boxedverbatim}

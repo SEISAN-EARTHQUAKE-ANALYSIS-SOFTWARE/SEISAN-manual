@@ -1,0 +1,39 @@
+Input file name
+collect.out
+ Wadati (1), apparent velocity (2) or both (3) ?
+1
+ Wadati parameters:  Minimum number of stations
+3
+ Maximum rms
+1
+ Minimum correlation coefficient
+0.9
+ 1994  616 1841 28.3 No data for Wadati
+ 1994 10 4 1322 55.8 No data for Wadati
+ 1995  822 0141  5.3 T0:  141   8.1 N:    8 VPS:  1.84 RMS:   1.19 CORR:  0.997
+ 1995 1120 0401 58.9 T0:  4 1  59.5 N:    7 VPS:  1.76 RMS:   0.87 CORR:  0.995
+ 1996  6 3 1955 35.6 No data for Wadati
+ 1996  6 3 1955 35.6 No data for Wadati
+ 1996  6 3 1955 40.1 No data for Wadati
+ 1996  6 6 0648 29.8 T0:  648   1.1 N:   22 VPS:  1.51 RMS:  11.00 CORR:  0.380
+ 1996  6 6 0648 30.6 T0:  648  38.7 N:    3 VPS:  2.16 RMS:   0.80 CORR:  1.000
+ 1996  6 6 0648 29.8 No data for Wadati
+ 1996  6 7 1325 28.5 T0: 1325  28.1 N:    9 VPS:  1.72 RMS:   1.06 CORR:  0.973
+ 1996  6 7 1325 29.1 T0: 1325  28.1 N:    9 VPS:  1.72 RMS:   1.06 CORR:  0.973
+ 1996  610  1 4 47.0 No data for Wadati
+ 1996  610  1 4 47.0 No data for Wadati
+ 1996  623 0117 57.8 No data for Wadati
+ 1996  623 0117 58.1 No data for Wadati
+ 1996  625 0337 31.7 T0:  337  33.1 N:   21 VPS:  1.75 RMS:   1.36 CORR:  0.999
+ 1996  7 5 0220 46.5 T0:  220  45.8 N:    6 VPS:  1.76 RMS:   0.28 CORR:  0.999
+ 1996  713 0556 46.0 No data for Wadati
+ 1996  718 0946 51.4 No data for Wadati
+ 1996  718 2255  6.0 No data for Wadati
+ 1996  726 0742 12.0 T0:  742  11.8 N:    6 VPS:  1.74 RMS:   0.47 CORR:  0.993
+
+ Number of events for which vp/vs were calculated            9
+ Number of events selected for average                       3
+
+
+ Average VP/VS =  1.75  SD=  0.01 N=    3
+

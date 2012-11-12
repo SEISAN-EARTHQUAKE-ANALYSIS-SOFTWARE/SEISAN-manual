@@ -1,0 +1,46 @@
+ 1996  6 7 1325 29.1 L* 59.841   5.127 12.0F BER 12 1.1 2.2CBER 1.9LBER 2.0LNAO1
+ 1996  6 7 1325 29.1 L*                      BER        2.0WBER                1
+       8.3      41.0      74.7     1                                           F
+ 1996-06-07-1324-51S.TEST__009                                                 6
+      535  SOUTHERN NORWAY                                                     3
+ depth fixed to 12 km, rms lowest with near station (less than 110 km) location3
+ fault plane solution ok within 10 deg                                         3
+ SYNT: MODEL--:     THICK        VP        VS      DENS        QP        QS    3
+ SYNT: MODEL--:    12.000     6.200     3.563     2.600     0.000     0.000    3
+ SYNT: MODEL--:    11.000     6.600     3.793     2.800     0.000     0.000    3
+ SYNT: MODEL--:     8.000     7.100     4.080     3.000     0.000     0.000 B  3
+ SYNT: MODEL--:    19.000     8.050     4.626     3.200     0.000     0.000 N  3
+ SYNT: MODEL--:    30.000     8.250     4.741     3.400     0.000     0.000    3
+ SYNT: MODEL--:    50.000     8.500     4.885     3.600     0.000     0.000    3
+ SYNT: ST-D-RK:       8.3      41.0      74.7                                  3
+ SYNT: DEPTH--:      12.0                                                      3
+ SYNT: NPOINTS:       512                                                      3
+ SYNT: TIMES--:     TOTAL    60.000   INITIAL     0.000  SY-TRACE    60.000    3
+ SYNT: BOUPAR-:     800.0      2000     0.010                                  3
+ SYNT: PHASES-:        Pg        Sg       PmP       SmS       SmP              3
+ SYNT: DT-Tsou:     0.050      .100                                            3
+ SYNT: REDVELO:    0.0000                                                      3
+ SYNT: COMPON-:    RADIAL                                                      3
+ SYNT: STAT-AT:  no                                                            3
+ SYNT: NSTAT--:         3------------------------------------------------------3
+ SYNT: NEW STAT:---------------------------------------------------------------3
+ SYNT: STATION: EGD  S  Z  DISTANC:      49.0                                  3
+ SYNT: STATION: EGD        AZIMUTH:       9.0 BAZIMUTH:     189.2              3
+ SYNT: NEW STAT:---------------------------------------------------------------3
+ SYNT: STATION: KMY  S  Z  DISTANC:      71.0                                  3
+ SYNT: STATION: KMY        AZIMUTH:     172.0 BAZIMUTH:     352.7              3
+ SYNT: NEW STAT:---------------------------------------------------------------3
+ SYNT: STATION: ASK  S  Z  DISTANC:      72.0                                  3
+ SYNT: STATION: ASK        AZIMUTH:       5.0 BAZIMUTH:     185.1              3
+ STAT SP IPHASW D HRMM SECON CODA AMPLIT PERI AZIMU VELO SNR AR TRES W  DIS CAZ7
+ EGD  SZ IP     C 1325 35.95   93                               -1.110   48   6 
+ EGD  SZ ES       1325 42.03                                    -1.010   48   6 
+ BER  SZ IP     C 1325 38.12   55                               -1.010   62  11 
+ BER  SZ ES       1325 45.44                                    -1.110   62  11 
+ BER  SZ E        1325 46.71        31.7  0.2                            62  11 
+ ASK  SZ EP     D 1325 39.59   68                               -0.910   70   3 
+ ASK  SZ ES       1325 48.07                                    -0.810   70   3 
+ ASK  SZ E        1325 50.90       111.0  0.3                            70   3 
+ KMY  SZ IP     C 1325 40.26   62                               -0.410   71 175 
+ KMY  SZ ES       1325 48.74                                    -0.410   71 175 
+ KMY  SZ E        1325 48.92        83.6  0.2                            71 175 

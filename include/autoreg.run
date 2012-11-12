@@ -1,0 +1,22 @@
+ autoreg
+  Event type for all events: Local:    L (default)
+                             Regional: R
+                             Distant:  D
+
+  Move (m) or copy (c) waveform files to WAV (enter=n) ?
+m
+ Files will be moved to default WAV base: TEST_
+ Enter new WAV data base to copy or move to
+ enter for default base or m for main WAV directory 
+LVC
+  Operator, max 4 chars
+jh
+ 2010.018.12.26.15.0695.IU.LVC.10.LH1.R.SAC                  
+ /home/s2000/seismo/REA/LVC__/2010/01/18-1226-15L.S201001
+ mv   2010.018.12.26.15.0695.IU.LVC.10.LH1.R.SAC /home/s2000/seismo/WAV/LVC__/2010/01/                                                                                                                   
+  File transferred to WAV base LVC__ **********
+ 2010.018.12.26.52.0695.IU.LVC.10.LHZ.R.SAC                  
+.....
+.....
+
+In this case wavform files were moved to  data base LVC instead of the default TEST.

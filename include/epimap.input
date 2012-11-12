@@ -1,0 +1,57 @@
+
+         Test Case 1.                                                          
+                                                                                
+ NSTEP =   10 JCALC =    0 JPRNT =    1 IATTE =    0                            
+                                                                                
+ LIST OF EXAMINED INTENSITIES     3.91    4.61    5.01    5.30    5.52    5.70  
+                                                                                
+ RISKS DESIRED    .1000   .0200   .0100   .0050   .0000   .0000   .0000   .0000 
+                                                                                
+ ATTENUATION DATA=   C1      C2      C3    SIGMA   RZERO    RONE     AAA     BBB
+                    6.16     .64    1.30     .50   25.00    5.0010000.00     .00
+                                                                                
+ NO. OF GROSS SOURCES     3                                                     
+ NO. OF SUBSOURCES IN GROSS SOURCES     3    2    1                             
+                                                                                
+ This file is input for epimap contour plotting. The input of  
+ parameters must appear as listed below with the actual data   
+ starting after the line Fields to use. There can be any       
+ number of header lines. The contour values plotted are        
+ plotted with the number of decimals given below. The last     
+ part of the file is the actual longitudes, latitudes and       
+ levels. Color use is optional and the field can be left       
+ blank, the codes are as follows:                              
+                                                               
+ 1: blue   2: green   3: red   4: yellow   5: white   6: black 
+
+ Min and max level  115.1800  129.6700
+
+ Fields to use                          I.........I.........I.........I   
+ Latitude range and number of values         40.00     49.00       10
+ Longitude range and number of values         5.00     14.00       10
+ Contour level to plot and color           117           2.0
+ Contour level to plot and color           119           3.0
+ Contour level to plot and color           121    
+ Contour level to plot and color           123    
+ Contour level to plot and color           125    
+ Contour level to plot and color           127    
+ Contour level to plot and color           129    
+ Contour level to plot and color           131    
+ Contour level to plot and color           133    
+ Contour level to plot and color           135    
+    5.00000    40.0000    117.620
+    6.00000    40.0000    118.490
+    7.00000    40.0000    119.080
+    8.00000    40.0000    119.390
+    9.00000    40.0000    119.390
+   10.00000    40.0000    119.080
+    11.0000    40.0000    118.490
+    12.0000    40.0000    117.630
+    13.0000    40.0000    116.510
+    14.0000    40.0000    115.180
+    5.00000    41.0000    119.680
+    6.00000    41.0000    120.620
+    7.00000    41.0000    121.260
+    8.00000    41.0000    121.600
+    etc
+

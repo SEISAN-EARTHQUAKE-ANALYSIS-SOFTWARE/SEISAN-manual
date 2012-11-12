@@ -1,0 +1,22 @@
+column      format         description
+2:5          a4              'VOLC'    Volcanic identifier
+7:10         a4              station
+12:15        a4              component
+19:20        a2              'PA' field identifier
+22:29        g8.3            peak amplitude
+31:32        a2              'DU' field identifier
+34:41        g8.3            signal duration
+43:44        a2              'MF' field identifier
+46:53        g8.3            mean frequency
+55:56        a2              'SB' field identifier
+58:65        g8.3            signal bandwidth
+66:79                        blank
+80           a1              '3' line type identifier.
+
+For example
+
+ VOLC MAIN tremor                                                              3
+ VOLC KTK1 S  Z   PA .152E 06  DU    1.325 MF    2.472                         3
+ VOLC KTK1 S  N   PA .167E 06  DU    1.997 MF    2.067                         3
+ VOLC KTK1 S  E   PA .141E 06  DU    1.543 MF    1.998                         3
+ 

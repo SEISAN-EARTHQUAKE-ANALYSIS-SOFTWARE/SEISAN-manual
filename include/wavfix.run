@@ -1,0 +1,23 @@
+No wavfix.def file, will use internal information for channel codes  
+ This program will change header times in all headers
+ with the same amount. The waveform file name will be
+ changed at the same time and adjusted to the standard
+ name.
+ If no time correction is given, only the waveform
+ names are adjusted.
+ In addition, channels names can be changed if a
+ wavfix.def file is available
+
+ Time correction in seconds, return for no correction
+ Input options: (1) filenr.lis or waveform file name
+                (2) Nordic file
+Filename or number, filenr.lis for all                                         
+Input file name: 1994-06-16-1841-57S.TEST__019                
+Output file name 1994-06-16-1843-57S.______019
+
+Input file name: 1994-10-04-1324-00S.TEST__016                
+Output file name 1994-10-04-1326-00S.______016
+
+Input file name: 1994-10-04-1324-24S.TEST__016                
+Output file name 1994-10-04-1326-24S.______016
+ 

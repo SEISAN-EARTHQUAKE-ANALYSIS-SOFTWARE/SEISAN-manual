@@ -1,0 +1,35 @@
+\begin{boxedverbatim}
+HYP
+Arrival time data input, select one:
+
+  SEISAN database or                              : RETURN
+  Alternative database, give 1-5 letter code      :
+  Local index file, name must start with index or : 
+  Local database, write ,, or                     :
+  File name for one file in NORDIC format         :
+
+                	Your answer here  determines  the input                 
+source. A return means that you work directly on the BER database. A 1-5 letter 
+code gives name of database, e.g. NAO. An index file or the name of a readings 
+file  is used when you want to work on specific subsets.
+                   Local database is S-files in local directory.
+
+ Start Time           (YYYYMMDDHHMMSS) : 199012
+ End Time, RETURN is to end of month   : 19901205 
+          		Standard formatted time input.
+
+ Interactive operation (N/Y=return)
+                	If N, whole time interval or file is located, one line output pr event.  
+
+
+#  1   1992 12 3 0137 40.3 NPHS=   12  T Q L #XXX  
+#  2   1992 12 3 0237 43.3 NPHS=   14  T Q L #XXX  l   ! now locate 
+here comes location, see HYP manual***************************** 
+#  2   1992 12 3 0237 43.3 NPHS=   14  T Q L #XXX  q   ! stop 
+
+
+ PRINT OUTPUT IN FILE print.out
+ CAT-FILE IN FILE hyp.out
+ Summary file in hypsum.out
+ 
+\end{boxedverbatim}

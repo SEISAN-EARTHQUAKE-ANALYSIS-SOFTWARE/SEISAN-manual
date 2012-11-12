@@ -1,0 +1,97 @@
+
+POSSIBLE INPUT IS: 
+     STANDARD CAT DATABASE: RETURN
+     ALTERNATIVE DATABASE, GIVE 1-5 LETTER CODE:
+     FILENAME FOR ONE FILE, MUST BE 6 OR MORE CHARACTERS:
+     Type of base: CAT (Return) or Sfiles (s):
+ Updating database TEST_              ! standard base
+ The database TEST_ has  10 files
+ The first file starts: 199309
+ The  last file starts: 199909
+ 
+  Start time (blank is 1980), yyyymmddhhmmss: 199309! time range
+  End time, enter for 2015                  : 199607
+
+             PARAMETERS
+  
+      1   - Fault Plane Solution
+      2   - Earthquake Felt
+      3   - Magnitude Type(s)                            
+      4   - Distance ID(s)                               
+      5   - Event ID(s)                                  
+      6   - Magnitude Limits
+      7   - Latitude Limits
+      8   - Longitude Limits
+      9   - Depth Limits
+      10  - RMS Limits
+      11  - Number of Stations Limits
+      12  - Hypocenter Errors Latitude Limits
+      13  - Hypocenter Errors Longitude Limits
+      14  - Hypocenter Errors Depth Limits
+      15  - Minimum Number of Polarities
+      16  - Hypocenter Agencies
+      17  - Magnitude Agencies
+      18  - Station Codes, components and distance range
+      19  - Polygon
+      20  - Use all header lines
+      21  - Look for wave form file names
+      22  - Gap range          
+      23  - Phases    
+      24  - Volcanic subclasses
+         
+  
+  SELECT NUMBER TO CHANGE PARAMETER, RETURN TO SEARCH: 6   
+  Minimum Magnitude, return for default:   5
+  Maximum Magnitude, return for default:   7
+
+             PARAMETERS
+  
+      1   - Fault Plane Solution
+      2   - Earthquake Felt
+      3   - Magnitude Type(s)                            
+      4   - Distance ID(s)                               
+      5   - Event ID(s)                                  
+      6   - Magnitude Limits                          5.0        7.0
+      7   - Latitude Limits
+      8   - Longitude Limits
+      9   - Depth Limits
+      10  - RMS Limits
+      11  - Number of Stations Limits
+      12  - Hypocenter Errors Latitude Limits
+      13  - Hypocenter Errors Longitude Limits
+      14  - Hypocenter Errors Depth Limits
+      15  - Minimum Number of Polarities
+      16  - Hypocenter Agencies
+      17  - Magnitude Agencies
+      18  - Station Codes, components and distance range
+      19  - Polygon
+      20  - Use all header lines
+      21  - Look for wave form file names
+      22  - Gap range
+      23  - Phases                   
+      24  - Volcanic subclasses
+
+  Ok. Input realized successfully.
+  SELECT NUMBER TO CHANGE PARAMETER, RETURN TO SEARCH:   
+ 199309.CAT  No of events:     1  Selected:     1  Selected total:     1
+ 199406.CAT  No of events:     1  Selected:     1  Selected total:     2
+ 199410.CAT  No of events:     1  Selected:     0  Selected total:     2
+ 199508.CAT  No of events:     1  Selected:     0  Selected total:     2
+ 199511.CAT  No of events:     1  Selected:     0  Selected total:     2
+ 199606.CAT  No of events:     6  Selected:     3  Selected total:     5
+ 199607.CAT  No of events:     5  Selected:     1  Selected total:     6
+  
+  TOTAL NUMBER OF EVENTS IN TIME INTERVAL   16
+  NUMBER OF DISTANT EVENTS   - - - - -      7
+  NUMBER OF REGIONAL EVENTS  - - - - -      0
+  NUMBER OF LOCAL EVENTS     - - - - -      9
+  ---------------------------------------------------
+  NUMBER OF EVENTS SELECTED *************   6
+  NUMBER OF WAVEFORM FILES SELECTED         9
+  NUMBER OF INDEXES SELECTED                6
+  SELECTED EARTHQUAKES ARE IN FILE: select.out 
+  LOCAL INDEX FILE IN:              index.out
+  NAMES FOR WAVEFORM FILES IN FILE: waveform_names.out
+  SELECT COMMANDS IN FILE:          select.inp
+
+

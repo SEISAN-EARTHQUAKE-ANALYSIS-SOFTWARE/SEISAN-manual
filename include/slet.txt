@@ -1,0 +1,23 @@
+An example of a plot is shown in Figure 46. The program supports 1-char subclass names only.
+
+The following output files are created:
+
+volcstat.batch - c-shell script to generate Postscript output using GMT	
+volcstat_counts.ps - Postscript output file
+volcstat_counts_<type>.out - for each event, the Julian date is written out, one file per subclass
+volcstat_daily_<type>.out - number of events per day, files written for each subclass
+volcstat_counts_total.out - total event counts for each subclass
+
+Figure 46. Bar diagrams showing distribution of events of different subclasses over time.
+
+RSAM
+
+1-minute RSAM data can be created with WAVETOOL.
+
+Future Extensions:
+It is intended that additional parameters can be included in the above structure to included 
+routine measurements of the volcanic earthquakes. For example, signal duration, peak amplitude 
+and mean frequency can be calculated for individual stations and included on additional type 3 
+lines with a volcanic identifier. Parameters on each channel can then be averaged an inserted 
+on the volcanic header line.
+

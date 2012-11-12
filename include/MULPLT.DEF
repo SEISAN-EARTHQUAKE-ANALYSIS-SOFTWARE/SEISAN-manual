@@ -1,0 +1,47 @@
+KEYWORD............Comments.............Par 1.....Par 2
+X_SCREEN_SIZE      Size in pixels        90.0
+PHASE NAME KEY     Phase key and phase                    
+PHASE WEIGHT KEY   Weight key and weight                     
+PHASE MOUSE KEY    Mouse key character
+SPECTRAL Q0        Q0                    440.0 
+SPECTRAL QALPHA    Q = Q0**Qalpha        0.70 
+SPECTRAL KAPPA
+SPECTRAL P-VELOCITY P velocity            6.2 
+SPECTRAL S-VELOCITY S velocity            3.6
+SPECTRAL DENSITY   Density
+3COMP VELOCITY     velocity for 3 comp
+RESOLUTIONX        # points pl. screen  1500.0
+RESOLUTIONHC       # points pl. hc      3000.0
+NSORT_DISTANCE     0: no sort, min ph.
+NCHAN PER SCREEN   max # chan screen
+CHANNEL SORTING                          1.0     
+SPECTRAL F-BAND                          0.01     20.0
+AUTO_LOCATE        0,1,2       0,1,2     0.0      2.0
+AUTO_PROCESS       0,1,2       name      0.0      ls 
+SPECTRAL OUTPUT                          1.0
+WOOD ANDERSON HIGH CUT                  20.0
+### Set Filter type 0 for bndpas 1 for recfil routine
+FILTER TYPE                             0.0
+### Setup user-defined filters
+FILTER 1           z-key                0.01      0.1.
+FILTER 2           x-key                0.1       1.0
+FILTER 3           v-key                1.0       5.0
+FILTER 4           b-key                5.0       10.0
+FILTER 5           n-key                10.0      15.0
+FILTER 6           m-key                15.0      25.0
+FILTER 7           ;-key                2.0       4.0
+ML LOW CUT AND POLES
+ML HIGH CUT AND POLES
+BANDPASS FILTER                          5.0      10.0
+CODA AUTO                                1.0 
+AUTOCODA FILTER                          0.1      10.0
+AUTOCODA STA                             3.0
+AUTOCODA RATIO                           1.2
+DEFAULT CHANNEL                         KONO      LU Z
+DEFAULT CHANNEL    Station and channel  ITK       S  Z
+
+------------------------------------------------------------------------------
+
+In SEISAN.DEF, the following parameters can be set, format as in SEISAN.DEF
+SPECTRAL GEO_DEPTHS                     10.0       14.0
+HERKIJ_DISTANCE                         100.0

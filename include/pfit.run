@@ -1,0 +1,26 @@
+ Give reference station, enter for using first station in list
+HYA
+ Maximum distance from reference station, default is 1000 km
+
+ 2007  1 5 1652 23.3 D  55.991-159.065 13.5  BER 19 1.2 5.3SBER 5.5BBER 5.4BPDE
+ 
+ Stations available: 18  Stations used: 14
+ Stat      Delta t  Latitude Longitude         x         y
+ HYA         0.000    61.165     6.182     0.000     0.000
+ LOF       -44.970    68.132    13.541   394.668   774.733
+ MOR8      -34.220    66.285    14.732   458.521   569.318
+ NSS       -23.720    64.531    11.967   310.275   374.227
+ MOL        -9.540    62.570     7.547    73.220   156.192
+ DOMB       -6.840    62.073     9.112   157.158   100.965
+ ASK         0.810    60.472     5.201   -52.618   -77.095
+ RUND        4.060    60.414     5.367   -43.680   -83.581
+ BER         4.820    60.384     5.335   -45.414   -86.880
+ EGD         3.270    60.270     5.223   -51.403   -99.501
+ ODD1        5.600    59.911     6.627    23.891  -139.457
+ BLS5        9.920    59.423     6.456    14.712  -193.739
+ KONO        9.630    59.649     9.598   183.221  -168.571
+ SNART      18.280    58.339     7.210    55.130  -314.293
+ 
+ Reference station is: HYA  
+ 
+ Back azimuth =358.8  Apparent velocity =19.81  corr =-0.99  rms =   0.03

@@ -1,0 +1,58 @@
+unix:/home/seismo/WOR$ gmap -help
+
+  The GMAP program converts Nordic format to the KML format.
+  The output file gmap.kml can be opened with Google Earth.
+  The program prompts for a input file in nordic format, the
+  input file can be compact.
+  The program also convert SEISAN station and polygon files.
+  
+  Usage: gmap [options]
+         input file    
+         Title used for kml folder
+  
+  ## Options ##
+    -help         Print this list
+    -h            Same as -help
+    -color        Define color of epicenters [blue/green/yellow/
+                  black/white]. Default color is red          
+                  To uses other colors see describtion below  
+    -timespan     Events gets timetag scroll in time domain   
+    -nodata       kml file will only contain header infomation
+    -errorellipse kml file will include error ellipse        
+    -stat         Station locations given in STATION?.HYP files
+                  is converted to KML, output is gmapstat.kml  
+                  To change color/scale/icon edit gmapstat.kml 
+                  and change the content of Style Id=stat      
+    -poly         SEISAN polygon files like DAT/SALVADOR.MAP   
+                  is converted to KML, output is gmappoly.kml    
+                  To change color/width edit gmappoly.kml and    
+                  change the content of Style Id=poly            
+    -out_file     Define name of output file (default is gmap.kml)
+    -verbose      Be more verbose
+    -version      Seisan version 
+  
+  Scale:
+  The scale of the icons is set by the SEISAN.DEF 
+  parameters GMAP_ICON_MSIZE, GMAP_ICON_XSIZE and 
+  GMAP_ICON_YSIZE, see the manual for details.
+  
+  Color:
+  Color and opacity (alpha) values are expressed in 
+  hexadecimal notation. The range of values for any 
+  one color is 0 to 255 (00 to ff). For alpha, 00 is
+  fully transparent and ff is fully opaque. The order
+  of expression is aabbggrr, where aa=alpha (00 to ff);
+  bb=blue (00 to ff); gg=green (00 to ff); 
+  rr=red (00 to ff).For example, if you want to apply
+  a blue color with 50 percent opacity to an overlay,
+  you would specify the following: 
+  <color>7fff0000</color>, where alpha=0x7f, blue=0xff,
+  green=0x00, and red=0x00. See also:
+  http://code.google.com/apis/kml/
+  documentation/kml_tags_21.html#color 
+  
+  Examples:
+            gmap -color blue -nodata -errorellise
+            gmap -timespan -color 7eee00ee
+            echo "collect.out\nDK events\n" | gmap -out_file dk.kml
+  

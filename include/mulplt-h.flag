@@ -1,0 +1,19 @@
+
+  The MULPLT program - for plotting earthquake data 
+  
+  Usage: mulplt [options]
+         enter input
+  
+  ## Options ##
+    -help        Print this list
+    -h           Same as -help
+    -plotdefault Will plot data directly with default values  
+    -qdp         Same as -plotdefault
+    -po          Same as -plotdefault
+    -version     SEISAN version 
+  
+  Examples:
+        1)  mulplt
+            enter values
+        2)  mulplt -plotdefault -sfile /home/seismo/REA/TEST_/1996/06/03-1955-40D.S199606
+  

@@ -1,0 +1,18 @@
+ 
+ Enter lower frequency,<ENTER> for default value 1 Hz
+
+ Enter higher frequency,<ENTER> for default value 5 Hz
+
+ Enter max slowness, <ENTER> for default value 0.4 s/km
+
+ Enter No of grid points, <ENTER> for default value 51
+
+ Do you want to plot level numbers, N/Y, <ENTER>=Y
+
+ It will take some time ...
+ APPARENT VELOCITY  10.26   AZIMUTH          140
+ NORM. POWER MAX     0.99   POWER MAX IN dB  72.44
+ MAX X SLOWNESS      0.06   MAX Y SLOWNESS   -0.07
+ LOW FREQUENCY       0.94   HIGH FREQUENCY    5.00
+ QUALITY (1=best, 4=worst)  1
+  Plot file is fk.eps

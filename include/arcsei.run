@@ -1,0 +1,23 @@
+
+arcsei <RETURN>
+
+ ARCSEI - DATA EXTRACTION FROM REFTEK ARCHIVE AND CONVERSION TO SEISAN FORMAT
+
+ SEISAN FILES ARE MOVED TO DIRECTORY: C:\test
+
+ ENTER ARCHIVE, OR <RETURN> TO USE DEAULT (default: G:\CTBTO\ARCHIVE)
+
+Return to accept default, which is set in the arcsei.def file, or give the archive path.
+
+     AVAILABLE CHANNELS ARE:
+     8020,1,*    
+     8021,1,*    
+     8022,1,*
+     8023,1,*
+     8024,1,*
+     8025,1,*
+     8028,1,* 
+
+ ENTER CHANNEL SELECTION (UNIT,STREAM,CHANNEL) 
+       OR TYPE ALL TO USE ALL AVAILABLE CHANNELS
+

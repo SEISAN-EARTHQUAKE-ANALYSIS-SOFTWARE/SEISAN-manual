@@ -2,7 +2,8 @@
 % 25 04 2012 jh: added option N, distance plotting option R and parameters
 % 30 04 2012 jh: added option _LIST
 % 07 05 2012 jh: added option 3 under registration of events
-% 11 10 2010 jh: added option fix filter
+% 11 10 2012 jh: added option fix filter
+% 20 11 2012 jh: better explain spectral options, add input of density
 %
 \section{Trace plotting, phase picking and spectral analysis, MULPLT}
 \label{sect:mulplt}
@@ -701,7 +702,22 @@ Stress drop = 0.44 * Moment /(source radius)**3
 
 Spectral analysis to determine moment, source radius and stress drop: 
 
-Select the spectral option, s(Spec). Before the spectrum comes up, you will get a question of the type of spectrum wanted. The possibilities are displacement (d), velocity (v), acceleration (a) or raw spectrum (r). For determination of Moment etc, the displacement spectrum MUST be selected. Unless raw spectrum is selected, the spectrum will be instrument corrected. If no response file is available in CAL, a message will be displayed on the screen and the raw spectrum calculated. At this stage it is also possible to change the velocity from the \texttt{MULPLT.DEF} value or the moment given in the S-file (see spectral fitting below). The spectrum shown will normally show both the spectrum from the selected time window as well as a noise spectrum from an identical length time window at the start of the trace. IF NO NOISE SPECTRUM is desired, select spectrum with capital S instead of s.   
+Select the spectral option, s(Spec). Before the spectrum comes up, you will get a question of the type of spectrum wanted and a few other options.
+
+Displacment:         d   Displacement spectrum
+Velocity:            v   Velocity spectrum
+Acceleration:        a   Aceeleration spectrum
+Raw spectrum:        r   Spectrum without instrument correction
+Change velocity:     c   Use other velocity for calcualation
+Change density:      e   Use other density for calculation
+Change moment:       m   Change moment (see modeling)
+Noise Pow. spec:     n   Noise powe spectrum (see later)
+Lin axis:            l   Change to linear axis
+New spec f-lim:      f   Change frequecy limits for spectrum
+Change spectrum:     s   Change to P or S spectrum if auto does not work
+
+The most used possibilities are displacement (d), velocity (v) or acceleration (a). For determination of Moment etc, the displacement spectrum MUST be selected. Unless raw spectrum is selected, the spectrum will be instrument corrected. If no response file is available in CAL, a message will be displayed on the screen and the raw spectrum calculated. At this stage it is also possible to change the velocity from the \texttt{MULPLT.DEF} value or the moment to be used for spectral fitting as given in the S-file (see spectral fitting below). The velocity change is only affective for the current spectrum since the user might make both P and S spectra and it is up to the user to make sure that it is appropriate for P or S, however, the value is saved in the S-file. The density change is kept for the whole MULPLT session since there is no change with velocity and its value is also saved in the S-file. The spectrum shown will normally show both the spectrum from the selected time window as well as a noise spectrum from an identical length time window at the start of the trace. IF NO NOISE SPECTRUM is desired, select spectrum with capital S instead of s.   
+
 
 The spectral analysis produces two output files: 
 
@@ -819,7 +835,7 @@ Entering constants and modeling: The modeling can only take place when the spect
 
 Press s or S and a question will appear to enter the constants f0, k, Q0 and qa which are as defined above except qa is Qalpha. Once these parameters have been entered (terminate with return), the theoretical spectrum (displacement, velocity or acceleration depending on what is used for the spectrum) is calculated and superimposed on the observed spectrum. The parameters used or calculated are displayed. The level of the theoretical spectrum is adjusted so it approximately passes through the observed spectrum and the level difference is printed out on the screen (see below). S or s can now be pressed again and a new theoretical spectrum calculated and plotted. To get out of the spectral fitting loop, type r or q as usual. 
 
-Which constants and parameters are used: The moment is taken from the S-file if an average moment has been calculated (see UPDATE command). If no moment is available, it can also be entered the first time the spectrum is shown. If no moment is given, a log moment of 1.0 is used. The distance and depth is likewise taken from the S-file. If no distance is available, a distance of 1 km is used. If all 4 parameters f0, k, Q, qa are entered, stress drop is calculated with the relation given above. If the corner frequency is given as zero, the user will be asked to enter the stress drop and the corner frequency is calculated from the stres\index{Q, determine by spectral fitting}s drop. If Q is zero, no Q-correction is made. \textbf{IMPORTANT: The Q and qa used here are distinct from the Q0 and Qalpha used for making the amplitude spectrum and both should not be used when modeling since this would imply  a Q-correction two times. The best way is to use Q0=0 and kappa=0, so that Q is only corrected for when modeling}. The distance used is everywhere is GEO\_DISTANCE. 
+Which constants and parameters are used: The moment is taken from the S-file if an average moment has been calculated (see UPDATE command). If no moment is available, it can also be entered the first time the spectrum is shown (option M). If no moment is given, a log moment of 1.0 is used. The distance and depth is likewise taken from the S-file. If no distance is available, a distance of 1 km is used. If all 4 parameters f0, k, Q, qa are entered, stress drop is calculated with the relation given above. If the corner frequency is given as zero, the user will be asked to enter the stress drop and the corner frequency is calculated from the stres\index{Q, determine by spectral fitting}s drop. If Q is zero, no Q-correction is made. \textbf{IMPORTANT: The Q and qa used here are distinct from the Q0 and Qalpha used for making the amplitude spectrum and both should not be used when modeling since this would imply  a Q-correction two times. The best way is to use Q0=0 and kappa=0, so that Q is only corrected for when modeling}. The distance used is everywhere is GEO\_DISTANCE. 
 
 The spectral parameters shown are: 
 

@@ -1,5 +1,7 @@
 % jan 15 10 jh: have check edall seisan.def against libsei,please add definitiopns, change all lower case to upper case
 % may 2 2012 jh: add comment about multiple users
+% dec 5 2012 jh: amplify explanation on WAVEFORM_BASE and paramer 1 in CONT_BASE
+% jan 5 2013 jh: add new parameters to seisan.def
 
 
 %\chapter{INSTALLATION}
@@ -535,7 +537,9 @@ AUTO\_PROCESS: Set to 1. to run REG\_AUTO\_PROCESS.\index{register run process}
 CONFIRMATION: Level of confirmation required for example when deleting files, 0.=no confirmation and 
 1.=always confirm. (at the moment only used in eev) 
 
-Cont\_base: Waveform database to be searched (there can be several). The base is selected as a default if flag is 1.0. Example: \index{Default continuous data base}\index{Continuous data base, default selection}
+Cont\_base: Waveform database to be searched (there can be several). The base is selected as a default in base selection box in MULPLT if flag is 1.0. Example: \index{Default continuous data base}\index{Continuous data base, default selection}
+
+CONT\_YEAR\_MONTH\_POSTION\_FILE: File name of file in continuous data base: First parmeter is the start position in the file name of the 4 digit year and second paramter is the start position of the 2 digit month
 
 \begin{verbatim}
 CONT_BASE selected by default           ESK            1.
@@ -545,7 +549,14 @@ CONT_BASE not sel by default            EDI            0.
 %\textcolor{red}{pv-change: 
 ARC\_ARCHIVE: Path to BUD or SeiscomP archive 
 
-%\textcolor{red}{pv-change: 
+ARC\_TYPE: Type of archive, 0: BUD, 1: SeisComP
+
+ARC\_START\_TIME: Deafault time(sec) to start before origin time
+
+ARC\_DURATION: Duration of segment(sec)
+
+ARC\_BY\_DEFAULT: 0: not used, 1: Plot whole archve even when no archive has been specified in S-file, 2: Same as 1 but only stations with readings
+
 ARC\_CHAN: BUD or SeiscomP data that MULPLT will plot, given by station code, channel name, network code and location id
 
 %\textcolor{red}{jh-change: in the following, i have changed all lower case to upper case...}
@@ -591,9 +602,9 @@ REG\_KEEP\_AUTO: If flag set to 1.0, keep automatic pics when registering event 
 
 TEXT\_PRINT: Printer command used to print an S-file from EEV.
 
-WAVEFORM BASE: Name of waveform data base to be searched. Normally this is a 1-5 letter data base name. The name must be written as shown above under Par1. Not needed for the default data base. 
-
-WAVEFORM\_DIRS: The complete path to directories where the system should look for waveform files.
+WAVEFORM BASE: Name of waveform data base to be searched. Normally this is a 1-5 letter data base name. The name must be written as shown above under Par1. Not needed for the default data base. The data base must have standard WAV year-month structure. It is intended to be used if for some reason the user wants to store waveform files
+in an alterenve WAV structure instead of the the one corresponding to the S-file data base. If a waveform file is not found in the base corresponding to the S-file base, WAVEFORM\_BASE's will be searched.
+WAVEFORM\_DIRS: The complete path to directories where the system should look for waveform files. Searched last.
 
 OUTPUT\_DIR: Output Directory for SEISAN commands results. Default ``./''
 

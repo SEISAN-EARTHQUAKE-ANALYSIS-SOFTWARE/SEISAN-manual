@@ -31,6 +31,7 @@
 %               Update condet
 % apr 30 12 jh: Update SELECT with CODAQ option
 % oct 11 12 jh: Update stasei
+% dec 4  12 jh: Fix dirf command
 
 %
 %\chapter{DESCRIPTION OF PROGRAMS AND COMMANDS}
@@ -159,7 +160,7 @@ The DIRF command is a useful program for making a file with a numbered list of f
  #  3  9101-10-2333-44S.N3F_06 
 
 
- dirf 9101-10-0915-15S.KMY_01 9101-10-2333-44S.N3F_06          (Unix only) 
+ dirf 9101-10-0915-15S.KMY_01 9101-10-2333-44S.N3F_06           
 
  #  1  9101-10-0915-15S.KMY_01
  #  2  9101-10-2333-44S.N3F_06 
@@ -172,6 +173,8 @@ the file name from \texttt{filenr.lis}. This means that most programs using
 \texttt{filenr.lis} assume that if a name given is less than or equal to 4 
 characters, it is a number so file names less than 5 characters cannot 
 be used when the program asks for ``Filename or number''.\index{Problem, filenr.lis} 
+For a very long listing it might be an advantage to only get the first or the last 20 files and dirf has the corresponding options -head and -tail respectively.
+This argument must be the first argument like dirf -tail *.txt.
 
 \textbf{DELF}
 

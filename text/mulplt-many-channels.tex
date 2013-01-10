@@ -1,0 +1,56 @@
+%
+\subsection{Working with many channels in MULPLT}
+
+Many networks have several hundreds of channels which quickly becomes difficult to work with. MULPLT has several options to facilitate working with many channels, whether working with an archive, SEISAN continuous data base (cont base), individual files or a combination. Note that MULPLT is setup to handle up to 1000 channels.  Some of the options are:
+
+\textbf{Limit the number of channels on one screen (all input):} The number of channels per screen is parameter NCHAN PER SCREEN in MULPLT.DEF. From each screen, channels can be selected and the user can go forward to the next screen with TAB. It is not possible to go backwards. If there is a need to temporarily see all channels on one screen, command N in multitrace mode will do that. This can be useful if the Out function (writing out a file of what is seen on the screen) is used. Alternatively, when registering an event from an archive or a cont base, the extracted file can have all channels irrespective of what is seen on the screen.
+
+\textbf{Set default stations to be plotted in default mode (all input):} The stations are defined in MULPLT.DEF and only those stations will be plotted in default mode.
+
+\textbf{Plotting only stations with readings or only Z-channels (all input):} When the channel selection screen comes up, there is an option to select only stations with readings (Picked or p). Since then channel selection screen only has 250 channels, there might be up to 4 channel selection screens and the next screen is chosen with f. If however F is pressed, only channels with readings are also selected for the remaining channels without the following screens being shown. Similarly the command for only Z-channels are z and F, respectively, to get all Z-channels for the whole data set.
+
+\textbf{Plotting only stations within a given distance, radius, from a user selectable point, the midpoint (all input):} Since most events with large networks are only recorded with the nearest stations, this option is very effective in limiting the chosen data to the most important stations. There are several options for selecting midpoint and radius using parameter MULPLT AREA in MULPLT.DEF:
+  
+\begin{enumerate}
+\item[1:]
+Midpoint from epicenter in S-file, radius from MULPLT.DEF
+\item[2:]
+Midpoint from epicenter in S-file, radius asked at start of MULPLT
+\item[3:]
+Midpoint and radius from MULPLT.DEF
+\item[4:]
+Midpoint  from MULPLT.DEF, radius asked at start of MULPLT
+\item[5:]
+Midpoint and radius asked at start of MULPLT
+\item[6:]
+Midpoint from a station in MULPLT.DEF, radius from MULPLT.DEF
+\item[7:]
+Midpoint station asked at start of MULPLT, radius from MULPLT.DEF
+\item[8:]
+Both midpoint station and radius asked at start of MULPLT
+\end{enumerate}
+
+In addition, in multitrace mode, the radius can be changed (command R) and a center station can be entered (command S). If command S is given and there is no radius defined, the user will also be asked for radius.
+
+\textbf{Plotting stations from an archive:} Archive referencing in S-files is described in section 2.2.3. An example of an archive reference line is:
+
+\begin{verbatim}
+ARC STAT  COM NT LO YYYY MMDD HHMM SS   DUR
+ARC BORG  LHZ II 10 2011 0129 0650 00  3600                                   6
+\end{verbatim}
+
+which is referring to one channel (station STAT, component COM, network NT, date-time and duration DUR (s)). With many channels, this referencing becomes a bit cumbersome and some wild cards can then be used:
+
+Station is blank or *, component, network and location are blank: All channels defined in SEISAN.DEF will be plotted with start time and duration given in ARC line (if not blank, see next option). If a component is given, only that component will be selected. If a network is given, only that network will be chosen. If a location code is given, only channels with that location code is selected.
+
+Start time and or durations blank: Start time will be origin time - a time given in SEISAN.DEF (ARC\_START), duration will be a time given in SEISAN.DEF (ARC\_DURATION).
+
+Station is P: All channels for all stations listed in the S-file found in the archive will be plotted. There is no requirement for the station to have any other information than the station name, component code is not used. So a new station can easily be added.
+
+Plotting all stations without an archive reference line: If parameter ARC\_BY\_DEFAULT in SEISAN.DEF is set to 1, all channels in the archive will be selected. Setting it to 2, only stations with readings are plotted.
+
+NOTE: An ARC line can be inserted/edited in the S-file from EEV by  command arc.
+
+
+\textbf{How to specify many channels in a separate file, the \_LIST file:} In some formats, a waveform file can only have one channel (e.g. SAC). Referencing hundreds of waveform files (or ARC references) in an S-file is not practical. These file names can be collected in a separate file in filenr.lis format. The file name must end with \_LIST like e.g. 2012-12-01-1044-22.BERGEN\_LIST and the filename is referenced as a waveform file in the S-file and also stored in the usual place of the waveform files. Up to 10 \_LIST files can be referenced in the S-file so a large network can be broken up in regions, each with a \_LIST file, which then can be selected separately in the file selection screen. There is no specific software, except DIRF, to create \_LIST files.
+

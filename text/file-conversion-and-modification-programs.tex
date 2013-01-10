@@ -1,4 +1,6 @@
-
+% 02 12 2012 jh: add harnor text
+% 09 01 2013 jh: add gcf2msd_many
+%
 \section{File conversion and modification programs}
 \label{sect:file-conversion}
 
@@ -11,7 +13,7 @@ CAT\_AGA: & Records the S-file header lines according to agency \\
 EDRNOR: & Converts USGS monthly bulletins (EDR files) to Nordic format \\
 GETpde: & Grap \index{GETPDE}PDE bulletin from USGS web page and add to SEISAN database\\
 GIINOR: & Converts from Geophysical Institute of Israel\index{Israel} parameter format to Nordic \\
-HARNOR: & Converts standard Harvard fault plane solutions to Nordic format \\
+HARNOR: & Converts standard Harvard CMT solutions to Nordic format \\
 HINOR: & Converts Hypoinverse archive format to Nordic format \\
 HYPNOR: & Converts from Hypo71 readings files to Nordic format files \\
 HINNOR: & Similar to HYPNOR for Hypoinverse files \\
@@ -55,6 +57,19 @@ The input files are the bulletin type files.\index{GIINOR}
 
 \textbf{HARNOR, Harvard to Nordic }\newline
 The standard moment tensor solutions given by Harvard (\url{http://www.globalcmt.org/CMTsearch.html}) are converted to Nordic format. Strike, dip,  rake  and moment tensor solution is written out.\index{HARNOR}\index{Harvard moment tensor solution }
+The programs can use 3 different input formats:
+\newline
+ Standard format: Default format on screen
+\newline Full format: Full format on screen
+\newline ndk format: File format for downloaded file
+
+The screen formats have the disadvantage that only a limited number of events can be downloaded and captured in one screen so if a lot of events are required, the best alternative is to download a file with all events in ndk format, and then, after conversion, select the desired events.
+\newline
+The ndk format and the full format both give both the hypocenter calculated with arrival times (main header line) and the centroid hypocenter and origin time (MT line), while the standard format does not give the  hypocenter calculated with arrival times, so the first header line gives the centroid location. For that reason, it is recommended to use the full format if a screen format is used.
+\newline 
+The ndk format does not give Mw which is then calculated from the moment. 
+All formats have additional information not carried over to SEISAN.
+
 
 \textbf{HINOR, Hypoinvers archive format to Nordic}\newline
 The input files are the archive type. All events are assumed local.
@@ -292,6 +307,7 @@ GSRSEI: & GeoSig to SEISAN \\
 GSESEI: & See WAVETOOL \\
 GSERESP: & Conversion between GSE and SEISAN response files \\
 GURSEI: & G\"uralp to SEISAN \\
+GCF2MSD\_MANY: & Run Guralp gcf2msd many times from files in a file structure \\
 IRISEI: & From IRIS ASCII to SEISAN  \\
 ISMSEI: & ISMES to SEISAN \\
 KACSEI: & Kinemetrics ASCII acceleration to SEISAN \\
@@ -504,6 +520,11 @@ Converts Geop\index{Israel}hysical Institute of Israel imported DAQ files to SEI
 Converts G\"uralp GCF files to SEISAN format, only works with one channel data. Maximum number of samples as defined in seisan, at least 1 200 000, channels codes can be defined using the gursei.def 
 definition file. If no definition file, the station name is the first 4 letters from internal station name and the component is B Z. \index{G\"uralp}\index{GURSEI}\index{GCF format}
 
+\textbf{GCF2MSD\_MANY}
+
+Runs G\"uralp gcf2msd many times from files in a file structure. It is only tested for one particular structure with 15 min files, so the program has to be adopted to other structures. Requires program gcf2msd form G\"uralp. \index GCF2MSD\_MANY
+
+ 
 \textbf{GSERESP, conversion between GSE and SEISAN response files} \verb|     | all \newline
 The program provides conversion between SEISAN, GSE1 and \index{GSERESP}\index{Response, GSE}GSE2 response files. The response can be given in frequency, amplitude and phase (FAP) triplets or in poles and zeros (PAZ). Since the number of values in the GSE format is unlimited the conversion from SEISAN to GSE only changes the format, whereas converting from GSE to SEISAN, if the number of FAP triplets is more than 30 or the number of poles and zeros larger than 37, the response in SEISAN format will be approximated by 30 FAP triplets. The output files in SEISAN format will have the default S\index{GBV recorder}EISAN response filenames (see RESP program and SEISAN response format). Output files in GSE format will include the station name, the component, number 1 or 2 for GSE1 and GSE2 respectively and end on `.CAL' (e.g. MOR\_SHZ2.CAL (GSE2), KONO\_BZ\_1.CAL (GSE1). 
 

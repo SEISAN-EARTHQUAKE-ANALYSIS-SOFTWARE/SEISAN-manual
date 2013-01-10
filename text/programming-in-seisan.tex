@@ -1,5 +1,6 @@
 % feb 14 11 jh: jh_change: add sample_read_arc
-% jan 25 12 jh: ad more sample programs
+% jan 25 12 jh: add more sample programs
+% dec 28 12 jh: change to sample_read_wav
 %
 \chapter{Programming in SEISAN and list of files in SEISAN distribution}
 \label{chap:programming}
@@ -46,7 +47,7 @@ Reading %\textcolor{red}{lo-change:
 and writing 
 waveform files 
 
-In SEISAN, waveform files can be in SEISAN, SAC (Unix only) or 
+In SEISAN, waveform files can be in SEISAN, SAC, MiniSeed/SEED, Guralp  or 
 GSE format. SEISAN format is slightly different depending on which 
 compute platform it is written and byte swapping has to be done in 
 some cases. In order to automatically handle the reading of waveform 
@@ -61,7 +62,7 @@ is called \texttt{sample\_read\_wav.for}.There is a similar program sample\_writ
 
 The program illustrates how to read many waveform files belonging 
 to one event as if it was one file, irrespective of format. It also 
-demonstrates how to read just one waveform file. There is no detail 
+demonstrates how to read just one waveform file. There is an output file which gives a listing of all different channels found in all the files read. Thsi listing is in the format used for defining channels in an achive. \index{Archive, channel specification} There is no detail 
 on how to write a SEISAN binary file in this program, but some info 
 is given under the format description in Appendix 
 \ref{app:seisan-format} 

@@ -4,6 +4,8 @@
 % 07 05 2012 jh: added option 3 under registration of events
 % 11 10 2012 jh: added option fix filter
 % 20 11 2012 jh: better explain spectral options, add input of density
+% 05 12 2012 jh: add guralp and helmberger format as valid for mulplt
+% 09 01 2012 jh: correction to mulplt area
 %
 \section{Trace plotting, phase picking and spectral analysis, MULPLT}
 \label{sect:mulplt}
@@ -105,7 +107,7 @@ Location of waveform file:
 
 Mulplt will search in current directory first. If not found there, the WAV directory is searched. If the \texttt{SEISAN.DEF} file has been set up, MULPLT will thereafter try to locate the waveform file in one of the databases or specific directory given in the \texttt{SEISAN.DEF} file (located in DAT or working directory).  
 
-Format of waveform files:\index{Mulplt, format}\index{Format, mulplt}MULPLT can, on all platforms, use SEISAN, GSE, SAC ASCII and binary and SEED.  If started from EEV, files in different formats can be used at the same time. 
+Format of waveform files:\index{Mulplt, format}\index{Format, mulplt}MULPLT can, on all platforms, use SEISAN, GSE, SAC ASCII and binary, GURALP (one channel files), HelMberger Format and SEED.  If started from EEV, files in different formats can be used at the same time. 
 
 Time gaps in waveform files: 
 
@@ -121,6 +123,10 @@ Plotting from EEV, a file with a list of waveform files can also be used as inpu
 \index{LIST file in MULPLTp}
 \index{MULPLT, LIST file}
 \index{MULPLT, plotting many files from EEV}
+
+% subsection: Working with many channels in MULPLT:
+\input{text/mulplt-many-channels}
+
 
 \subsection{Continuous plotting of one channel}
 
@@ -317,16 +323,7 @@ It is possible to togle between showing all channels and multiple screens by pre
 Plotting stations in a given distance range
 \index{MULPLT, plotting station in a max distance}
 \index{Distance range, plotting}
-When many stations are available, it might be useful to only plot only the stations nearest the epicenter or a particular location. For this option to work, parameter MULPLT AREA in  MULPLT.DEF must be set to a value larger than 0.0.  Then only channels with a distance ( radius degrees) larger than a given value from a point (midpoint) will be selected for plotting. The options for MULPLT AREA are:
-
-1: midpoint from epicenter in S-file, radius from MULPLT.DEF
-2: --------------------, ---------------------------- interactive
-3: midpoint and radius from MULPLT.DEF
-4: midpoint from MULPLT.DEF, radius interactive
-5: midpoint and radius interactive
-
-If interactive options are selected, the question(s) will come out just before plotting. Once a plot is made, the radius can also be changed interactively by using command R in multitrace mode. After selecting a new radius, the channel selection screen will come up with the channels selected. This option is not dependent on stations already being present in the S-file since all station information is taken from the STATIONx.HYP file.
-
+When many stations are available, it might be useful to only plot only the stations nearest the epicenter or a particular location. For this option to work, parameter MULPLT AREA in  MULPLT.DEF must be set to a value larger than 0.0.  for more information, see section Working with many channels in MULPLT"
 
 
 \index{Channel order}Channel order in multitrace mode: 
@@ -701,18 +698,18 @@ Stress drop = 0.44 * Moment /(source radius)**3
 \index{Stress drop}\index{Source radius} The spectral analysis is used in two ways. The first and most common is to make the attenuation and instrument corrected displacement spectrum and determine the flat spectral level OM0, and corner frequency f0 from which the seismic moment, source radius and stress drop can be calculated. The second option is to display the instrument corrected spectrum (displacement, velocity or acceleration) and model the spectrum for corner frequency and attenuation parameters. In this case no correction for attenuation should be made. 
 
 Spectral analysis to determine moment, source radius and stress drop: 
-
+\newline 
 Select the spectral option, s(Spec). Before the spectrum comes up, you will get a question of the type of spectrum wanted and a few other options.
-
-Displacment:         d   Displacement spectrum
-Velocity:            v   Velocity spectrum
-Acceleration:        a   Aceeleration spectrum
-Raw spectrum:        r   Spectrum without instrument correction
-Change velocity:     c   Use other velocity for calcualation
-Change density:      e   Use other density for calculation
-Change moment:       m   Change moment (see modeling)
-Noise Pow. spec:     n   Noise powe spectrum (see later)
-Lin axis:            l   Change to linear axis
+\newline 
+\newline Displacment:         d   Displacement spectrum
+\newline Velocity:            v   Velocity spectrum
+\newline Acceleration:        a   Aceeleration spectrum
+\newline Raw spectrum:        r   Spectrum without instrument correction
+\newline Change velocity:     c   Use other velocity for calcualation
+\newline Change density:      e   Use other density for calculation
+\newline Change moment:       m   Change moment (see modeling)
+\newline Noise Pow. spec:     n   Noise powe spectrum (see later)
+\newline Lin axis:            l   Change to linear axis
 New spec f-lim:      f   Change frequecy limits for spectrum
 Change spectrum:     s   Change to P or S spectrum if auto does not work
 
@@ -1055,9 +1052,14 @@ lowcut and highcut for parameter one and two respectively. 4 poles only.
 
 \textbf{AUTOCODA RATIO }: Autocoda ratio. Default 1.5.
 
-\textbf{MULPLT AREA }: Options for plotting stations in a given distance from a midpoint. 0: do not select option (default) 1: midpoint from s-filei epicenter, radius from MULPLT.DEF,  2: midpoint from MULPLT.DEF, radius interactive  3: midpoint and radius from MULPLT.DEF, 4: midpoint from MULPLT.DEF, radius interactive, 5: midpoint and radius interactive 
+\textbf{MULPLT AREA }: Options for plotting stations in a given distance from a midpoint. 0: do not select option (default) 1: midpoint from s-filei epicenter, radius from MULPLT.DEF,  2: midpoint from MULPLT.DEF, radius interactive  3: midpoint and radius from MULPLT.DEF, 4: midpoint from MULPLT.DEF, radius interactive, 5: midpoint and radius interactive, 6: Midpoint from a station in MULPLT.DEF, radius from MULPLT.DEF
+7: Midpoint station asked at start of MULPLT, radius from MULPLT.DEF
+8: Both midpoint station and radius asked at start of MULPLT
+
 
 \textbf{MULPLT LAT LON }: Midpoint 
+
+\textbf{MULPLT STAT }: Station for midpoint 
 
 \textbf{MULPLT RADIUS }: Radius in degrees 
 
